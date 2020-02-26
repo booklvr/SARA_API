@@ -38,9 +38,14 @@ const userSchema = new mongoose.Schema({
         trim: true,
         minlength: 7,
         validate(pas) {
-            if(~pas.toLowerCAse().indexOf('password')) { // same as (pas.toLowerCase().indexOf('password') >= 0) (~ like not);
+            if(~pas.toLowerCase().indexOf('password')) { // same as (pas.toLowerCase().indexOf('password') >= 0) (~ like not);
                 throw new Error('Password cannot contain password');
             }
         }
     }
 })
+
+
+const User = mongoose.model('User', userSchema);
+
+module.exports = User;

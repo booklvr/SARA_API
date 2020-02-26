@@ -8,7 +8,7 @@ router.get('/', async (req, res) => {
     try {
         const persons = await Person.find({});
 
-        console.log(persons);
+        // console.log(persons);
 
         persons ? res.send(persons) : res.status(404).send();
     } catch (e) {
