@@ -35,18 +35,17 @@ const personSchema = new mongoose.Schema({
     },
     extra: {
         type: String,
-        required: true,
         trim: true
     },
-    owner: {
-        type: mongoose.Schema.Types.ObjectId, // from user Schema loggged in user,
-        required: true,
-        ref: 'User' // connect to User model
-    }
+    // owner: {
+    //     type: mongoose.Schema.Types.ObjectId, // from user Schema loggged in user,
+    //     required: true,
+    //     ref: 'User' // connect to User model
+    // }
 }, {
     timestamps: true
 });
 
-const Person = mongoose.model('Person', taskSchema);
+const Person = mongoose.model('Person', personSchema);
 
 module.exports = Person;
