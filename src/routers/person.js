@@ -1,10 +1,11 @@
 const   express = require('express'),
-        Person  = require('../models/person');
+        Person  = require('../models/person'),
+        auth    = require('../middleware/auth');
 
 const router = new express.Router();
 
 
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
     try {
         const persons = await Person.find({});
 
@@ -16,10 +17,10 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
     const person = new Person({
         ...req.body, // spread operator copies everythinng from req.body
-        // owner: req.user._id //
+        owner: req.user._id //
     });
 
     try {
