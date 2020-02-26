@@ -1,0 +1,31 @@
+{
+  "name": "sara_api",
+  "version": "1.0.0",
+  "description": "API for Sara_500_people project",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "jest",
+    "start": "node -r dotenv/config src/index.js",
+    "dev": "nodemon -r dotenv/config src/index.js"
+  },
+  "author": "Nicholas de Waal <nick.a.dewaal@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  },
+  "dependencies": {
+    "@sendgrid/mail": "^6.5.3",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^3.5.3",
+    "mongoose": "^5.9.2",
+    "multer": "^1.4.2",
+    "sharp": "^0.24.1",
+    "validator": "^12.2.0"
+  }
+}
