@@ -42,8 +42,50 @@ const userSchema = new mongoose.Schema({
                 throw new Error('Password cannot contain password');
             }
         }
+    },
+    tokens: [{ // from jsonWebToken
+        token: {
+            type: String,
+            required: true
+        }
+    }]
+}, {
+    timestamps: true
+});
+
+// Create virtual connection to all Tasks created by User
+// * User local field and Task foreign Field must match
+userSchema.virtual('persons', {
+    ref: 'Person', // refrence Person Model,
+    localField: '_id', // local property that is same as foreign field (user _id);
+    foreignField: 'owner' // name of thing on Task model that creates relationship (user_id);
+});
+
+// Hash the plain tet passworld before saving
+userSchema.pre('save', async function (next) { // not arrow function because of this
+    const user = this // easier to see than 'this'
+
+    // check if password is modified
+    if (user.isModified('password')) {
+        // hash passworld before save
+        user.password = await bcrypt.hash(user.password, 8);
     }
-})
+
+    next();
+});
+
+// create userToken
+userSchema.methods.generateAuthToken = async function () { // not arrow function to use this
+    const user = this; // simpler than 'this'
+    const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET);
+
+
+    // add new tokens to user in case signed in on multiple devices
+    user.tokens = user.tokens.concat({ token });
+    await user.save();
+
+    return token;
+}
 
 
 const User = mongoose.model('User', userSchema);
