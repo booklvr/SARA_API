@@ -53,6 +53,21 @@ const userSchema = new mongoose.Schema({
     timestamps: true
 });
 
+// Only send back public data
+// * .toJSON every time json data is sent back it removes user.password and user.token
+userSchema.methods.toJSON = function () {
+    const user = this;
+
+    const userObject = user.toObject() // toObject === mongoose method
+
+    // delete operator removes proeperty from object
+    delete userObject.password;
+    delete userObject.tokens;
+    // delete userObject.avatar;
+
+    return userObject;
+}
+
 // Create virtual connection to all Tasks created by User
 // * User local field and Task foreign Field must match
 userSchema.virtual('persons', {
