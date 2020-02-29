@@ -42,6 +42,7 @@ router.get('/', auth, async (req, res) => {
 
 });
 
+// ADD PERSON
 router.post('/', auth, async (req, res) => {
     const person = new Person({
         ...req.body, // spread operator copies everythinng from req.body
@@ -56,5 +57,50 @@ router.post('/', auth, async (req, res) => {
         res.status(400).send(e);
     }
 });
+
+// UPDATE PERSON
+// * check if update property in req.body is allowed
+// * get user from auth middleware --> req.user
+// * find person using person id --> req.params.id
+//                          --> req.user._id
+router.patch('/:id', auth, async (req, res) => {
+    const updates = Object.keys(req.body); // returns list of keys form req.body
+    const allowedUpdates = ['name', 'city', 'food', 'job', 'skill', 'dinner', 'extras'];
+    const isValidOperation = updates.every(update => allowedUpdates.includes(update));
+
+    if(!isValidOperation) {
+        return res.status(400).send({error: 'Invalid updates!'});
+    }
+
+    try {
+        const person = await Person.findOne({ _id: req.params.id, owner: req.user._id });
+
+        if (!person) {
+            return res.status(404).send({error: 'Person not found'});
+        }
+
+        updates.forEach(update => person[update] = req.body[update]);
+
+        await person.save();
+        res.send(person);
+    } catch (e) {
+        console.log(e);
+        res.status(400).send(e);
+    }
+});
+
+// DELETE PERSON
+router.delete('/:id', auth, async (req, res) => {
+
+    try {
+        const deletePerson = await Person.findOneAndDelete({ _id: req.params.id, owner: req.user._id });
+
+        deletePerson ? res.send(deletePerson) : res.status(404).send();
+    } catch (e) {
+        console.log(e);
+        res.status(500).send(e);
+    }
+});
+
 
 module.exports = router;
