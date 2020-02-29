@@ -2,7 +2,7 @@ const   mongoose =  require('mongoose'),
         validator = require('validator'), // validate email
         bcrypt =    require('bcryptjs'),  // has passwords
         jwt =       require('jsonwebtoken'),  // provide unique web token for session
-        Person =      require('./person'); // required for delete all tasks middleware
+        Person =      require('./person'); // required for delete all persons middleware
 
 
 // Create User Schema
@@ -71,12 +71,12 @@ userSchema.methods.toJSON = function () {
     return userObject;
 }
 
-// Create virtual connection to all Tasks created by User
-// * User local field and Task foreign Field must match
+// Create virtual connection to all Persons created by User
+// * User local field and Person foreign Field must match
 userSchema.virtual('persons', {
     ref: 'Person', // refrence Person Model,
     localField: '_id', // local property that is same as foreign field (user _id);
-    foreignField: 'owner' // name of thing on Task model that creates relationship (user_id);
+    foreignField: 'owner' // name of thing on Person model that creates relationship (user_id);
 });
 
 // Hash the plain tet passworld before saving
@@ -122,6 +122,21 @@ userSchema.statics.findByCredentials = async (email, password) => {
 
     return user;
 }
+
+// DELETE user created persons d when user is removed
+// * can't use arrow function because of 'this'
+userSchema.pre('remove', async function (next) {
+    const user = this; // for simplicity
+
+    // delete all persons show ownder is user_.id (logged in user)
+    try {
+        await Person.deleteMany({ owner: user._id });
+
+        next();
+    } catch(e) {
+        res.status(500).send();
+    }
+});
 
 
 const User = mongoose.model('User', userSchema);
