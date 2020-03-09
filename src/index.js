@@ -21,7 +21,9 @@ app.use(cors());
 
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')));
+
 app.use('/persons', taskRouter);
 app.use('/users', userRouter);
+app.use('/map', mapRouter);
 
 app.listen(port, () => console.log(`Server is up on port ${port}`));
