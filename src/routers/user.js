@@ -56,7 +56,7 @@ router.post('/', async (req, res) => {
         const location = await user.generateLocation();
         res.status(201).send({ user, token});
     } catch (e) {
-        console.log("e", e);    
+        console.log("e", e);   
         res.status(500).send({error: 'server error'});
     }
 });
