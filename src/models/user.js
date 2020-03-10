@@ -1,8 +1,9 @@
-const   mongoose =  require('mongoose'),
-        validator = require('validator'), // validate email
-        bcrypt =    require('bcryptjs'),  // has passwords
-        jwt =       require('jsonwebtoken'),  // provide unique web token for session
-        Person =      require('./person'); // required for delete all persons middleware
+const   mongoose =      require('mongoose'),
+        validator =     require('validator'), // validate email
+        bcrypt =        require('bcryptjs'),  // has passwords
+        jwt =           require('jsonwebtoken'),  // provide unique web token for session
+        Person =        require('./person'), // required for delete all persons middleware
+        geocoder =      require('../utils/geocoder'); 
 
 
 // Create User Schema
@@ -43,6 +44,21 @@ const userSchema = new mongoose.Schema({
             }
         }
     },
+    unformattedAddress: {
+        type: String,
+        // required: true// required: true
+    },
+    location: {
+        type: {
+            type: String,
+            enum: ['Point']
+        },
+        coordinates: {
+            type: [Number],
+            index: '2dsphere'
+        },
+        formattedAddress: String,
+    },
     tokens: [{ // from jsonWebToken
         token: {
             type: String,
@@ -66,6 +82,7 @@ userSchema.methods.toJSON = function () {
     // delete operator removes proeperty from object
     delete userObject.password;
     delete userObject.tokens;
+    // delete userObject.location;
     // delete userObject.avatar;
 
     return userObject;
@@ -88,9 +105,25 @@ userSchema.pre('save', async function (next) { // not arrow function because of 
         // hash passworld before save
         user.password = await bcrypt.hash(user.password, 8);
     }
-
+    
     next();
 });
+
+// // Geocode & create location
+// userSchema.pre('save', async function(next) {
+//     const user = this; // easier to see than 'this'
+
+//     const loc = await geocoder.geocode(user.unformattedAddress);
+//     user.location = {
+//         type: 'Point',
+//         coordinates: [loc[0].longitude, loc[0].latitude],
+//         formattedAddress: loc[0].formattedAddress
+//     }
+
+//     // Do not save address  -> this is not working....? 
+//     // user.unformattedAddress = undefined;
+//     next();
+// })
 
 // create userToken
 userSchema.methods.generateAuthToken = async function () { // not arrow function to use this
@@ -100,10 +133,27 @@ userSchema.methods.generateAuthToken = async function () { // not arrow function
 
     // add new tokens to user in case signed in on multiple devices
     user.tokens = user.tokens.concat({ token });
+    
     await user.save();
 
     return token;
 };
+
+userSchema.methods.generateLocation = async function () {
+    const user = this; // simpler than this
+
+    const loc = await geocoder.geocode(user.unformattedAddress);
+    user.location = {
+        type: 'Point',
+        coordinates: [loc[0].longitude, loc[0].latitude],
+        formattedAddress: loc[0].formattedAddress
+    }
+
+    user.unformattedAddress = undefined;
+
+    await user.save();
+    return user.location;
+}
 
 // LOGIN
 // validate user by email and password for login

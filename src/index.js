@@ -1,5 +1,6 @@
 const   express =       require('express'),
         cors =          require('cors'),
+        path =          require('path'),
         userRouter =    require('./routers/user'),
         taskRouter =    require('./routers/person');
 
@@ -24,6 +25,5 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/persons', taskRouter);
 app.use('/users', userRouter);
-app.use('/map', mapRouter);
 
 app.listen(port, () => console.log(`Server is up on port ${port}`));

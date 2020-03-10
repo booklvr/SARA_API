@@ -15,39 +15,55 @@ router.get('/me', auth, async(req, res) => {
 
 // BAD ROUTE DON"T USE
 // GET ALL USERS
-// router.get('/', async (req, res) => {
-//     try {
-//         const users = await User.find({});
+router.get('/', async (req, res) => {
+    try {
+        const users = await User.find({});
 
-//         console.log(users);
+        console.log(users);
 
-//         if(!users) {
-//             throw new Error();
-//         }
+        if(!users) {
+            throw new Error();
+        }
 
-//         res.send(users);
-//     } catch (e) {
-//         console.log(e);
-//         res.status(404).send(e);
-//     }
-// })
+        res.send(users);
+    } catch (e) {
+        console.log(e);
+        res.status(404).send(e);
+    }
+})
 
 router.post('/', async (req, res) => {
-    const user = new User(req.body);
-
+    
     try {
-        await user.save();
+        // const user = await User.create(req.body);
+        const user = new User(req.body);
+        // await user.save();
+
+        // const user = await User.create(req.body);
+
+        // const token = await user.generateAuthToken();
+
+        // return res.status(201).json({
+        //     success: true,
+        //     data: {
+        //         user,
+        //         token
+        //     }
+        // })
 
         // send email here later
         const token = await user.generateAuthToken();
-        res.status(201).send({ user, token });
+        const location = await user.generateLocation();
+        res.status(201).send({ user, token});
     } catch (e) {
-        res.status(400).send(e);
+        console.log("e", e);    
+        res.status(500).send({error: 'server error'});
     }
 });
 
 // LOGIN USER
 router.post('/login', async (req, res) => {
+
     try {
         const user = await User.findByCredentials(req.body.email, req.body.password); // findByCredentials => userSchema.static function
 
@@ -190,5 +206,19 @@ router.delete('/me/avatar', auth, async (req, res) => {
     }
 });
 
+// Get Locations
+router.get('/map', async (req, res) => {
+    try {
+        const locations = await User.find();
+
+        if (!locations) {
+            throw new Error("Can't find locations");
+        }
+
+        res.status(200).send(locations); 
+    } catch(err) {
+        console.log(err);
+    }
+})
 
 module.exports = router;
