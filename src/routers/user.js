@@ -207,18 +207,30 @@ router.delete('/me/avatar', auth, async (req, res) => {
 });
 
 // Get Locations
-router.get('/map', async (req, res) => {
+router.get('/locations', async (req, res) => {
     try {
-        const locations = await User.find();
+        const users = await User.find({});
 
-        if (!locations) {
-            throw new Error("Can't find locations");
+        if (!users) {
+            throw new Error("No users");
         }
+
+        
+        // const location = [];
+        locations = users.map((user) => {
+            // console.log("user", user)
+            return {name: user.name, location: user.location}
+            // return {user.name, user.location};
+        })
+        
+        console.log(locations);
+        
 
         res.status(200).send(locations); 
     } catch(err) {
         console.log(err);
     }
 })
+
 
 module.exports = router;
