@@ -220,7 +220,7 @@ router.get('/locations', async (req, res) => {
         // console.log(users);  
         locations = users.map((user) => {
             // console.log("user", user)
-            return {name: user.name, location: user.location}
+            return {name: user.name, location: user.location, id: user._id}
             // return {user.name, user.location};
         })
         

@@ -11,7 +11,7 @@ async function getLocations() {
     const res = await fetch('/users/locations');
     const data = await res.json();
 
-    console.log(data);
+    // console.log(data);
 
     const locationPoints = data.map(point => {
         return {
@@ -25,19 +25,40 @@ async function getLocations() {
             },
             properties: {
                 name: point.name,
-                icon: 'marker'
+                icon: point.name
             }
         };
     });
 
-    console.log(locationPoints);
+    // console.log(locationPoints);
 
     loadMap(locationPoints);
 }
 
 
-function loadMap(points) {
-    console.log(points);
+async function loadMap(points) {
+
+    const res = await fetch('/users/locations');
+    const data = await res.json();
+
+    console.log(data);
+
+    data.forEach(img => {
+        map.loadImage(`http://localhost:3000/users/${img.id}/avatar`, (error, image) => {
+            if(error) throw error;
+            map.addImage(img.name, image)
+        } )
+    })
+
+
+    
+    // map.loadImage('http://localhost:3000/users/5e69b6f6c8b7ab016c9c67ca/avatar', (error, image) => {
+    //     if(error) throw error;
+    //     map.addImage('nick', image)
+    // })
+
+
+    
     map.on('load', function() {
         map.addSource('point', {
             'type': 'geojson',
@@ -64,8 +85,8 @@ function loadMap(points) {
             'type': 'symbol',
             'source': 'point',
             'layout': {
-                'icon-image': '{icon}-15',
-                'icon-size': 1.5,
+                'icon-image': '{icon}',
+                'icon-size': .1,
                 'text-field': '{name}',
                 'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
                 'text-offset': [0, 0.9], 
@@ -76,3 +97,47 @@ function loadMap(points) {
 };
 
 getLocations();
+
+
+
+
+
+
+
+
+//this code was working :)
+// map.on('load', function() {
+//     map.addSource('point', {
+//         'type': 'geojson',
+//         'data': {
+//             'type': 'FeatureCollection',
+//             'features': points
+//             // 'features': [
+//             //     {
+//             //         'type': 'Feature',
+//             //         'geometry': {
+//             //             'type': 'Point',
+//             //             'coordinates': [-122.0504, 49.0504]
+//             //         },
+//             //         properties: {
+//             //             name: 'nick',
+//             //             icon: 'marker'
+//             //         }
+//             //     }
+//             // ]
+//         }
+//     });
+//     map.addLayer({
+//         'id': 'points',
+//         'type': 'symbol',
+//         'source': 'point',
+//         'layout': {
+//             'icon-image': '{icon}-15',
+//             'icon-size': 1.5,
+//             'text-field': '{name}',
+//             'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
+//             'text-offset': [0, 0.9], 
+//             'text-anchor': 'top'
+//         }
+//     });
+// });
