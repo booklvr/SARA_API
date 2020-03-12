@@ -210,6 +210,9 @@ router.delete('/me/avatar', auth, async (req, res) => {
 router.get('/locations', async (req, res) => {
     try {
         const users = await User.find({});
+        console.log("users", users);
+
+        
 
         if (!users) {
             throw new Error("No users");
@@ -217,7 +220,7 @@ router.get('/locations', async (req, res) => {
         // console.log(users);  
         locations = users.map((user) => {
             // console.log("user", user)
-            return {name: user.name, id: user._id, location: user.location}
+            return {name: user.name, location: user.location}
             // return {user.name, user.location};
         })
         
