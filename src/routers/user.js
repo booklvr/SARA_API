@@ -214,16 +214,14 @@ router.get('/locations', async (req, res) => {
         if (!users) {
             throw new Error("No users");
         }
-
-        
-        // const location = [];
+        // console.log(users);  
         locations = users.map((user) => {
             // console.log("user", user)
-            return {name: user.name, location: user.location}
+            return {name: user.name, id: user._id, location: user.location}
             // return {user.name, user.location};
         })
         
-        console.log(locations);
+        // console.log(locations);
         
 
         res.status(200).send(locations); 

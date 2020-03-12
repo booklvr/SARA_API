@@ -6,7 +6,7 @@ const multer = require ('multer');
 const upload = multer({
   // dest: 'avatars',  // provide file for uploaded images in route directory (remove to pass file through function)
   limits: {
-    fileSize: 1000000
+    // fileSize: 1000000
   },
   fileFilter(req, file, cb) { // req, file-info, callback
     if(!file.originalname.match(/\.(jpg|jpeg|png)$/)) { // restrict file type to jpg jpeg or png -> originalname from multer docs
