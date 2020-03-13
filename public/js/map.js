@@ -41,7 +41,7 @@ async function loadMap(points) {
     const res = await fetch('/users/locations');
     const data = await res.json();
 
-    console.log(data);
+    // console.log(data);
 
     data.forEach(img => {
         map.loadImage(`http://localhost:3000/users/${img.id}/avatar`, (error, image) => {
@@ -49,15 +49,6 @@ async function loadMap(points) {
             map.addImage(img.name, image)
         } )
     })
-
-
-    
-    // map.loadImage('http://localhost:3000/users/5e69b6f6c8b7ab016c9c67ca/avatar', (error, image) => {
-    //     if(error) throw error;
-    //     map.addImage('nick', image)
-    // })
-
-
     
     map.on('load', function() {
         map.addSource('point', {

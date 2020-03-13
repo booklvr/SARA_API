@@ -2,50 +2,49 @@ const mongoose = require('mongoose');
 
 // create person schema
 // * mongoose renames the schema and adds an 's' in the database
-const personSchema = new mongoose.Schema({
+const answerSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true,
         trim: true
     },
     city: {
         type: String,
-        required: true,
         trim: true
     },
-    food: {
+    answer1: {
         type: String,
         required: true,
         trim: true
     },
-    job: {
+    answer2: {
         type: String,
         required: true,
         trim: true
     },
-    skill: {
+    answer3: {
         type: String,
         required: true,
         trim: true
     },
-    dinner: {
+    answer4: {
         type: String,
         required: true,
-        trim: true
-    },
-    extra: {
-        type: String,
         trim: true
     },
     owner: {
         type: mongoose.Schema.Types.ObjectId, // from user Schema loggged in user,
-        required: true,
+        // required: true,
         ref: 'User' // connect to User model
+    },
+    question: {
+        type: mongoose.Schema.Types.ObjectId, // from questionSchema
+        // required: true,
+        ref: 'Question'
     }
 }, {
     timestamps: true
 });
 
-const Person = mongoose.model('Person', personSchema);
+const Answer = mongoose.model('Answer', answerSchema);
 
-module.exports = Person;
+module.exports = Answer;

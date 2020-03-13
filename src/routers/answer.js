@@ -1,20 +1,20 @@
 const   express = require('express'),
-        Person  = require('../models/person'),
+        Answer  = require('../models/answer'),
         auth    = require('../middleware/auth');
 
 const router = new express.Router();
 
 
-// READ all persons from logged in User
-// * /persons?limit=10&skip=10
+// READ all answers from logged in User
+// * /answers?limit=10&skip=10
 //  --> limit search by ten and skp first 10
-// * persons? sortBy=createdAt:desc
+// * answers? sortBy=createdAt:desc
 //  --> sort by creatAt by descending order
 
 // * get user from auth middleware -> req.user
-// * populate persons from logged in user --> req.user.populate();
+// * populate answers from logged in user --> req.user.populate();
 //      --> get from UserSchema.virtual
-// * send populated person
+// * send populated answer
 router.get('/', auth, async (req, res) => {
 
     const match = {};
@@ -27,15 +27,15 @@ router.get('/', auth, async (req, res) => {
 
     try {
         await req.user.populate({
-            path: 'persons', // populate persons
+            path: 'answers', // populate answers
             options: {
-                limit: parseInt(req.query.limit), // limit persons read by ? limit=""
-                skip: parseInt(req.query.skip), // skip number of persons
+                limit: parseInt(req.query.limit), // limit answers read by ? limit=""
+                skip: parseInt(req.query.skip), // skip number of answers
                 sort // es6 shorthand sort: sort
             }
         }).execPopulate();
 
-        res.send(req.user.persons);
+        res.send(req.user.answers);
     } catch (e) {
         res.stauts(500).send(e);
     }
@@ -44,14 +44,14 @@ router.get('/', auth, async (req, res) => {
 
 // ADD PERSON
 router.post('/', auth, async (req, res) => {
-    const person = new Person({
+    const answer = new Answer({
         ...req.body, // spread operator copies everythinng from req.body
         owner: req.user._id //
     });
 
     try {
-        await person.save();
-        res.status(201).send(person);
+        await answer.save();
+        res.status(201).send(answer);
     } catch (e) {
         console.log(e);
         res.status(400).send(e);
@@ -61,7 +61,7 @@ router.post('/', auth, async (req, res) => {
 // UPDATE PERSON
 // * check if update property in req.body is allowed
 // * get user from auth middleware --> req.user
-// * find person using person id --> req.params.id
+// * find answer using answer id --> req.params.id
 //                          --> req.user._id
 router.patch('/:id', auth, async (req, res) => {
     const updates = Object.keys(req.body); // returns list of keys form req.body
@@ -73,16 +73,16 @@ router.patch('/:id', auth, async (req, res) => {
     }
 
     try {
-        const person = await Person.findOne({ _id: req.params.id, owner: req.user._id });
+        const answer = await Answer.findOne({ _id: req.params.id, owner: req.user._id });
 
-        if (!person) {
-            return res.status(404).send({error: 'Person not found'});
+        if (!answer) {
+            return res.status(404).send({error: 'Answer not found'});
         }
 
-        updates.forEach(update => person[update] = req.body[update]);
+        updates.forEach(update => answer[update] = req.body[update]);
 
-        await person.save();
-        res.send(person);
+        await answer.save();
+        res.send(answer);
     } catch (e) {
         console.log(e);
         res.status(400).send(e);
@@ -93,9 +93,9 @@ router.patch('/:id', auth, async (req, res) => {
 router.delete('/:id', auth, async (req, res) => {
 
     try {
-        const deletePerson = await Person.findOneAndDelete({ _id: req.params.id, owner: req.user._id });
+        const deleteAnswer = await Answer.findOneAndDelete({ _id: req.params.id, owner: req.user._id });
 
-        deletePerson ? res.send(deletePerson) : res.status(404).send();
+        deleteAnswer ? res.send(deleteAnswer) : res.status(404).send();
     } catch (e) {
         console.log(e);
         res.status(500).send(e);

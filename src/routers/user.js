@@ -178,18 +178,18 @@ router.get('/:id/avatar', async (req, res) => {
     }
 });
 
-// UPDATE AVATAR   ??? DO I EVEN NEED THIS??? IT IS THE SAME AS POST
-router.patch('/me/avatar', auth, upload.single('avatar'), async (req, res) => {
-    // async for req.user.save()
-    // * use sharp to resize phto and convert to png format
-    const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer();
+// // UPDATE AVATAR   ??? DO I EVEN NEED THIS??? IT IS THE SAME AS POST
+// router.patch('/me/avatar', auth, upload.single('avatar'), async (req, res) => {
+//     // async for req.user.save()
+//     // * use sharp to resize phto and convert to png format
+//     const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer();
 
-    req.user.avatar = buffer;
-    await req.user.save(); // save file to user profile
-    res.send();
-}, (error, req, res, next) => {
-    res.status(400).send({ error: error.message });
-})
+//     req.user.avatar = buffer;
+//     await req.user.save(); // save file to user profile
+//     res.send();
+// }, (error, req, res, next) => {
+//     res.status(400).send({ error: error.message });
+// })
 
 
 // DELETE AVATAR
@@ -210,9 +210,7 @@ router.delete('/me/avatar', auth, async (req, res) => {
 router.get('/locations', async (req, res) => {
     try {
         const users = await User.find({});
-        console.log("users", users);
-
-        
+        // console.log("users", users);
 
         if (!users) {
             throw new Error("No users");

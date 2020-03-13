@@ -2,7 +2,7 @@ const   mongoose =      require('mongoose'),
         validator =     require('validator'), // validate email
         bcrypt =        require('bcryptjs'),  // has passwords
         jwt =           require('jsonwebtoken'),  // provide unique web token for session
-        Person =        require('./person'), // required for delete all persons middleware
+        Answer =        require('./answer'), // required for delete all answer middleware
         geocoder =      require('../utils/geocoder'); 
 
 
@@ -83,18 +83,25 @@ userSchema.methods.toJSON = function () {
     delete userObject.password;
     delete userObject.tokens;
     // delete userObject.location;
-    // delete userObject.avatar;
+    delete userObject.avatar;
 
     return userObject;
 }
 
-// Create virtual connection to all Persons created by User
-// * User local field and Person foreign Field must match
-userSchema.virtual('persons', {
-    ref: 'Person', // refrence Person Model,
+// Create virtual connection to all Answers created by User
+// * User local field and Answer foreign Field must match
+userSchema.virtual('answer', {
+    ref: 'Answer', // refrence Answer Model,
     localField: '_id', // local property that is same as foreign field (user _id);
-    foreignField: 'owner' // name of thing on Person model that creates relationship (user_id);
+    foreignField: 'owner' // name of thing on Answer model that creates relationship (user_id);
 });
+
+userSchema.virtual('question', {
+    ref: 'Question', // refrence Question Model,
+    localField: '_id', // local property that is same as foreign field (user _id);
+    foreignField: 'owner' // name of thing on Answer model that creates relationship (user_id);
+});
+
 
 // Hash the plain tet passworld before saving
 userSchema.pre('save', async function (next) { // not arrow function because of this
@@ -108,22 +115,6 @@ userSchema.pre('save', async function (next) { // not arrow function because of 
     
     next();
 });
-
-// // Geocode & create location
-// userSchema.pre('save', async function(next) {
-//     const user = this; // easier to see than 'this'
-
-//     const loc = await geocoder.geocode(user.unformattedAddress);
-//     user.location = {
-//         type: 'Point',
-//         coordinates: [loc[0].longitude, loc[0].latitude],
-//         formattedAddress: loc[0].formattedAddress
-//     }
-
-//     // Do not save address  -> this is not working....? 
-//     // user.unformattedAddress = undefined;
-//     next();
-// })
 
 // create userToken
 userSchema.methods.generateAuthToken = async function () { // not arrow function to use this
@@ -173,14 +164,14 @@ userSchema.statics.findByCredentials = async (email, password) => {
     return user;
 }
 
-// DELETE user created persons d when user is removed
+// DELETE user created answers when user is removed
 // * can't use arrow function because of 'this'
 userSchema.pre('remove', async function (next) {
     const user = this; // for simplicity
 
-    // delete all persons show ownder is user_.id (logged in user)
+    // delete all answers show owner is user_.id (logged in user)
     try {
-        await Person.deleteMany({ owner: user._id });
+        await Answer.deleteMany({ owner: user._id });
 
         next();
     } catch(e) {
