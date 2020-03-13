@@ -9,11 +9,13 @@ const router = new express.Router();
 // * get user from auth middlware -> req.user
 router.get('/me', auth, async (req, res) => {
     try {
+        console.log(req.user);
+
         await req.user.populate({
             path: 'questions' // populate questions
         }).execPopulate();
 
-        console.log(req.user.questions)
+        // console.log(req.user.questions)
 
         res.send(req.user.questions);
     } catch (e) {
@@ -29,15 +31,17 @@ router.post('/', auth, async (req, res) => {
             path: 'questions' // populate questions
         }).execPopulate();
 
-        console.log(req.user.questions)
+        // console.log(req.user.questions)
+        console.log(req.user.questions);
 
         if (!(req.user.questions === undefined || req.user.questions.length == 0)) {
+            // throw new Error('Oh no..... woops');
             return res.status(400).send({error: 'Question set already exists'});
         }
 
         const question = new Question({
             ...req.body,
-            owner: req.user._id // 
+            owner: req.user._id 
         })
 
         await question.save();
@@ -52,7 +56,6 @@ router.post('/', auth, async (req, res) => {
 
 // read all questions from all users
 router.get('/', async (req, res) => {
-
     try {
         const questions = await Question.find();
 
@@ -108,7 +111,22 @@ router.delete('/:id', auth, async (req, res) => {
     }
 })
 
+// Get all answers to the question
+router.get('/:id', async (req, res) => {
+    try {
+        const question = await Question.findById(req.params.id)
+        await question.populate({
+            path: 'answers'
+        }).execPopulate();
+        
+        // console.log(question.answers)
 
+        res.send(question.answers);
+    } catch (e) {
+        console.log('e:', e);
+        res.status(500).send(e);
+    }
+})
 
 
 module.exports = router;

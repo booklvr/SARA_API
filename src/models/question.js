@@ -33,12 +33,13 @@ const questionSchema = new mongoose.Schema({
     timestamps: true
 });
 
-// Create virtual connection to all Answers created by User
-// * User local field and Answer foreign Field must match
-questionSchema.virtual('answer', {
-    ref: 'Answer', // refrence Answer Model,
-    localField: '_id', // local property that is same as foreign field (user _id);
-    foreignField: 'question' // name of thing on Answer model that creates relationship (user_id);
+
+//Create virtual connection to all Answers created for Question
+// * Answer local field and Question foreign Field must match
+questionSchema.virtual('answers', {
+    ref: 'Answer', // reference Question Model,
+    localField: '_id', // local property that is same as foreign field (question _id);
+    foreignField: 'questionID',
 });
 
 const Question = mongoose.model('Question', questionSchema);

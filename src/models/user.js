@@ -89,14 +89,6 @@ userSchema.methods.toJSON = function () {
     return userObject;
 }
 
-//Create virtual connection to all Questions created by Answer
-// * Answer local field and Question foreign Field must match
-userSchema.virtual('questions', {
-    ref: 'Question', // reference Question Model,
-    localField: '_id', // local property that is same as foreign field (question _id);
-    foreignField: 'questionID',
-})
-
 // Create virtual connection to all Answers created by User
 // * User local field and Answer foreign Field must match
 userSchema.virtual('answers', {
