@@ -37,7 +37,7 @@ router.get('/', auth, async (req, res) => {
 
         res.send(req.user.answers);
     } catch (e) {
-        res.stauts(500).send(e);
+        res.status(500).send(e);
     }
 
 });
@@ -53,7 +53,6 @@ router.post('/', auth, async (req, res) => {
         await answer.save();
         res.status(201).send(answer);
     } catch (e) {
-        console.log(e);
         res.status(400).send(e);
     }
 });
@@ -89,7 +88,7 @@ router.patch('/:id', auth, async (req, res) => {
     }
 });
 
-// DELETE PERSON
+// DELETE Answer
 router.delete('/:id', auth, async (req, res) => {
 
     try {

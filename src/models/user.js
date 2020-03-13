@@ -3,6 +3,7 @@ const   mongoose =      require('mongoose'),
         bcrypt =        require('bcryptjs'),  // has passwords
         jwt =           require('jsonwebtoken'),  // provide unique web token for session
         Answer =        require('./answer'), // required for delete all answer middleware
+        Question =      require('./question'),
         geocoder =      require('../utils/geocoder'); 
 
 
@@ -88,15 +89,23 @@ userSchema.methods.toJSON = function () {
     return userObject;
 }
 
+//Create virtual connection to all Questions created by Answer
+// * Answer local field and Question foreign Field must match
+userSchema.virtual('questions', {
+    ref: 'Question', // reference Question Model,
+    localField: '_id', // local property that is same as foreign field (question _id);
+    foreignField: 'questionID',
+})
+
 // Create virtual connection to all Answers created by User
 // * User local field and Answer foreign Field must match
-userSchema.virtual('answer', {
+userSchema.virtual('answers', {
     ref: 'Answer', // refrence Answer Model,
     localField: '_id', // local property that is same as foreign field (user _id);
     foreignField: 'owner' // name of thing on Answer model that creates relationship (user_id);
 });
 
-userSchema.virtual('question', {
+userSchema.virtual('questions', {
     ref: 'Question', // refrence Question Model,
     localField: '_id', // local property that is same as foreign field (user _id);
     foreignField: 'owner' // name of thing on Answer model that creates relationship (user_id);
@@ -178,6 +187,20 @@ userSchema.pre('remove', async function (next) {
         res.status(500).send();
     }
 });
+
+userSchema.pre('remove', async function (next) {
+    const user = this;
+
+    // delete the question set associated with user._id (logged in user);
+    try {
+        await Question.deleteOne({ owner: user._id });
+
+        next();
+    } catch (e) {
+        console.log("e", e)
+        res.status(500).send();
+    }
+})
 
 
 const User = mongoose.model('User', userSchema);

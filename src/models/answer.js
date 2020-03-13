@@ -36,7 +36,7 @@ const answerSchema = new mongoose.Schema({
         // required: true,
         ref: 'User' // connect to User model
     },
-    question: {
+    questionID: {
         type: mongoose.Schema.Types.ObjectId, // from questionSchema
         // required: true,
         ref: 'Question'

@@ -149,13 +149,13 @@ router.post('/me/avatar', auth, upload.single('avatar'), async (req, res) => {  
 
   // * use sharp to resize photo and convert to png format
   //  -> req.file.buffer is from multer and contains binary info form the image uploaded
-  const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer();
+    const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer();
 
-  req.user.avatar = buffer;
-  await req.user.save();  // save file to user profile
-  res.send();
+    req.user.avatar = buffer;
+    await req.user.save();  // save file to user profile
+    res.send();
 }, (error, req, res, next) => { // all four arguments needed so express knows to expect an error
-  res.status(400).send({error: error.message }); // error from upload.single multer middleware
+    res.status(400).send({error: error.message }); // error from upload.single multer middleware
 })
 
 // GET AVATAR

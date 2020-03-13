@@ -31,7 +31,7 @@ app.use(express.static(path.join(__dirname, '../public')));
 
 
 app.use('/users', userRouter);
-app.use('./questions', questionRouter);
+app.use('/questions', questionRouter);
 app.use('/answers', answerRouter);
 app.use('/', mainRouter);
 
