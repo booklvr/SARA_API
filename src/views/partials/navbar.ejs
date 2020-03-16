@@ -1,5 +1,5 @@
 
-    <nav class="navbar">
+    <!-- <nav class="user-nav">
         <a href="#" class="navbar__brand" id="navbar__brand">logo</a>
         <ul class="navbar__links">
             <li><a href="#">Quesitons</a></li>
@@ -7,4 +7,15 @@
             <li><a href="#">Login</a></li>
             <li><a href="#">SignUp</a></li>
         </ul>
+    </nav> -->
+    <nav class="user-nav">
+        <div class="user-nav__link"><a href="/map">Map</a></div>
+        <div class="user-nav__link"><a href="/questions">Questions</a></div>
+        <% if(!currentUser) { %>
+            <div class="user-nav__login"><a href="/users/login">Login</a></div>
+            <div class="user-nav__signup"><a href="/users/">Sign Up</a></div>
+        <% } else { %>
+            <div class="user-nav__user"><a href="/users/logout">Logout</a></div>
+            <div class="user-nav__user"><p><%= currentUser.name %></div>
+        <% } %>
     </nav>

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-// create person schema
+// create answer schema
 // * mongoose renames the schema and adds an 's' in the database
 const answerSchema = new mongoose.Schema({
     name: {
