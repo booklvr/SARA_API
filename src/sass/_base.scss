@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,700&display=swap'); 
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap');
+
+// $color-primary: #026679;
+// $color-primary-light: #9FEDD7;
+
+// $color-secondary: #fef9c7;
+// $color-secondary-light: #fce181;
+
+// $color-tertiary: #edeae5;
+
+// $color-black: #000;
+// $color-white: #fff;
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+html {
+    box-sizing: border-box;
+    font-size: 62.5%; // 1 rem = 10p, 10px/16px = 62.5%
+}
+
+body {
+    font-family: $font-heading;
+    font-weight: 400;
+    line-height: 1.6;
+    background-color: $color-tertiary;
+}
+
