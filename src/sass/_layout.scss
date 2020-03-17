@@ -3,12 +3,34 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background-color: $color-primary;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 nav {
+    padding: 0 3rem;
     width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+}
 
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    padding: 3rem;
+}
+
+#map {
+    // width: 100vw !important;
+    padding: 2rem !important;
+    // padding-right: 2rem !important;
 }

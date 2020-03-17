@@ -1,3 +1,77 @@
+////////////////////////////
+// USER NAV
 .navbar {
     font-family: $font-secondary;
+    font-size: 1.5rem;
+    background-color: $color-primary-light;
+    align-self: stretch;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+
+    &__brand {
+        text-decoration: none;
+        padding: 0 2rem ;
+    } 
+
+    &__links {
+        list-style: none;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        
+        & > * {
+            padding: 0 1.5rem;
+        }
+
+        & > * a {
+            display: inline-block;
+            text-decoration: none;
+            list-style: none;
+            transition: all .2s;
+        }
+
+        & > * a:hover {
+            filter: brightness(50%);
+            // color: pink;
+            transform: scale(1.1);
+        }
+
+        &-basic a {
+            color: $color-grey;
+        }
+
+        &-login a {
+            color: #e15f83;
+        }
+        
+        &-signup a {
+            background-color: #e15f83;
+            border: none;
+            padding: 5px;
+            text-align: center;
+            cursor: pointer;
+            color: $color-primary-light;
+            border-radius: 5%;
+
+            &:hover {
+                filter: brightness(125%);
+            }
+        }
+
+        &-user {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            img {
+                width: 5rem;
+                height: 5rem;
+                object-fit: cover;
+                border-radius: 50%;
+            }
+        }
+    }
 }
