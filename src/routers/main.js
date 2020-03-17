@@ -10,7 +10,7 @@ router.get('/',  (req, res) => {
 
 
 router.get('/map', (req, res) => {
-    res.render("pages/map")
+    res.render("pages/map", {currentUser: undefined})
 })
 
 
