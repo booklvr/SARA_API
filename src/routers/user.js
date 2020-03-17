@@ -15,7 +15,6 @@ router.get('/me', auth, async(req, res) => {
 
 // BAD ROUTE DON"T USE
 // GET ALL USERS
-// Change to get USER FORM ??? 
 router.get('/', async (req, res) => {
     try {
         const users = await User.find({});
@@ -133,8 +132,6 @@ router.patch('/me', auth, async (req, res) => {
     }
 });
 
-
-// DELETE LOGGED IN USER
 router.delete('/me', auth, async (req, res) => {
     try {
         await req.user.remove();
@@ -224,7 +221,9 @@ router.get('/locations', async (req, res) => {
             return {name: user.name, location: user.location, id: user._id}
             // return {user.name, user.location};
         })
-    
+        
+        // console.log(locations);
+        
 
         res.status(200).send(locations); 
     } catch(err) {

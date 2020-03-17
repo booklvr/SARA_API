@@ -42,7 +42,7 @@ router.get('/', auth, async (req, res) => {
 
 });
 
-// ADD QUSESTION
+// ADD PERSON
 router.post('/', auth, async (req, res) => {
     const answer = new Answer({
         ...req.body, // spread operator copies everythinng from req.body
@@ -57,7 +57,7 @@ router.post('/', auth, async (req, res) => {
     }
 });
 
-// UPDATE QUESTION
+// UPDATE PERSON
 // * check if update property in req.body is allowed
 // * get user from auth middleware --> req.user
 // * find answer using answer id --> req.params.id

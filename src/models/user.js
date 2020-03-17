@@ -97,8 +97,6 @@ userSchema.virtual('answers', {
     foreignField: 'owner' // name of thing on Answer model that creates relationship (user_id);
 });
 
-// Create virtual connection to all Questions created by User
-// * User local field and Question foreign Field must match
 userSchema.virtual('questions', {
     ref: 'Question', // refrence Question Model,
     localField: '_id', // local property that is same as foreign field (user _id);
@@ -133,7 +131,6 @@ userSchema.methods.generateAuthToken = async function () { // not arrow function
     return token;
 };
 
-// use geocoer to generate geocode from unformattedAddress
 userSchema.methods.generateLocation = async function () {
     const user = this; // simpler than this
 
@@ -144,7 +141,6 @@ userSchema.methods.generateLocation = async function () {
         formattedAddress: loc[0].formattedAddress
     }
 
-    // clear unformattedAddress
     user.unformattedAddress = undefined;
 
     await user.save();
