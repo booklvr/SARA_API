@@ -2,6 +2,7 @@
 // HEADERS
 .landing-header {
     height: 100%;
+    font-family: $font-heading;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -13,7 +14,7 @@
         flex: 1;
         h1 {
             font-size: 5rem;
-            color: $color-white;
+            color: $color-grey-light2;
         }
     }
 
@@ -31,23 +32,30 @@
             border-radius: 10px;
             text-decoration: none;
             margin: 2rem 3rem;
+            border: 2px solid $color-primary;
+            transition: all .2s;
 
 
             &:hover {
-                background-color: $color-primary-light;
-                color: $color-white;
+                background-color: $color-grey;
+                color: $color-grey-light2;
+                border: $color-grey;
+                transform: scale(1.07);
+            }
+
+            &:active {
+                transform: scale(1);
             }
 
             &-answer {
                 color: $color-primary;
-                border: 2px solid $color-primary;
-                background-color: $color-white;
+                background-color: $color-grey-light2;
             }
 
             &-question {
                 background-color: $color-primary;
-                color: $color-white;
-                border: none;
+                color: $color-grey-light2;
+                
             }
         }
 
@@ -61,6 +69,13 @@
 .navbar {
     font-family: $font-secondary;
     font-size: 1.7rem;
+
+    &__container {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
     &__brand {
         text-decoration: none;
@@ -92,7 +107,7 @@
 
         & > * a:active {
             color: $color-primary;
-            transform: scale(.92);
+            transform: scale(1);
         }
         
         &-signup a {
@@ -121,5 +136,22 @@
                 border-radius: 50%;
             }
         }
+    }
+}
+
+//////////////////////////
+// SECTION ABOUT
+.section-about {
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: baseline;
+
+    .heading-secondary {
+        font-size: 3rem;
+        margin-right: 5rem;
+    }
+
+    .paragraph-large {
+        font-size: 2rem;
     }
 }

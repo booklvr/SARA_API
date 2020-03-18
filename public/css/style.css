@@ -31,10 +31,9 @@ nav {
   background-color: #0e1012;
   padding: 0 12.5vw;
   width: 100%;
-  height: 25rem;
+  height: 37.5vh;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   align-items: start;
   padding-top: 3rem; }
 
@@ -42,12 +41,31 @@ header {
   position: absolute;
   left: 12.5vw;
   margin-top: 12.5vh;
-  height: 50vh;
   width: 75vw;
+  height: 50vh;
   background-image: url(https://images.unsplash.com/photo-1513622790541-eaa84d356909?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80);
-  background-size: cover; }
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 10px; }
 
-.container {
+main {
+  position: absolute;
+  top: 62.5vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; }
+
+section {
+  margin-top: 5rem;
+  padding: 0 12.5vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; }
+
+.map__container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -60,6 +78,7 @@ header {
 
 .landing-header {
   height: 100%;
+  font-family: "Roboto", sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -70,7 +89,7 @@ header {
     flex: 1; }
     .landing-header .title h1 {
       font-size: 5rem;
-      color: #fff; }
+      color: #f6f0f0; }
   .landing-header .cta {
     display: flex;
     flex-direction: row;
@@ -83,22 +102,31 @@ header {
       cursor: pointer;
       border-radius: 10px;
       text-decoration: none;
-      margin: 2rem 3rem; }
+      margin: 2rem 3rem;
+      border: 2px solid #ce640d;
+      transition: all .2s; }
       .landing-header .cta__button:hover {
         background-color: #0e1012;
-        color: #fff; }
+        color: #f6f0f0;
+        border: #0e1012;
+        transform: scale(1.07); }
+      .landing-header .cta__button:active {
+        transform: scale(1); }
       .landing-header .cta__button-answer {
         color: #ce640d;
-        border: 2px solid #ce640d;
-        background-color: #fff; }
+        background-color: #f6f0f0; }
       .landing-header .cta__button-question {
         background-color: #ce640d;
-        color: #fff;
-        border: none; }
+        color: #f6f0f0; }
 
 .navbar {
   font-family: "Montserrat", sans-serif;
   font-size: 1.7rem; }
+  .navbar__container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; }
   .navbar__brand {
     text-decoration: none;
     color: #fff; }
@@ -120,7 +148,7 @@ header {
       transform: scale(1.07); }
     .navbar__links > * a:active {
       color: #ce640d;
-      transform: scale(0.92); }
+      transform: scale(1); }
     .navbar__links-signup a {
       background-color: #ce640d;
       border: none;
@@ -140,3 +168,13 @@ header {
         height: 5rem;
         object-fit: cover;
         border-radius: 50%; }
+
+.section-about {
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: baseline; }
+  .section-about .heading-secondary {
+    font-size: 3rem;
+    margin-right: 5rem; }
+  .section-about .paragraph-large {
+    font-size: 2rem; }
