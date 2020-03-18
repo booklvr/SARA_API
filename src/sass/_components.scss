@@ -1,20 +1,70 @@
+/////////////////////////////
+// HEADERS
+.landing-header {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .title {
+        display: flex;
+        align-items: center;
+        flex: 1;
+        h1 {
+            font-size: 5rem;
+            color: $color-white;
+        }
+    }
+
+    .cta {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        &__button {
+            font-size: 2rem;
+            width: 20rem;
+            padding: 5px;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 10px;
+            text-decoration: none;
+            margin: 2rem 3rem;
+
+
+            &:hover {
+                background-color: $color-primary-light;
+                color: $color-white;
+            }
+
+            &-answer {
+                color: $color-primary;
+                border: 2px solid $color-primary;
+                background-color: $color-white;
+            }
+
+            &-question {
+                background-color: $color-primary;
+                color: $color-white;
+                border: none;
+            }
+        }
+
+        
+    }
+
+}
+
 ////////////////////////////
 // USER NAV
 .navbar {
     font-family: $font-secondary;
-    font-size: 1.5rem;
-    background-color: $color-primary-light;
-    align-self: stretch;
-
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-
+    font-size: 1.7rem;
 
     &__brand {
         text-decoration: none;
-        padding: 0 2rem ;
+        color: $color-white;
     } 
 
     &__links {
@@ -23,8 +73,8 @@
         flex-direction: row;
         align-items: center;
         
-        & > * {
-            padding: 0 1.5rem;
+        & > *:not(:last-child) {
+            padding: 0 1rem;
         }
 
         & > * a {
@@ -32,33 +82,31 @@
             text-decoration: none;
             list-style: none;
             transition: all .2s;
+            color: $color-white;
         }
 
         & > * a:hover {
-            filter: brightness(50%);
-            // color: pink;
-            transform: scale(1.1);
+            color: $color-primary;
+            transform: scale(1.07);
         }
 
-        &-basic a {
-            color: $color-grey;
-        }
-
-        &-login a {
-            color: #e15f83;
+        & > * a:active {
+            color: $color-primary;
+            transform: scale(.92);
         }
         
         &-signup a {
-            background-color: #e15f83;
+            background-color: $color-primary;
             border: none;
-            padding: 5px;
             text-align: center;
             cursor: pointer;
-            color: $color-primary-light;
-            border-radius: 5%;
+            color: $color-white;
+            border-radius: 10%;
+            // padding-left: .5rem;
 
             &:hover {
-                filter: brightness(125%);
+                background-color: $color-primary;
+                color: $color-white;
             }
         }
 
