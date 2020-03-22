@@ -4,22 +4,22 @@ const   mongoose =  require('mongoose'),
 // create person schema
 // * mongoose renames the schema and adds an 's' in the database
 const questionSchema = new mongoose.Schema({
-    question1: {
+    item1: {
         type: String,
         required: true,
         trim: true
     },
-    question2: {
+    item2: {
         type: String,
         required: true,
         trim: true
     },
-    question3: {
+    item3: {
         type: String,
         required: true,
         trim: true
     },
-    question4: {
+    item4: {
         type: String,
         required: true,
         trim: true
@@ -41,6 +41,8 @@ questionSchema.virtual('answers', {
     localField: '_id', // local property that is same as foreign field (question _id);
     foreignField: 'questionID',
 });
+
+
 
 const Question = mongoose.model('Question', questionSchema);
 

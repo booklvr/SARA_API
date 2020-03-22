@@ -1,74 +1,11 @@
-/////////////////////////////
-// HEADERS
-.landing-header {
-    height: 100%;
-    font-family: $font-heading;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    .title {
-        display: flex;
-        align-items: center;
-        flex: 1;
-        h1 {
-            font-size: 5rem;
-            color: $color-grey-light2;
-        }
-    }
-
-    .cta {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-
-        &__button {
-            font-size: 2rem;
-            width: 20rem;
-            padding: 5px;
-            text-align: center;
-            cursor: pointer;
-            border-radius: 10px;
-            text-decoration: none;
-            margin: 2rem 3rem;
-            border: 2px solid $color-primary;
-            transition: all .2s;
 
 
-            &:hover {
-                background-color: $color-grey;
-                color: $color-grey-light2;
-                border: $color-grey;
-                transform: scale(1.07);
-            }
-
-            &:active {
-                transform: scale(1);
-            }
-
-            &-answer {
-                color: $color-primary;
-                background-color: $color-grey-light2;
-            }
-
-            &-question {
-                background-color: $color-primary;
-                color: $color-grey-light2;
-                
-            }
-        }
-
-        
-    }
-
-}
-
-////////////////////////////
-// USER NAV
+// ////////////////////////////
+// // USER NAV
 .navbar {
     font-family: $font-secondary;
     font-size: 1.7rem;
+    height: 10vh;
 
     &__container {
         width: 100%;
@@ -116,7 +53,8 @@
             text-align: center;
             cursor: pointer;
             color: $color-white;
-            border-radius: 10%;
+            padding: 1rem 0.5rem;
+            // border-radius: 1rem;
             // padding-left: .5rem;
 
             &:hover {
@@ -139,19 +77,52 @@
     }
 }
 
-//////////////////////////
-// SECTION ABOUT
-.section-about {
-    display: inline-flex;
-    flex-direction: row;
-    justify-content: baseline;
 
-    .heading-secondary {
-        font-size: 3rem;
-        margin-right: 5rem;
-    }
 
-    .paragraph-large {
-        font-size: 2rem;
+
+////////////////////////////
+// FORM__CONTAINER
+.form__container {
+    
+    .form {
+        
+        &__group {
+            
+            
+            label {
+                
+            }
+            input {
+                // color: $color-grey-light2;
+                // height: 3.5rem;
+                // width: 100%;
+                // border-radius: 1.75rem;
+                // border: 3px solid $color-primary;
+
+                &::-webkit-input-placeholder {
+                    // background-color: $color-grey-light2;
+                    // color: $color-grey;
+                    // font-size: 1.5rem;
+                    // padding: 1rem;   
+                }
+            }
+
+            .invalid-feedback {
+                // display: none;
+                // color: $color-primary;
+                // font-size: 1.5rem;
+            }
+
+            button {
+                background-color: $color-primary;
+                color: white;
+                border: none;
+                font-size: 2rem;
+                width: 75%;
+                border-radius: 2.5rem;
+                height: 5rem;
+                align-self: center;
+            }
+        }
     }
 }

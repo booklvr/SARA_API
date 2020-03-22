@@ -24,34 +24,22 @@ body {
 body {
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: space-between;
-  background-color: #f6f0f0; }
+  background-color: #51d0de; }
 
 nav {
-  background-color: #0e1012;
-  padding: 0 12.5vw;
   width: 100%;
-  height: 37.5vh;
   display: flex;
   flex-direction: row;
-  align-items: start;
-  padding-top: 3rem; }
+  align-items: center; }
 
-header {
-  position: absolute;
-  left: 12.5vw;
-  margin-top: 12.5vh;
-  width: 75vw;
-  height: 50vh;
-  background-image: url(https://images.unsplash.com/photo-1513622790541-eaa84d356909?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80);
+.landing-header {
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
-  border-radius: 10px; }
+  background-repeat: no-repeat; }
 
 main {
-  position: absolute;
-  top: 62.5vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -71,57 +59,18 @@ section {
   align-items: center;
   justify-content: center;
   width: 100vw;
-  padding: 3rem; }
-
-#map {
-  padding: 2rem !important; }
-
-.landing-header {
   height: 100%;
-  font-family: "Roboto", sans-serif;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  padding: 3rem;
   justify-content: center; }
-  .landing-header .title {
-    display: flex;
-    align-items: center;
-    flex: 1; }
-    .landing-header .title h1 {
-      font-size: 5rem;
-      color: #f6f0f0; }
-  .landing-header .cta {
-    display: flex;
-    flex-direction: row;
-    align-items: center; }
-    .landing-header .cta__button {
-      font-size: 2rem;
-      width: 20rem;
-      padding: 5px;
-      text-align: center;
-      cursor: pointer;
-      border-radius: 10px;
-      text-decoration: none;
-      margin: 2rem 3rem;
-      border: 2px solid #ce640d;
-      transition: all .2s; }
-      .landing-header .cta__button:hover {
-        background-color: #0e1012;
-        color: #f6f0f0;
-        border: #0e1012;
-        transform: scale(1.07); }
-      .landing-header .cta__button:active {
-        transform: scale(1); }
-      .landing-header .cta__button-answer {
-        color: #ce640d;
-        background-color: #f6f0f0; }
-      .landing-header .cta__button-question {
-        background-color: #ce640d;
-        color: #f6f0f0; }
+
+.form__container {
+  display: flex;
+  flex-direction: row; }
 
 .navbar {
   font-family: "Montserrat", sans-serif;
-  font-size: 1.7rem; }
+  font-size: 1.7rem;
+  height: 10vh; }
   .navbar__container {
     width: 100%;
     display: flex;
@@ -129,7 +78,7 @@ section {
     align-items: center; }
   .navbar__brand {
     text-decoration: none;
-    color: #fff; }
+    color: #d9d9d9; }
   .navbar__links {
     list-style: none;
     display: flex;
@@ -142,23 +91,23 @@ section {
       text-decoration: none;
       list-style: none;
       transition: all .2s;
-      color: #fff; }
+      color: #d9d9d9; }
     .navbar__links > * a:hover {
-      color: #ce640d;
+      color: #bf4aa8;
       transform: scale(1.07); }
     .navbar__links > * a:active {
-      color: #ce640d;
+      color: #bf4aa8;
       transform: scale(1); }
     .navbar__links-signup a {
-      background-color: #ce640d;
+      background-color: #bf4aa8;
       border: none;
       text-align: center;
       cursor: pointer;
-      color: #fff;
-      border-radius: 10%; }
+      color: #d9d9d9;
+      padding: 1rem 0.5rem; }
       .navbar__links-signup a:hover {
-        background-color: #ce640d;
-        color: #fff; }
+        background-color: #bf4aa8;
+        color: #d9d9d9; }
     .navbar__links-user {
       display: flex;
       align-items: center;
@@ -168,6 +117,16 @@ section {
         height: 5rem;
         object-fit: cover;
         border-radius: 50%; }
+
+.form__container .form__group button {
+  background-color: #bf4aa8;
+  color: white;
+  border: none;
+  font-size: 2rem;
+  width: 75%;
+  border-radius: 2.5rem;
+  height: 5rem;
+  align-self: center; }
 
 .section-about {
   display: inline-flex;

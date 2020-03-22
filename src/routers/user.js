@@ -63,7 +63,6 @@ router.post('/', async (req, res) => {
 
 // LOGIN USER
 router.post('/login', async (req, res) => {
-
     try {
         const user = await User.findByCredentials(req.body.email, req.body.password); // findByCredentials => userSchema.static function
 
@@ -149,7 +148,7 @@ router.post('/me/avatar', auth, upload.single('avatar'), async (req, res) => {  
 
   // * use sharp to resize photo and convert to png format
   //  -> req.file.buffer is from multer and contains binary info form the image uploaded
-    const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer();
+    const buffer = await sharp(req.file.buffer).resize({ width: 200, height: 200 }).png().toBuffer();
 
     req.user.avatar = buffer;
     await req.user.save();  // save file to user profile

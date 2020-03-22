@@ -9,14 +9,13 @@ const router = new express.Router();
 // * get user from auth middlware -> req.user
 router.get('/me', auth, async (req, res) => {
     try {
-        console.log(req.user);
+        // console.log(req.user);
 
         await req.user.populate({
             path: 'questions' // populate questions
         }).execPopulate();
 
-        // console.log(req.user.questions)
-
+        
         res.send(req.user.questions);
     } catch (e) {
         res.status(500).send(e);
@@ -41,7 +40,7 @@ router.post('/', auth, async (req, res) => {
 
         const question = new Question({
             ...req.body,
-            owner: req.user._id 
+            owner: req.user._id,
         })
 
         await question.save();
@@ -119,6 +118,7 @@ router.get('/:id', async (req, res) => {
             path: 'answers'
         }).execPopulate();
         
+
         // console.log(question.answers)
 
         res.send(question.answers);

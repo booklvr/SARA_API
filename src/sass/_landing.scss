@@ -1,0 +1,50 @@
+/////////////////////////////
+// HEADERS
+.landing-header {
+    
+    .title {
+        
+    }
+
+    .cta {
+        
+        &__button {
+            
+
+
+            &:hover {
+                
+            }
+
+            &:active {
+                
+            }
+
+            &-answer {
+                
+            }
+
+            &-question {
+                
+                
+            }
+        }
+    }
+}
+
+//////////////////////////
+// SECTION ABOUT
+.section-about {
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: baseline;
+
+    .heading-secondary {
+        font-size: 3rem;
+        margin-right: 5rem;
+    }
+
+    .paragraph-large {
+        font-size: 2rem;
+    }
+}

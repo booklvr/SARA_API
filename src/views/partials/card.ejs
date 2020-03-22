@@ -1,0 +1,31 @@
+<!-- <input type="hidden" name="question" value=" < include question._id.... or something; %>/> -->
+
+    <% cards.forEach(function(card) { %>
+        <div class="card">
+            <a href="/profile/<%= card.owner %>">
+                <div class="card-title">
+                    <p class="card-title--location">
+                        <%= card.location %>
+                    </p>
+                    <p class="card-title--name">
+                        <%= card.name %>
+                    </p>
+                    <img src="/users/<%= card.owner %>/avatar" alt="#">
+                </div>
+                <div class="answer__card-answers">
+                    <div class="answer__card-answer--1">
+                        <p>1</p>
+                        <span id="answer1"><%= card.item1 %></span>
+                        <p>2</p>
+                        <span id="answer1"><%= card.item2 %></span>
+                        <p>3</p>
+                        <span id="answer1"><%= card.item3 %></span>
+                        <p>4</p>
+                        <span id="answer1"><%= card.item4 %></span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    <% }) %>
+
+    

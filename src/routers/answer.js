@@ -42,7 +42,7 @@ router.get('/', auth, async (req, res) => {
 
 });
 
-// ADD PERSON
+// ADD ANSWER
 router.post('/', auth, async (req, res) => {
     const answer = new Answer({
         ...req.body, // spread operator copies everythinng from req.body
