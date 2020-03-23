@@ -14,8 +14,37 @@ router.get('/register', (req, res) => {
     res.render("pages/register");
 });
 
-router.get('/profile/:id/', (req, res) => {
-    res.render('pages/profile');
+// need 
+router.get('/profile/:id', async (req, res) => {
+    
+    try {
+        const user = await User.findById(req.params.id);
+
+        await user.populate({
+            path: 'questions' // populate questions
+        }).execPopulate();
+
+        
+
+        console.log(user.questions[0]._id);
+
+        const questions = await Question.findById(user.questions[0]._id);
+
+        console.log(questions);
+
+        await questions.populate({
+            path: 'answers'
+        }).execPopulate();
+
+        console.log(questions.answers)
+
+        res.render('pages/profile', {currentUser: user, questions, cards: questions.answers})
+
+        
+    } catch (e) {
+        console.log(e);
+        res.status(500).send(e);
+    }
 })
 
 

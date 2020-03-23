@@ -35,21 +35,7 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
     
     try {
-        // const user = await User.create(req.body);
         const user = new User(req.body);
-        // await user.save();
-
-        // const user = await User.create(req.body);
-
-        // const token = await user.generateAuthToken();
-
-        // return res.status(201).json({
-        //     success: true,
-        //     data: {
-        //         user,
-        //         token
-        //     }
-        // })
 
         // send email here later
         const token = await user.generateAuthToken();
@@ -111,12 +97,18 @@ router.patch('/me', auth, async (req, res) => {
     // what is allowed to update
     const updates = Object.keys(req.body) // returns list of keys from req.body
     console.log(updates);
-    const allowedUpdates = ['name', 'email', 'password'];
+    const allowedUpdates = ['name', 'email', 'password', 'unformattedAddress'];
     const isValidOperation = updates.every(update => allowedUpdates.includes(update));
 
     if (!isValidOperation) {
         return res.status(400).send({error: 'Invalid updates!' });
     }
+
+    if (updates.includes('unformattedAddress')) {
+        const location = await req.user.generateLocation();
+    }
+
+
 
     // use findById for password hashing middleware or mongoose bypasses middleware with findByIdAndUpdate
     try {

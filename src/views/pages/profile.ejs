@@ -5,22 +5,22 @@
     
     <div class="profile">
         <div class="profile__header">
-            <img src="#" alt="">
+            <img src="/users/<%= currentUser._id %>/avatar" alt="<%= currentUser.name %>'s profile picture">
         </div>
         <div class="profile__info">
             <div class="profile__info-name">
-                <h3>name</h3>
-                <div class="profile__info-location">location</div>
-                <div class="profile__info-answers"></div>
+                <h3><%= currentUser.name %></h3>
+                <div class="profile__info-location"><%= currentUser.location.formattedAddress %></div>
+                <div class="profile__info-answers"><%= cards.length %> Answers</div>
             </div>       
         </div>
-    </div>
+    </div>  
 </header>
 
 <main>
+    <%- include ('../partials/questions'); %>
     
-    
-    
+    <%- include ('../partials/card'); %>
 </main>
 
 

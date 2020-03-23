@@ -134,11 +134,13 @@ userSchema.methods.generateAuthToken = async function () { // not arrow function
 userSchema.methods.generateLocation = async function () {
     const user = this; // simpler than this
 
+
+    // add user formatted location and remove leading comma and whitespace
     const loc = await geocoder.geocode(user.unformattedAddress);
     user.location = {
         type: 'Point',
         coordinates: [loc[0].longitude, loc[0].latitude],
-        formattedAddress: loc[0].formattedAddress
+        formattedAddress: loc[0].formattedAddress.replace(/^[,][ ,]/, '')
     }
 
     user.unformattedAddress = undefined;

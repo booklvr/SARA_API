@@ -1,12 +1,12 @@
 const   express =           require('express'),
         cors =              require('cors'),
         path =              require('path'),
-        userRouter =        require('./routers/user'),
-        answerRouter =      require('./routers/answer'),
-        questionRouter =    require('./routers/question'),
-        mainRouter =        require('./routers/main');
+        userRouter =        require('./src/routers/user'),
+        answerRouter =      require('./src/routers/answer'),
+        questionRouter =    require('./src/routers/question'),
+        mainRouter =        require('./src/routers/main');
 
-const connectDB = require('./db/mongoose');
+const connectDB = require('./src/db/mongoose');
 
 // Connect to database
 connectDB();
@@ -22,12 +22,13 @@ app.use(express.json());
 app.use(cors());
 
 app.set("view engine", "ejs");
-app.set('views', path.join(__dirname, './views'));
+app.set('views', path.join(__dirname, 'src/views'));
 
 
 // Set static folder
-app.use(express.static(path.join(__dirname, '../public')));
-// app.use('/public', express.static('public'));
+// app.use('/public', express.static(path.join(__dirname, 'public')));
+// app.use('../public', express.static(__dirname + '/public'));
+app.use('/public', express.static(__dirname + "/public"));
 
 
 app.use('/users', userRouter);

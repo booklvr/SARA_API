@@ -118,6 +118,13 @@ section {
         object-fit: cover;
         border-radius: 50%; }
 
+.card a {
+  text-decoration: none; }
+
+.card__title--image {
+  width: 4rem;
+  border-radius: 2rem; }
+
 .form__container .form__group button {
   background-color: #bf4aa8;
   color: white;
