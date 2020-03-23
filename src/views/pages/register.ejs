@@ -1,46 +1,81 @@
-<%- include ('../partials/head'); %>
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1"> 
+		<title>Fullscreen Form Interface</title>
+		
+		<link rel="shortcut icon" href="../favicon.ico">
+		<link rel="stylesheet" type="text/css" href="/public/css/form/normalize.css" />
+		<link rel="stylesheet" type="text/css" href="/public/css/form/demo.css" />
+		<link rel="stylesheet" type="text/css" href="/public/css/form/component.css" />
+		<link rel="stylesheet" type="text/css" href="/public/css/form/cs-select.css" />
+		<link rel="stylesheet" type="text/css" href="/public/css/form/cs-skin-boxes.css" />
+		<script src="/public/js/form/modernizr.custom.js"></script>
+	</head>
+	<body>
+		<div class="container">
 
-<header>
-    <%- include ('../partials/navbar'); %>
-</header>
+			<div class="fs-form-wrap" id="fs-form-wrap">
+				<div class="fs-title">
+					<h1>Register</h1>
+					<div class="codrops-top">
+						<a class="codrops-icon codrops-icon-prev" href="#"><span>Previous Demo</span></a>
+					</div>
+				</div>
+				<form action="/users" method="POST" id="myform" class="fs-form fs-form-full" autocomplete="off">
+					<ol class="fs-fields">
+						<li>
+							<label class="fs-field-label fs-anim-upper" for="name">What's your name?</label>
+							<input class="fs-anim-lower" id="name" name="name" type="text" placeholder="Dean Moriarty" required/>
+						</li>
+						<li>
+							<label class="fs-field-label fs-anim-upper" for="email" data-info="We won't send you spam, we promise...">What's your email address?</label>
+							<input class="fs-anim-lower" id="email" name="email" type="email" placeholder="email@gmail.com" required/>
+                        </li>
+                        <li>
+							<label class="fs-field-label fs-anim-upper" for="password" data-info="Enter a password longer than 7 characters">Choose a password.</label>
+							<input class="fs-anim-lower" id="password" name="password" type="password" placeholder="password" required/>
+                        </li>
+                        <li>
+							<label class="fs-field-label fs-anim-upper" for="confirm" data-info="We won't send you spam, we promise...">Confirm your password</label>
+							<input class="fs-anim-lower" id="confirm" name="confirm" type="password" placeholder="confirm" required/>
+                        </li>
+                        <li>
+							<label class="fs-field-label fs-anim-upper" for="unformattedAddress" data-info="You can enter a city a state, or even an address">Where do you live?</label>
+							<input class="fs-anim-lower" id="unformattedAddress" name="unformattedAddress" type="text" placeholder="Location" required/>
+						</li>
+					</ol><!-- /fs-fields -->
+					<button class="fs-submit" type="submit">Send answers</button>
+				</form><!-- /fs-form -->
+			</div><!-- /fs-form-wrap -->
 
+			
 
+		</div><!-- /container -->
+		<script src="/public/js/form/classie.js"></script>
+		<script src="/public/js/form/selectFx.js"></script>
+		<script src="/public/js/form/fullscreenForm.js"></script>
+		<script>
+			(function() {
+				var formWrap = document.getElementById( 'fs-form-wrap' );
 
-<div class="form__container">
-    <!-- <img src="https://images.unsplash.com/photo-1557318041-1ce374d55ebf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="question"> -->
-    <form class="form" action="/users" method="post">
-        <div class="form__group">
-            <label for="name">Name</label>
-            <input id="placeholder" type="text" placeholder="Name">
-            <div class="invalid-feedback">Name is required</div>
-        </div>
-        <div class="form__group">
-            <label for="unformattedAddress">location</label>
-            <input id="unformattedAddress" type="text" placeholder="location">
-            <div class="invalid-feedback">Enter a valid location</div>
-        </div>
-        <div class="form__group">
-            <label for="email">Email</label>
-            <input id="email" type="email" placeholder="Email">
-            <div class="invalid-feedback">Enter a valid email</div>
-        </div>
-        <div class="form__group">
-            <label for="password">Password</label>
-            <input id="password" type="password" placeholder="Password">
-            <div class="invalid-feedback">Password must be longer than 7 characters.</div>
-        </div>
-        <div class="form__group">
-            <label for="confirm">Confirm</label>
-            <input id="confirm" type="password" placeholder="Confirm Password">
-            <div class="invalid-feedback">Password must match</div>
-        </div>
-        <div class="form__group">
-            <button type="submit">Sign Up</button>
-        </div>
-    </form>
-</div>
+				[].slice.call( document.querySelectorAll( 'select.cs-select' ) ).forEach( function(el) {	
+					new SelectFx( el, {
+						stickyPlaceholder: false,
+						onChange: function(val){
+							document.querySelector('span.cs-placeholder').style.backgroundColor = val;
+						}
+					});
+				} );
 
-<%- include ('../partials/footer'); %>
-<script></script>
-</body>
+				new FForm( formWrap, {
+					onReview : function() {
+						classie.add( document.body, 'overview' ); // for demo purposes only
+					}
+				} );
+			})();
+		</script>
+	</body>
 </html>
