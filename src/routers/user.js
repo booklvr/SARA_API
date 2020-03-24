@@ -44,14 +44,12 @@ router.post('/', async (req, res) => {
         }
         delete newUser.confirm;
         const user = new User(newUser);
-        // console.log("user", user)
-        
-        
         
 
         // send email here later
         const token = await user.generateAuthToken();
         const location = await user.generateLocation();
+        
         res.status(201).redirect(`/profile/${user._id}`);
         // res.status(201).send({ user, token});
         // res.send('made it this far');

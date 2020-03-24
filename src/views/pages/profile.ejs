@@ -11,16 +11,22 @@
             <div class="profile__info-name">
                 <h3><%= currentUser.name %></h3>
                 <div class="profile__info-location"><%= currentUser.location.formattedAddress %></div>
-                <div class="profile__info-answers"><%= cards.length %> Answers</div>
+                <% if (questions && cards) { %> 
+                    <div class="profile__info-answers"><%= cards.length %> Answers</div>
+                <% } %>
+                
             </div>       
         </div>
     </div>  
 </header>
 
 <main>
-    <%- include ('../partials/questions'); %>
-    
-    <%- include ('../partials/card'); %>
+    <% if (questions) { %> 
+        <%- include ('../partials/questions'); %>
+    <% } %>
+    <% if (cards) { %> 
+        <%- include ('../partials/card'); %>
+    <% } %>
 </main>
 
 

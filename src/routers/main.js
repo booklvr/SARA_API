@@ -2,7 +2,8 @@ const   express =   require('express'),
         User =      require('../models/user'),
         Question =  require('../models/question'),
         Answer =    require('../models/answer'),
-        auth =      require('../middleware/auth');
+        auth =      require('../middleware/auth'),
+        card = require('../utils/cards');
         
 const router = new express.Router();
 
@@ -20,33 +21,33 @@ router.get('/profile/:id', async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
 
-        await user.populate({
-            path: 'questions' // populate questions
-        }).execPopulate();
+        if (!user) {
+            throw new Error("User not found");
+        }
 
+        const questions = await Question.findOne({owner: user._id});
+
+        let answers = undefined;
+        let cards = [];
+
+        if (questions) {
+            await questions.populate({
+                path: 'answers' // populate answers to this question
+            }).execPopulate();
+
+            answers = questions.answers;
+
+            cards = await card.buildCards(answers);
+            
+        }
         
+        res.render('pages/profile', {currentUser: user, questions, cards})
 
-        console.log(user.questions[0]._id);
-
-        const questions = await Question.findById(user.questions[0]._id);
-
-        console.log(questions);
-
-        await questions.populate({
-            path: 'answers'
-        }).execPopulate();
-
-        console.log(questions.answers)
-
-        res.render('pages/profile', {currentUser: user, questions, cards: questions.answers})
-
-        
     } catch (e) {
         console.log(e);
         res.status(500).send(e);
     }
 })
-
 
 router.get('/allQuestions', async (req, res) => {
 
@@ -57,29 +58,8 @@ router.get('/allQuestions', async (req, res) => {
             return res.status(404).send({error: 'No questions found'});
         }
 
-        const cards = [];
-
-        await Promise.all(questions.map(async (question) => {
-            
-            // console.log(question);
-            const card = {};
-            card.item1 = question.item1;
-            card.item2 = question.item2;
-            card.item3 = question.item3;
-            card.item4 = question.item4;
-            card._id = question._id;
-            card.owner= question.owner;
-
-            const user = await User.findById(question.owner);
-            card.location = user.location.formattedAddress;
-            card.name = user.name;
-
-            cards.push(card);
-        }))
-
-        // console.log(cards);
-        
-        // res.status(200).send(questions);
+        // build the cards 
+        const cards = await card.buildCards(questions);
         
         res.status(200).render("pages/questions", {cards});
     } catch(e) {
