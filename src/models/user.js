@@ -38,7 +38,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        minlength: 7,
+        minlength: 1,
         // validate(pas) {
         //     if(~pas.toLowerCase().indexOf('password')) { // same as (pas.toLowerCase().indexOf('password') >= 0) (~ like not);
         //         throw new Error('Password cannot contain password');
