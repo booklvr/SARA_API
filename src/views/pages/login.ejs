@@ -20,19 +20,15 @@
 
 			<div class="fs-form-wrap" id="fs-form-wrap">
 				<div class="fs-title">
-					<h1>Register</h1>
+					<h1>Login</h1>
 					<div class="codrops-top">
 						
 						<i class="fas fa-arrow-left"></i>
 						<!-- <a class="codrops-icon codrops-icon-prev" href="#"><span>Go Back</span></a> -->
 					</div>
 				</div>
-				<form action="/users" method="POST" id="myform" class="fs-form fs-form-full" autocomplete="off">
+				<form action="/users/login" method="POST" id="myform" class="fs-form fs-form-full" autocomplete="off">
 					<ol class="fs-fields">
-						<li>
-							<label class="fs-field-label fs-anim-upper" for="name">What's your name?</label>
-							<input class="fs-anim-lower" id="name" name="name" type="text" placeholder="Dean Moriarty" required/>
-						</li>
 						<li>
 							<label class="fs-field-label fs-anim-upper" for="email" data-info="We won't send you spam, we promise...">What's your email address?</label>
 							<input class="fs-anim-lower" id="email" name="email" type="email" placeholder="email@gmail.com" required/>
@@ -41,17 +37,6 @@
 							<label class="fs-field-label fs-anim-upper" for="password" data-info="Enter a password longer than 7 characters">Choose a password.</label>
 							<input class="fs-anim-lower" id="password" name="password" type="password" placeholder="password" required/>
                         </li>
-                        <li>
-							<label class="fs-field-label fs-anim-upper" for="confirm" data-info="We won't send you spam, we promise...">Confirm your password</label>
-							<input class="fs-anim-lower" id="confirm" name="confirm" type="password" placeholder="confirm" required/>
-                        </li>
-                        <li>
-							<label class="fs-field-label fs-anim-upper" for="unformattedAddress" data-info="You can enter a city a state, or even an address">Where do you live?</label>
-							<input class="fs-anim-lower" id="unformattedAddress" name="unformattedAddress" type="text" placeholder="Location" required/>
-							<div class="formattedAddress" id="formattedAddress">
-								
-							</div>
-						</li>
 					</ol><!-- /fs-fields -->
 					<button class="fs-submit" type="submit">Send answers</button>
 				</form><!-- /fs-form -->

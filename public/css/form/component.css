@@ -260,6 +260,7 @@ button.fs-continue,
 	color: rgba(0,0,0,0.5);
 }
 
+
 .fs-fields [required] {
 	background-image: url(../img/abacusstar.svg);
 	background-position: top right;

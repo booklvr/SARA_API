@@ -15,8 +15,16 @@ router.get('/register', (req, res) => {
     res.render("pages/register");
 });
 
+router.get('/login', (req, res) => {
+    res.render("pages/login");
+})
+
+router.get('/addAvatar', auth, (req, res) => {
+    res.render("pages/addAvatar");
+})
+
 // need 
-router.get('/profile/:id', async (req, res) => {
+router.get('/profile/:id', auth, async (req, res) => {
     
     try {
         const user = await User.findById(req.params.id);
@@ -40,7 +48,6 @@ router.get('/profile/:id', async (req, res) => {
             cards = await card.buildCards(answers);
             
         }
-        
         res.render('pages/profile', {currentUser: user, questions, cards})
 
     } catch (e) {
@@ -68,21 +75,21 @@ router.get('/allQuestions', async (req, res) => {
     }
 })
 
-router.get('/', async (req, res) => {
-    try {
-        const questions = await Question.find();
+// router.get('/', async (req, res) => {
+//     try {
+//         const questions = await Question.find();
 
-        if (questions === undefined || questions == 0) {
-            return res.status(404).send({error: 'No questions found'});
-        }
+//         if (questions === undefined || questions == 0) {
+//             return res.status(404).send({error: 'No questions found'});
+//         }
 
-        // res.status(200).send(questions);
-        res.render("pages/questions", {cards: questions});
-    } catch(e) {
-        console.log(e);
-        res.status(404).send(e)
-    }
-});
+//         // res.status(200).send(questions);
+//         res.render("pages/questions", {cards: questions});
+//     } catch(e) {
+//         console.log(e);
+//         res.status(404).send(e)
+//     }
+// });
 
 
 

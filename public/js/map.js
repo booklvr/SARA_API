@@ -35,7 +35,6 @@ async function getLocations() {
     loadMap(locationPoints);
 }
 
-
 async function loadMap(points) {
 
     const res = await fetch('/users/locations');
