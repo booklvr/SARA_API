@@ -1,10 +1,12 @@
 const   mongoose =      require('mongoose'),
         validator =     require('validator'), // validate email
         bcrypt =        require('bcryptjs'),  // has passwords
-        jwt =           require('jsonwebtoken'),  // provide unique web token for session
+        passportLocalMongoose = require('passport-local-mongoose'),
+        // jwt =           require('jsonwebtoken'),  // provide unique web token for session
         Answer =        require('./answer'), // required for delete all answer middleware
         Question =      require('./question'),
-        geocoder =      require('../utils/geocoder'); 
+        geocoder =      require('../utils/geocoder');
+        
 
 
 // Create User Schema
@@ -60,18 +62,20 @@ const userSchema = new mongoose.Schema({
         },
         formattedAddress: String,
     },
-    tokens: [{ // from jsonWebToken
-        token: {
-            type: String,
-            required: true
-        }
-    }],
+    // tokens: [{ // from jsonWebToken
+    //     token: {
+    //         type: String,
+    //         required: true
+    //     }
+    // }],
     avatar: {
         type: Buffer // for storing profile pics -> multer does all verification
     }
 }, {
     timestamps: true
 });
+
+userSchema.plugin(passportLocalMongoose);
 
 // Only send back public data
 // * .toJSON every time json data is sent back it removes user.password and user.token
@@ -82,7 +86,7 @@ userSchema.methods.toJSON = function () {
 
     // delete operator removes proeperty from object
     delete userObject.password;
-    delete userObject.tokens;
+    // delete userObject.tokens;
     // delete userObject.location;
     delete userObject.avatar;
 
@@ -118,18 +122,18 @@ userSchema.pre('save', async function (next) { // not arrow function because of 
 });
 
 // create userToken
-userSchema.methods.generateAuthToken = async function () { // not arrow function to use this
-    const user = this; // simpler than 'this'
-    const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET);
+// userSchema.methods.generateAuthToken = async function () { // not arrow function to use this
+//     const user = this; // simpler than 'this'
+//     const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET);
 
 
-    // add new tokens to user in case signed in on multiple devices
-    user.tokens = user.tokens.concat({ token });
+//     // add new tokens to user in case signed in on multiple devices
+//     user.tokens = user.tokens.concat({ token });
     
-    await user.save();
+//     await user.save();
 
-    return token;
-};
+//     return token;
+// };
 
 userSchema.methods.generateLocation = async function () {
     const user = this; // simpler than this

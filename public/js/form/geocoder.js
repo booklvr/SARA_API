@@ -10,9 +10,7 @@ async function getLocation(loc) {
     return data.data;
 }
     // console.log(data);
-
-
-textbox.onkeyup = async (e) => {
+textbox.addEventListener('onkeyup', async (e) => {
     if (textbox.value === '') {
         formattedAddress.innerHTML = '';
         console.log('empty');
@@ -30,14 +28,7 @@ textbox.onkeyup = async (e) => {
         } catch (e) {
             console.log(e);
         }
-        
-
-        // console.log(data)
-
-        // formattedAddress.innerHTML = data.formattedAddress
+};
 
 
-        // formattedAddress.innerHTML = unformattedAddress.value;
-    }
-}
 
