@@ -1,6 +1,6 @@
 const   express = require('express'),
         Answer  = require('../models/answer'),
-        auth    = require('../middleware/auth');
+        {isLoggedIn }    = require('../middleware/auth');
 
 const router = new express.Router();
 
@@ -15,7 +15,7 @@ const router = new express.Router();
 // * populate answers from logged in user --> req.user.populate();
 //      --> get from UserSchema.virtual
 // * send populated answer
-router.get('/', auth, async (req, res) => {
+router.get('/', isLoggedIn, async (req, res) => {
 
     const match = {};
     const sort = {}; // empty object to parse sort query
@@ -43,7 +43,7 @@ router.get('/', auth, async (req, res) => {
 });
 
 // ADD ANSWER
-router.post('/', auth, async (req, res) => {
+router.post('/', isLoggedIn, async (req, res) => {
     const answer = new Answer({
         ...req.body, // spread operator copies everythinng from req.body
         owner: req.user._id //
@@ -62,7 +62,7 @@ router.post('/', auth, async (req, res) => {
 // * get user from auth middleware --> req.user
 // * find answer using answer id --> req.params.id
 //                          --> req.user._id
-router.patch('/:id', auth, async (req, res) => {
+router.patch('/:id', isLoggedIn, async (req, res) => {
     const updates = Object.keys(req.body); // returns list of keys form req.body
     const allowedUpdates = ['name', 'city', 'food', 'job', 'skill', 'dinner', 'extras'];
     const isValidOperation = updates.every(update => allowedUpdates.includes(update));
@@ -89,7 +89,7 @@ router.patch('/:id', auth, async (req, res) => {
 });
 
 // DELETE Answer
-router.delete('/:id', auth, async (req, res) => {
+router.delete('/:id', isLoggedIn, async (req, res) => {
 
     try {
         const deleteAnswer = await Answer.findOneAndDelete({ _id: req.params.id, owner: req.user._id });

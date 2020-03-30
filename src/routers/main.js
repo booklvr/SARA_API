@@ -1,9 +1,9 @@
-const   express =   require('express'),
-        User =      require('../models/user'),
-        Question =  require('../models/question'),
-        Answer =    require('../models/answer'),
-        auth =      require('../middleware/auth'),
-        card = require('../utils/cards');
+const   express =       require('express'),
+        User =          require('../models/user'),
+        Question =      require('../models/question'),
+        Answer =        require('../models/answer'),
+        { isLoggedIn }= require('../middleware/auth'),
+        card =          require('../utils/cards');
         
 const router = new express.Router();
 
@@ -19,12 +19,12 @@ router.get('/login', (req, res) => {
     res.render("pages/login");
 })
 
-router.get('/addAvatar', auth, (req, res) => {
+router.get('/addAvatar', isLoggedIn, (req, res) => {
     res.render("pages/addAvatar");
 })
 
 // need 
-router.get('/profile/:id', auth, async (req, res) => {
+router.get('/profile/:id', isLoggedIn, async (req, res) => {
     
     try {
         const user = await User.findById(req.params.id);

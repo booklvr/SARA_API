@@ -86,7 +86,6 @@ userSchema.methods.toJSON = function () {
 
     // delete operator removes proeperty from object
     delete userObject.password;
-    // delete userObject.tokens;
     // delete userObject.location;
     delete userObject.avatar;
 

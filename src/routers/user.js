@@ -3,13 +3,17 @@ const   express     = require('express'),
         User        = require('../models/user'),
         multer      = require('multer'), // required for file uploads
         sharp       = require('sharp'), // convert and resize images
+        passport    = require('passport'),
         upload      = require('../middleware/avatar.multer'),
-        geocoder    = require('../utils/geocoder'); 
+        geocoder    = require('../utils/geocoder');
+        
+const { isLoggedIn } = require('../middleware/auth');
 
 const router = new express.Router();
 
 
-router.get('/me', auth, async(req, res) => {
+
+router.get('/me', async(req, res) => {
     // get user from auth middleware
     res.send(req.user);
 })
@@ -46,12 +50,15 @@ router.post('/', async (req, res) => {
         delete newUser.confirm;
         const user = new User(newUser);
         
-
-        // send email here later
-        const token = await user.generateAuthToken();
         const location = await user.generateLocation();
+        // send email here later
+        passport.authenticate("local")(req, res, () => {
+            req.flash("success", "Successfully Signed Up!  Nice to meet you " + req.body.username);
+            res.redirect('../addAvatar')
+        })
         
-        res.redirect(`/profile/${user._id}`,{user, token});
+        
+        // res.redirect(`/profile/${user._id}`,{user, token});
         // res.status(201).send({ user, token});
         // res.send('made it this far');
     } catch (e) {
@@ -60,27 +67,47 @@ router.post('/', async (req, res) => {
     }
 });
 
-// LOGIN USER
-router.post('/login', async (req, res) => {
-    try {
-        const user = await User.findByCredentials(req.body.email, req.body.password); // findByCredentials => userSchema.static function
-
-        // create user jsonwebtoken for user from /models/user.js
-        const token = await user.generateAuthToken();
-
-        // only send back public information from suerSchema.methods.toJSON()
-        // send back token for session
-        // res.send({ user, token });
-        res.redirect(`../profile/${user._id}`)
-    } catch (e) {
-        console.log(e);
-
-        res.status(400).send();
-    }
+router.post('/login', (req, res, next) => {
+    passport.authenticate('local', function (err, user, info) {
+        if (err) { return next (err); }
+        if (!user) { 
+            console.log('no user found');
+            return res.redirect('/login'); 
+        }
+        req.logIn(user, function (err) {
+            if (err) { return next(err); }
+            return res.redirect(`../profile/${req.user._id}`);
+        });
+    })(req, res, next);
 });
+// router.post('/login', passport.authenticate("local:",
+//     {
+//         successRedirect: `../profile/${req.user._id}`,
+//         failureRedirect: "/login",
+//         failureFlash: true,
+//         successFlash: "Let's answer some questions."
+//     }), (req, res) => {})
+    
+
+    // try {
+    //     const user = await User.findByCredentials(req.body.email, req.body.password); // findByCredentials => userSchema.static function
+
+    //     // create user jsonwebtoken for user from /models/user.js
+    //     // const token = await user.generateAuthToken();
+
+    //     // only send back public information from suerSchema.methods.toJSON()
+    //     // send back token for session
+    //     // res.send({ user, token });
+    //     res.redirect(`../profile/${user._id}`)
+    // } catch (e) {
+    //     console.log(e);
+
+    //     res.status(400).send();
+    // }
+
 
 // LOGOUT USER
-router.post('/logout', auth, async (req, res) => {
+router.post('/logout', async (req, res) => {
     try {
         // remove current session token
         // * filter tokens array by removing current token out of tokens array
@@ -94,7 +121,7 @@ router.post('/logout', auth, async (req, res) => {
 })
 
 // LOGOUT ALL USER SESSIONS
-router.post('/logoutAll', auth, async (req, res) => {
+router.post('/logoutAll', async (req, res) => {
     try {
         req.user.tokens = [];
 
@@ -107,7 +134,7 @@ router.post('/logoutAll', auth, async (req, res) => {
 
 
 // UPDATE USER
-router.patch('/me', auth, async (req, res) => {
+router.patch('/me', isLoggedIn, async (req, res) => {
     // what is allowed to update
     const updates = Object.keys(req.body) // returns list of keys from req.body
     console.log(updates);
@@ -135,7 +162,7 @@ router.patch('/me', auth, async (req, res) => {
     }
 });
 
-router.delete('/me', auth, async (req, res) => {
+router.delete('/me', async (req, res) => {
     try {
         await req.user.remove();
         res.send(req.user);
@@ -148,7 +175,7 @@ router.delete('/me', auth, async (req, res) => {
 // * upload.single() is middlware provided by multer
 // -> upload.single() requires an arguemnt we are just aclling upload
 // -> 'upload' must match key value in req.body (key value pair in postman)
-router.post('/me/avatar', auth, upload.single('avatar'), async (req, res) => {  // async for req.user.save()
+router.post('/me/avatar', isLoggedIn, upload.single('avatar'), async (req, res) => {  // async for req.user.save()
 
   // * use sharp to resize photo and convert to png format
   //  -> req.file.buffer is from multer and contains binary info form the image uploaded
@@ -198,7 +225,7 @@ router.get('/:id/avatar', async (req, res) => {
 
 
 // DELETE AVATAR
-router.delete('/me/avatar', auth, async (req, res) => {
+router.delete('/me/avatar', async (req, res) => {
 
     try {
         // remove ausing express remove() and req.user from auth middleware

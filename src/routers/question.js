@@ -1,13 +1,13 @@
-const   express =   require('express'),
-        Answer  =   require('../models/answer'),
-        Question =  require('../models/question'),
-        auth    =   require('../middleware/auth');
+const   express =       require('express'),
+        Answer =        require('../models/answer'),
+        Question =      require('../models/question'),
+        {isLoggedIn} =  require('../middleware/auth');
 
 const router = new express.Router();
 
 // Get Logged in User's question
 // * get user from auth middlware -> req.user
-router.get('/me', auth, async (req, res) => {
+router.get('/me', isLoggedIn, async (req, res) => {
     try {
         // console.log(req.user);
 
@@ -23,7 +23,7 @@ router.get('/me', auth, async (req, res) => {
 })
 
 // Add a set of Questions
-router.post('/', auth, async (req, res) => {
+router.post('/', isLoggedIn, async (req, res) => {
 
     try {
         await req.user.populate({
@@ -70,7 +70,7 @@ router.get('/', async (req, res) => {
 });
 
 // Update Questions
-router.patch('/:id', auth, async (req, res) => {
+router.patch('/:id', isLoggedIn, async (req, res) => {
     const updates = Object.keys(req.body); // return lists of keys from req.body
     const allowedUpdates = ['question1', 'question2', 'question3', 'question4'];
     const isValidOperation = updates.every(update => allowedUpdates.includes(update));
@@ -98,7 +98,7 @@ router.patch('/:id', auth, async (req, res) => {
 })
 
 // Delete Questions 
-router.delete('/:id', auth, async (req, res) => {
+router.delete('/:id', isLoggedIn, async (req, res) => {
     try {
         const deleteQuestions = await Question.findOneAndDelete({ _id: req.params.id, owner: req.user._id});
 

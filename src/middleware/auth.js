@@ -16,6 +16,8 @@ middlewareObj.isLoggedIn = (req, res, next) => {
     res.redirect("/login");
 }
 
+module.exports = middlewareObj;
+
 // const auth = async (req, res, next) => {
 //     try {
 //         // req.header returns auth token plus bearer
@@ -45,4 +47,4 @@ middlewareObj.isLoggedIn = (req, res, next) => {
 //     }
 // };
 
-module.exports = middlewareObj;
+
