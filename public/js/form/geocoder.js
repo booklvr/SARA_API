@@ -28,7 +28,8 @@ textbox.addEventListener('onkeyup', async (e) => {
         } catch (e) {
             console.log(e);
         }
-};
+    }
+});
 
 
 

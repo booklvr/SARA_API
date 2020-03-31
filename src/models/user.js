@@ -1,11 +1,11 @@
-const   mongoose =      require('mongoose'),
-        validator =     require('validator'), // validate email
-        bcrypt =        require('bcryptjs'),  // has passwords
+const   mongoose =              require('mongoose'),
+        validator =             require('validator'), // validate email
+        bcrypt =                require('bcryptjs'),  // has passwords
         passportLocalMongoose = require('passport-local-mongoose'),
         // jwt =           require('jsonwebtoken'),  // provide unique web token for session
-        Answer =        require('./answer'), // required for delete all answer middleware
-        Question =      require('./question'),
-        geocoder =      require('../utils/geocoder');
+        Answer =                require('./answer'), // required for delete all answer middleware
+        Question =              require('./question'),
+        geocoder =              require('../utils/geocoder');
         
 
 
@@ -19,7 +19,7 @@ const   mongoose =      require('mongoose'),
 // * avatar -> use multer
 
 const userSchema = new mongoose.Schema({
-    name: {
+    username: {
         type: String,
         required: true,
         trim: true
@@ -38,7 +38,7 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true,
+        required: false,
         trim: true,
         minlength: 1,
         // validate(pas) {
@@ -137,7 +137,6 @@ userSchema.pre('save', async function (next) { // not arrow function because of 
 userSchema.methods.generateLocation = async function () {
     const user = this; // simpler than this
 
-
     // add user formatted location and remove leading comma and whitespace
     const loc = await geocoder.geocode(user.unformattedAddress);
     user.location = {
@@ -148,7 +147,7 @@ userSchema.methods.generateLocation = async function () {
 
     user.unformattedAddress = undefined;
 
-    await user.save();
+    // await user.save();
     return user.location;
 }
 
