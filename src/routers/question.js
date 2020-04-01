@@ -33,10 +33,11 @@ router.post('/', isLoggedIn, async (req, res) => {
         // console.log(req.user.questions)
         console.log(req.user.questions);
 
-        if (!(req.user.questions === undefined || req.user.questions.length == 0)) {
-            // throw new Error('Oh no..... woops');
-            return res.status(400).send({error: 'Question set already exists'});
-        }
+        // if (!(req.user.questions === undefined || req.user.questions.length == 0)) {
+        //     // throw new Error('Oh no..... woops');
+        //     //flash something here
+        //     return res.status(400).send({error: 'Question set already exists'});
+        // }
 
         const question = new Question({
             ...req.body,
@@ -44,7 +45,9 @@ router.post('/', isLoggedIn, async (req, res) => {
         })
 
         await question.save();
-        res.status(201).send(question);
+
+        res.redirect(`../profile/${req.user._id}`)
+        // res.status(201).send(question);
 
     } catch (e) {
         console.log("e", e)

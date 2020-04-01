@@ -23,8 +23,12 @@ router.get('/addAvatar', isLoggedIn, (req, res) => {
     res.render("pages/addAvatar");
 })
 
+router.get('/addQuestions', isLoggedIn, (req, res) => {
+    res.render("pages/addQuestions");
+})
+
 // need 
-router.get('/profile/:id', isLoggedIn, async (req, res) => {
+router.get('/profile/:id', async (req, res) => {
     
     try {
         const user = await User.findById(req.params.id);

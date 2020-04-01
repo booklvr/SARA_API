@@ -1,11 +1,14 @@
 const   express     = require('express'),
-        auth        = require('../middleware/auth'),
-        User        = require('../models/user'),
         multer      = require('multer'), // required for file uploads
         sharp       = require('sharp'), // convert and resize images
         passport    = require('passport'),
+        auth        = require('../middleware/auth'),
+        User        = require('../models/user'),
+        Question    = require('../models/question'),
         upload      = require('../middleware/avatar.multer'),
-        geocoder    = require('../utils/geocoder');
+        geocoder    = require('../utils/geocoder'),
+        card        = require('../utils/cards');
+        
         
 const { isLoggedIn } = require('../middleware/auth');
 
@@ -15,7 +18,28 @@ const router = new express.Router();
 
 router.get('/me', isLoggedIn, async(req, res) => {
     // get user from auth middleware
-    res.send(req.user);
+    try {
+        const questions = await Question.findOne({owner: req.user._id});
+
+        let answers = undefined;
+        let cards = [];
+
+        if (questions) {
+            await questions.populate({
+                path: 'answers' // populate answers to this question
+            }).execPopulate();
+
+            answers = questions.answers;
+
+            cards = await card.buildCards(answers);
+            
+        }
+        res.render('pages/profile', {currentUser: req.user, questions, cards})
+
+    } catch (e) {
+        console.log(e);
+        res.status(500).send(e);
+    }
 })
 
 // BAD ROUTE DON"T USE
@@ -57,17 +81,37 @@ router.post('/', async (req, res, next) => {
         User.register(user, req.body.password, (err, user) => {
             if (err) {
                 console.log('error while registering user: ', err)
-                return next(err);
+                return res.render('pages/register')
             } 
-
-            console.log('user registered');
-            res.redirect(`../profile/${user._id}`)
+            passport.authenticate("local")(req, res, function(){
+                req.flash("success", "successfully signed up! nice to meet you " + req.body.username);
+                res.redirect('../addAvatar');
+            });
+            // {
+            //     failureRedirect: "/",
+            //     failureFlash: true,
+            //     successFlash: "Welcome to Ask Your Questions."
+            // }), function(req, res){
+            //     console.log('i am here')
+            //     res.redirect('../addAvatar')
+            // }
+            
+            // res.redirect('../addAvatar')
         });
     } catch (err) {
         console.log("err", err); 
         res.status(500).send({error: 'server error'});
     }
 });
+
+router.post('/login', passport.authenticate("local", 
+    {
+        failureRedirect: "/login",
+        failureFlash: true,
+        successFlash: "Try answering some questions."
+    }), function(req, res){
+        res.redirect('/users/me')
+})
 // CREATE NEW user
 // router.post('/', async (req, res) => {
 //     console.log('registering user');
@@ -122,14 +166,14 @@ router.post('/', async (req, res, next) => {
 //     })(req, res, next);
 //   });
 
-router.post('/login', passport.authenticate("local", 
-    {
-        failureRedirect: "/login",
-        failureFlash: true,
-        successFlash: "Try answering some questions."
-    }), function(req, res){
-        res.redirect(`../profile/${req.user._id}`)
-})
+// router.post('/login', passport.authenticate("local", 
+//     {
+//         failureRedirect: "/login",
+//         failureFlash: true,
+//         successFlash: "Try answering some questions."
+//     }), function(req, res){
+//         res.redirect(`../profile/${req.user._id}`)
+// })
 // router.post('/login', (req, res, next) => {
 //     passport.authenticate('local', function (err, user, info) {
 //         if (err) { return next (err); }
@@ -236,20 +280,30 @@ router.delete('/me', async (req, res) => {
 
 // POST AVATAR
 // * upload.single() is middlware provided by multer
-// -> upload.single() requires an arguemnt we are just aclling upload
+// -> upload.single() requires an arguemnt we are just calling upload
 // -> 'upload' must match key value in req.body (key value pair in postman)
 router.post('/me/avatar', isLoggedIn, upload.single('avatar'), async (req, res) => {  // async for req.user.save()
-
+    
   // * use sharp to resize photo and convert to png format
   //  -> req.file.buffer is from multer and contains binary info form the image uploaded
     const buffer = await sharp(req.file.buffer).resize({ width: 200, height: 200 }).png().toBuffer();
 
         req.user.avatar = buffer;
         await req.user.save();  // save file to user profile
-        res.send();
+        res.redirect('../../addQuestions');
     }, (error, req, res, next) => { // all four arguments needed so express knows to expect an error
     res.status(400).send({error: error.message }); // error from upload.single multer middleware
 })
+
+//     const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer();
+
+//     req.user.avatar = buffer;
+//     await req.user.save(); // save file to user profile
+//     res.send();
+// }, (error, req, res, next) => {
+//     res.status(400).send({ error: error.message });
+// })
+
 
 // GET AVATAR
 // image available at URL just include in image src in html markup

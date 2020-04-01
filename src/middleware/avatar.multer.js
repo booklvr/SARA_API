@@ -3,7 +3,7 @@ const multer = require ('multer');
 
 // MULTER MIDDLEWARE for POST /user/me/avatar
 // MULTER middlware for POST /user/me/avatar
-const upload = multer({
+const avatar = multer({
   // dest: 'avatars',  // provide file for uploaded images in route directory (remove to pass file through function)
   limits: {
     // fileSize: 1000000
@@ -18,4 +18,4 @@ const upload = multer({
   }
 })
 
-module.exports = upload;
+module.exports = avatar;

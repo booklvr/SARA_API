@@ -20,27 +20,21 @@
 
 			<div class="fs-form-wrap" id="fs-form-wrap">
 				<div class="fs-title">
-					<h1>Register</h1>
+					<h1>Add an avatar</h1>
 					<div class="codrops-top">
 						
 						<i class="fas fa-arrow-left"></i>
 						<!-- <a class="codrops-icon codrops-icon-prev" href="#"><span>Go Back</span></a> -->
 					</div>
 				</div>
-				<form action="/users" method="POST" id="myform" class="fs-form fs-form-full" autocomplete="off">
+				<form action="/users/me/avatar" method="POST" enctype="multipart/form-data" id="myform" class="fs-form fs-form-full" autocomplete="off">
 					<ol class="fs-fields">
-						<li>
-							<label class="fs-field-label fs-anim-upper" for="name">What's your name?</label>
-							<input class="fs-anim-lower" id="name" name="name" type="text" placeholder="Dean Moriarty" required/>
-                        </li>
                         <li>
 							<label class="fs-field-label fs-anim-upper" for="avatar" data-info="Add a image file">Add a Profile Picture</label>
-							<input class="fs-anim-lower" id="avatar" name="avatar" type="file" placeholder="Profile Picture" required/>
+							<input class="fs-anim-lower fs-avatar" id="avatar" name="avatar" type="file" placeholder="Profile Picture" required/>
                         </li>
-                        
-						
 					</ol><!-- /fs-fields -->
-					<button class="fs-submit" type="submit">Send answers</button>
+					<button class="fs-submit" type="submit">Continue</button>
 				</form><!-- /fs-form -->
 			</div><!-- /fs-form-wrap -->
 
@@ -50,7 +44,6 @@
 		<script src="/public/js/form/classie.js"></script>
 		<script src="/public/js/form/selectFx.js"></script>
 		<script src="/public/js/form/fullscreenForm.js"></script>
-		<script src="/public/js/form/geocoder.js"></script>
 		<script>
 			(function() {
 				var formWrap = document.getElementById( 'fs-form-wrap' );
