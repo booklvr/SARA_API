@@ -25,19 +25,16 @@ router.get('/me', isLoggedIn, async (req, res) => {
 // Add a set of Questions
 router.post('/', isLoggedIn, async (req, res) => {
 
+    const questionExists = await Question.findOne({owner: req.user._id});
+
+    console.log(questionExists);
+
     try {
-        await req.user.populate({
-            path: 'questions' // populate questions
-        }).execPopulate();
+        // await req.user.populate({
+        //     path: 'questions' // populate questions
+        // }).execPopulate();
 
-        // console.log(req.user.questions)
-        console.log(req.user.questions);
-
-        // if (!(req.user.questions === undefined || req.user.questions.length == 0)) {
-        //     // throw new Error('Oh no..... woops');
-        //     //flash something here
-        //     return res.status(400).send({error: 'Question set already exists'});
-        // }
+        
 
         const question = new Question({
             ...req.body,

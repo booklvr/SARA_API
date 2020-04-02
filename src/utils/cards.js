@@ -17,7 +17,7 @@ const buildCards = async (questions) => {
 
         const user = await User.findById(question.owner);
         card.location = user.location.formattedAddress;
-        card.name = user.username;
+        card.username = user.username;
 
         cards.push(card);
     }));

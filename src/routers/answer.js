@@ -1,6 +1,7 @@
-const   express = require('express'),
-        Answer  = require('../models/answer'),
-        {isLoggedIn }    = require('../middleware/auth');
+const   express =       require('express'),
+        Answer  =       require('../models/answer'),
+        Question =      require('../models/question'),
+        {isLoggedIn } = require('../middleware/auth');
 
 const router = new express.Router();
 
@@ -46,23 +47,76 @@ router.get('/', isLoggedIn, async (req, res) => {
 
 // ADD ANSWER
 router.post('/:id', isLoggedIn, async (req, res) => {
-    const answer = new Answer({
-        ...req.body, // spread operator copies everything from req.body
+
+    const query = {
+        owner: req.user._id, 
+        questionID: req.params.id
+    }
+
+    const update = {
+        ...req.body,
         owner: req.user._id,
         questionID: req.params.id,
-    });
+    }
+
+    const options = {
+        upsert: true,
+        new: true,
+        setDefaultsOnInsert: true
+    }
 
     try {
-        await answer.save();
-
-        const question = question.findById(answer.questionID);
-        console.log(question);
-        const author = question.owner;
-        res.redirect(`../profile/${author}`);
-        // res.status(201).send(answer);
+        const answer = await Answer.findOneAndUpdate(query, update, options)
     } catch (e) {
-        res.status(400).send(e);
+        console.log(e);
+        res.status(500).send(e)
     }
+    
+    
+    // const answer = await Answer.find({owner: req.user._id, questionID: req.params.id});
+    // if (answer) {
+    //     console.log('Answer already exists');
+    //     res.send('you already answered this');
+    // }
+
+    // answer = new Answer({
+    //     ...req.body, 
+    //     owner: req.user._id,
+    //     questionID: req.params.id
+    // })
+
+    // try {
+    //     await answer.save();
+    // } catch(e) {
+    //     console.log(e);
+    //     res.status(500).send(e);
+    // }
+
+    try {
+        const question = await Question.findById(req.params.id);
+        res.redirect(`../profile/${question.owner}`);
+    } catch (e) {
+        console.log('cant get question', e);
+        res.status(401).send(e);
+    }
+    
+
+
+    // console.log(answer);
+
+    // try {
+    //     await answer.save();
+
+    //     const question = Question.findById(answer.questionID);
+    //     // console.log(question);
+    //     const author = question.owner;
+    //     console.log(author);
+    //     res.redirect(`../profile/${author}`);
+        // res.status(201).send();
+//     } catch (e) {
+//         console.log(e);
+//         res.status(400).send(e);
+//     }
 });
 
 // UPDATE PERSON

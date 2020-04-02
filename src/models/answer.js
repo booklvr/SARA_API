@@ -3,14 +3,6 @@ const mongoose = require('mongoose');
 // create person schema
 // * mongoose renames the schema and adds an 's' in the database
 const answerSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        trim: true
-    },
-    city: {
-        type: String,
-        trim: true
-    },
     item1: {
         type: String,
         required: true,

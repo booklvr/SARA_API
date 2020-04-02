@@ -21,10 +21,13 @@
 </header>
 
 <main>
+
     <% if (questions) { %> 
+        <h1>Questions</h1>
         <%- include ('../partials/questions'); %>
     <% } %>
     <% if (cards) { %> 
+        <h1>Answers</h1>
         <%- include ('../partials/card'); %>
     <% } %>
 </main>

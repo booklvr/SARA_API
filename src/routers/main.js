@@ -84,6 +84,8 @@ router.get('/answerQuestion/:id', async (req, res) => {
     try {
         const questions = await Question.findById(req.params.id);
 
+        console.log(questions);
+
         res.render('pages/addAnswers', { questions })
     } catch (err) {
         console.log(err);
