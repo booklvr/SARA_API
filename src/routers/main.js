@@ -79,6 +79,18 @@ router.get('/allQuestions', async (req, res) => {
     }
 })
 
+router.get('/answerQuestion/:id', async (req, res) => {
+    // find question
+    try {
+        const questions = await Question.findById(req.params.id);
+
+        res.render('pages/addAnswers', { questions })
+    } catch (err) {
+        console.log(err);
+    }
+    // render form
+})
+
 // router.get('/', async (req, res) => {
 //     try {
 //         const questions = await Question.find();

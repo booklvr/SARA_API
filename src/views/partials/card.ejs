@@ -13,14 +13,13 @@
                     <img class="card__title--image" src="/users/<%= card.owner %>/avatar" alt="#">
                 </div>
                 <div class="card__title-answers">
-                    <p>1.  <span id="answer1"><%= card.item1 %></span></p>
-                    <p>2.  <span id="answer1"><%= card.item2 %></span></p>
-                    <p>3.  <span id="answer1"><%= card.item3 %></span></p>
-                    <p>4.  <span id="answer1"><%= card.item4 %></span></p>
+                    <p>1.  <span id="item1"><%= card.item1 %></span></p>
+                    <p>2.  <span id="item2"><%= card.item2 %></span></p>
+                    <p>3.  <span id="item3"><%= card.item3 %></span></p>
+                    <p>4.  <span id="item3"><%= card.item4 %></span></p>
                     <% if (!card.questionID) { %>
-                        <a href="#" class="answer-btn">ANSWER</a>
+                        <a href="/answerQuestion/<%= card._id %>" class="answer-btn">ANSWER</a>
                     <% } %>
-                    
                 </div>
             </a>
         </div>

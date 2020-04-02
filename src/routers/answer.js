@@ -42,16 +42,24 @@ router.get('/', isLoggedIn, async (req, res) => {
 
 });
 
+
+
 // ADD ANSWER
-router.post('/', isLoggedIn, async (req, res) => {
+router.post('/:id', isLoggedIn, async (req, res) => {
     const answer = new Answer({
-        ...req.body, // spread operator copies everythinng from req.body
-        owner: req.user._id //
+        ...req.body, // spread operator copies everything from req.body
+        owner: req.user._id,
+        questionID: req.params.id,
     });
 
     try {
         await answer.save();
-        res.status(201).send(answer);
+
+        const question = question.findById(answer.questionID);
+        console.log(question);
+        const author = question.owner;
+        res.redirect(`../profile/${author}`);
+        // res.status(201).send(answer);
     } catch (e) {
         res.status(400).send(e);
     }

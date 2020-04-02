@@ -112,105 +112,6 @@ router.post('/login', passport.authenticate("local",
     }), function(req, res){
         res.redirect('/users/me')
 })
-// CREATE NEW user
-// router.post('/', async (req, res) => {
-//     console.log('registering user');
-//     try {
-//         if (req.body.password !== req.body.confirm) {
-//             throw new Error('passwords do not match');
-//         }
-
-//         const newUser = {
-//             ...req.body,
-//         }
-//         delete newUser.confirm;
-//         delete newUser.password;
-
-//         const user = new User(newUser);
-//         await user.setPassword(req.body.password);
-//         await user.generateLocation();
-//         await user.save();
-//         const { user } = await User.authenticate()(newUser, req.body.password);
-
-        
-//         //register user for passport authentication 
-//         User.register(new User(newUser), req.body.password, (err, user) => {
-//             if (err) {
-//                 console.log("err", err)
-//                 return res.render('pages/register');
-//             }
-
-//             passport.authenticate("local")(req, res, () => {
-//                 console.log(req.user);
-//                 res.redirect(`../profile/${req.user._id}`)
-//             })
-//         });
-//         // send email here later
-        
-//         // res.redirect(`/profile/${user._id}`,{user, token});
-//         // res.status(201).send({ user, token});
-//         // res.send('made it this far');
-//     } catch (e) {
-//         console.log("e", e);   
-//         res.status(500).send({error: 'server error'});
-//     }
-// });
-// app.get('/login', function(req, res, next) {
-//     passport.authenticate('local', function(err, user, info) {
-//       if (err) { return next(err); }
-//       if (!user) { return res.redirect('/login'); }
-//       req.logIn(user, function(err) {
-//         if (err) { return next(err); }
-//         return res.redirect('/users/' + user.username);
-//       });
-//     })(req, res, next);
-//   });
-
-// router.post('/login', passport.authenticate("local", 
-//     {
-//         failureRedirect: "/login",
-//         failureFlash: true,
-//         successFlash: "Try answering some questions."
-//     }), function(req, res){
-//         res.redirect(`../profile/${req.user._id}`)
-// })
-// router.post('/login', (req, res, next) => {
-//     passport.authenticate('local', function (err, user, info) {
-//         if (err) { return next (err); }
-//         if (!user) { 
-//             console.log('no user found');
-//             return res.redirect('/login'); 
-//         }
-//         req.logIn(user, function (err) {
-//             if (err) { return next(err); }
-//             return res.redirect(`../profile/${req.user._id}`);
-//         });
-//     })(req, res, next);
-// });
-// // router.post('/login', passport.authenticate("local:",
-//     {
-//         successRedirect: `../profile/${req.user._id}`,
-//         failureRedirect: "/login",
-//         failureFlash: true,
-//         successFlash: "Let's answer some questions."
-//     }), (req, res) => {})
-    
-
-    // try {
-    //     const user = await User.findByCredentials(req.body.email, req.body.password); // findByCredentials => userSchema.static function
-
-    //     // create user jsonwebtoken for user from /models/user.js
-    //     // const token = await user.generateAuthToken();
-
-    //     // only send back public information from suerSchema.methods.toJSON()
-    //     // send back token for session
-    //     // res.send({ user, token });
-    //     res.redirect(`../profile/${user._id}`)
-    // } catch (e) {
-    //     console.log(e);
-
-    //     res.status(400).send();
-    // }
 
 
 // LOGOUT USER
@@ -238,7 +139,6 @@ router.post('/logoutAll', async (req, res) => {
         res.status(500).send(e);
     }
 });
-
 
 // UPDATE USER
 router.patch('/me', isLoggedIn, async (req, res) => {
@@ -367,7 +267,7 @@ router.get('/locations', async (req, res) => {
         // console.log(users);  
         locations = users.map((user) => {
             // console.log("user", user)
-            return {name: user.name, location: user.location, id: user._id}
+            return {name: user.username, location: user.location, id: user._id}
             // return {user.name, user.location};
         })
         
