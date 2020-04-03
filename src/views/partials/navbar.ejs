@@ -4,9 +4,13 @@
             <ul class="navbar__links">
                 <li class="navbar__links"><a href="/allQuestions">Questions</a></li>
                 <li class="navbar__links"><a href="/map">Map</a></li>
-                <li class="navbar__links"><a href="/login">Login</a></li>
-                <li class="navbar__links cta__button"><a href="/register">SignUp</a></li>
-                <li class="navbar__links-user"><img src="https://images.unsplash.com/photo-1584374829107-d5edbfe98d66?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt=""></li>
+                <% if(!currentUser){ %>
+                    <li class="navbar__links"><a href="/login">Login</a></li>
+                    <li class="navbar__links cta__button"><a href="/register">SignUp</a></li>
+                <% }  else { %>
+                    <li class="navbar_links"><a href="/users/logout">Logout</a></li>
+                    <li class="navbar__links-user"><img src="/users/<%= currentUser._id %>/avatar" alt=""></li>
+                <% } %>
             </ul>
         </div>
     </nav>

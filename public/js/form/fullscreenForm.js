@@ -70,7 +70,9 @@
 		// show [current field]/[total fields] status
 		ctrlNavPosition : true,
 		// reached the review and submit step
-		onReview : function() { return false; }
+		onReview : function() { 
+			console.log('fuck a third time');
+			return false; }
 	};
 
 	/**
@@ -181,33 +183,33 @@
 		}
 
 		// jump to next field without clicking the continue button (for fields/list items with the attribute "data-input-trigger")
-		this.fields.forEach( function( fld ) {
-			if( fld.hasAttribute( 'data-input-trigger' ) ) {
-				var input = fld.querySelector( 'input[type="radio"]' ) || /*fld.querySelector( '.cs-select' ) ||*/ fld.querySelector( 'select' ); // assuming only radio and select elements (TODO: exclude multiple selects)
-				if( !input ) return;
+		// this.fields.forEach( function( fld ) {
+		// 	if( fld.hasAttribute( 'data-input-trigger' ) ) {
+		// 		var input = fld.querySelector( 'input[type="radio"]' ) || /*fld.querySelector( '.cs-select' ) ||*/ fld.querySelector( 'select' ); // assuming only radio and select elements (TODO: exclude multiple selects)
+		// 		if( !input ) return;
 
-				switch( input.tagName.toLowerCase() ) {
-					case 'select' : 
-						input.addEventListener( 'change', function() { self._nextField(); } );
-						break;
+		// 		switch( input.tagName.toLowerCase() ) {
+		// 			case 'select' : 
+		// 				input.addEventListener( 'change', function() { self._nextField(); } );
+		// 				break;
 
-					case 'input' : 
-						[].slice.call( fld.querySelectorAll( 'input[type="radio"]' ) ).forEach( function( inp ) {
-							inp.addEventListener( 'change', function(ev) { self._nextField(); } );
-						} ); 
-						break;
+		// 			case 'input' : 
+		// 				[].slice.call( fld.querySelectorAll( 'input[type="radio"]' ) ).forEach( function( inp ) {
+		// 					inp.addEventListener( 'change', function(ev) { self._nextField(); } );
+		// 				} ); 
+		// 				break;
 
-					/*
-					// for our custom select we would do something like:
-					case 'div' : 
-						[].slice.call( fld.querySelectorAll( 'ul > li' ) ).forEach( function( inp ) {
-							inp.addEventListener( 'click', function(ev) { self._nextField(); } );
-						} ); 
-						break;
-					*/
-				}
-			}
-		} );
+		// 			/*
+		// 			// for our custom select we would do something like:
+		// 			case 'div' : 
+		// 				[].slice.call( fld.querySelectorAll( 'ul > li' ) ).forEach( function( inp ) {
+		// 					inp.addEventListener( 'click', function(ev) { self._nextField(); } );
+		// 				} ); 
+		// 				break;
+		// 			*/
+		// 		}
+		// 	}
+		// } );
 
 		// keyboard navigation events - jump to next field when pressing enter
 		document.addEventListener( 'keydown', function( ev ) {
@@ -227,13 +229,16 @@
 	 */
 	FForm.prototype._nextField = function( backto ) {
 		if( this.isLastStep || !this._validade() || this.isAnimating ) {
+			console.log('fuck in the middle')
 			return false;
 		}
 		this.isAnimating = true;
 
 		// check if on last step
 		this.isLastStep = this.current === this.fieldsCount - 1 && backto === undefined ? true : false;
-		
+		if (this.isLastStep) {
+			console.log('fucking last step yo');
+		}
 		// clear any previous error messages
 		this._clearError();
 
@@ -285,6 +290,8 @@
 				classie.remove( currentFld, 'fs-hide' );
 
 				if( self.isLastStep ) {
+					console.log('fuck again');
+					
 					// show the complete form and hide the controls
 					self._hideCtrl( self.ctrlNav );
 					self._hideCtrl( self.ctrlProgress );
@@ -296,6 +303,7 @@
 					classie.add( self.formEl, 'fs-show' );
 					// callback
 					self.options.onReview();
+					
 				}
 				else {
 					classie.remove( nextField, 'fs-show' );
@@ -308,10 +316,10 @@
 				}
 				self.isAnimating = false;
 			};
-
 		if( support.animations ) {
 			if( this.navdir === 'next' ) {
 				if( this.isLastStep ) {
+					console.log('fuck')
 					currentFld.querySelector( '.fs-anim-upper' ).addEventListener( animEndEventName, onEndAnimationFn );
 				}
 				else {
@@ -320,6 +328,8 @@
 			}
 			else {
 				nextField.querySelector( '.fs-anim-upper' ).addEventListener( animEndEventName, onEndAnimationFn );
+			
+				
 			}
 		}
 		else {
@@ -335,6 +345,7 @@
 		if( pos === this.current || pos < 0 || pos > this.fieldsCount - 1 ) {
 			return false;
 		}
+		
 		this._nextField( pos );
 	}
 
@@ -375,6 +386,7 @@
 	 * updates the navigation dots
 	 */
 	FForm.prototype._updateNav = function() {
+		
 		if( this.options.ctrlNavDots ) {
 			classie.remove( this.ctrlNav.querySelector( 'button.fs-dot-current' ), 'fs-dot-current' );
 			classie.add( this.ctrlNavDots[ this.current ], 'fs-dot-current' );

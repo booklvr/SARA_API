@@ -115,17 +115,10 @@ router.post('/login', passport.authenticate("local",
 
 
 // LOGOUT USER
-router.post('/logout', async (req, res) => {
-    try {
-        // remove current session token
-        // * filter tokens array by removing current token out of tokens array
-        req.user.tokens = req.user.tokens.filter((token) => token.token !== req.token);
-
-        await req.user.save();
-        res.send();
-    } catch (e) {
-        res.status(500).send(e);
-    }
+router.get('/logout', (req, res) => {
+    req.logout();
+    req.flash('success', 'See you later!');
+    res.redirect('/');
 })
 
 // LOGOUT ALL USER SESSIONS
