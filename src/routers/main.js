@@ -27,6 +27,14 @@ router.get('/addQuestions', isLoggedIn, (req, res) => {
     res.render("pages/addQuestions");
 })
 
+router.get('/update', isLoggedIn, (req, res) => {
+    res.render("pages/update");
+})
+
+router.get('/delete', isLoggedIn, (req, res) => {
+    res.render("pages/delete");
+});
+
 // need 
 router.get('/profile/:id', async (req, res) => {
     

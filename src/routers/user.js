@@ -134,20 +134,27 @@ router.post('/logoutAll', async (req, res) => {
 });
 
 // UPDATE USER
-router.patch('/me', isLoggedIn, async (req, res) => {
+router.post('/me/update', isLoggedIn, async (req, res) => {
     // what is allowed to update
     const updates = Object.keys(req.body) // returns list of keys from req.body
     console.log(updates);
-    const allowedUpdates = ['name', 'email', 'password', 'unformattedAddress'];
+    const allowedUpdates = ['username', 'email', 'unformattedAddress'];
     const isValidOperation = updates.every(update => allowedUpdates.includes(update));
 
     if (!isValidOperation) {
         return res.status(400).send({error: 'Invalid updates!' });
     }
 
-    if (updates.includes('unformattedAddress')) {
-        const location = await req.user.generateLocation();
-    }
+    // if (updates.includes('unformattedAddress' && (req.body.unformatteddAddress !== req.user.location.unformattedAddress)) {
+    //     user = User.findById(req.user._id);
+    //     await user.generateLocation()
+    // })
+
+
+
+    // if (updates.includes('unformattedAddress')) {
+    //     const location = await req.user.generateLocation();
+    // }
 
     // use findById for password hashing middleware or mongoose bypasses middleware with findByIdAndUpdate
     try {
@@ -155,14 +162,16 @@ router.patch('/me', isLoggedIn, async (req, res) => {
         // update each field provided by req.body
         updates.forEach(update => req.user[update] = req.body[update]);
         await req.user.save();
-        res.send(req.user);
+        await req.user.generateLocation();
+        await req.user.save();
+        res.redirect('/users/me');
     } catch (e) {
         console.log(e);
         res.status(400).send(e);
     }
 });
 
-router.delete('/me', async (req, res) => {
+router.get('/me/delete', async (req, res) => {
     try {
         await req.user.remove();
         res.send(req.user);
@@ -183,10 +192,19 @@ router.post('/me/avatar', isLoggedIn, upload.single('avatar'), async (req, res) 
 
         req.user.avatar = buffer;
         await req.user.save();  // save file to user profile
-        res.redirect('../../addQuestions');
+
+        const questions = await Question.findOne({owner: req.user._id});
+        if (questions) {
+            res.redirect('/users/me')
+        } else {
+            res.redirect('../../addQuestions');
+        }
+        
     }, (error, req, res, next) => { // all four arguments needed so express knows to expect an error
     res.status(400).send({error: error.message }); // error from upload.single multer middleware
 })
+
+
 
 //     const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer();
 

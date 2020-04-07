@@ -82,6 +82,12 @@
 		// the form element
 		this.formEl = this.el.querySelector( 'form' );
 
+		// if (this.formEl.classList.contains('fs-form-quick-review')) {
+		// 	this.options.onReview();
+		// } else {
+		// 	console.log('fucked up ')
+		// }
+
 		// list of fields
 		this.fieldsList = this.formEl.querySelector( 'ol.fs-fields' );
 
@@ -105,6 +111,9 @@
 		
 		// init events
 		this._initEvents();
+
+		
+
 	};
 
 	/**
@@ -227,7 +236,7 @@
 	 * jumps to the next field
 	 */
 	FForm.prototype._nextField = function( backto ) {
-		if( this.isLastStep || !this._validade() || this.isAnimating ) {
+		if( this.isLastStep || !this._validate() || this.isAnimating ) {
 
 			return false;
 		}
@@ -411,7 +420,7 @@
 	}
 
 	// TODO: this is a very basic validation function. Only checks for required fields..
-	FForm.prototype._validade = function() {
+	FForm.prototype._validate = function() {
 		var fld = this.fields[ this.current ],
 			input = fld.querySelector( 'input[required]' ) || fld.querySelector( 'textarea[required]' ) || fld.querySelector( 'select[required]' ),
 			error;

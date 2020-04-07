@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1"> 
+		<title>Update</title>
+		
+		<link rel="stylesheet" type="text/css" href="/public/css/form/normalize.css" />
+		<link rel="stylesheet" type="text/css" href="/public/css/form/demo.css" />
+		<link rel="stylesheet" type="text/css" href="/public/css/form/component.css" />
+		<link rel="stylesheet" type="text/css" href="/public/css/form/cs-select.css" />
+		<link rel="stylesheet" type="text/css" href="/public/css/form/cs-skin-boxes.css" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+		<!-- <script src="/public/js/form/modernizr.custom.js"></script> -->
+	</head>
+    <body class="overview">
+        <div class="container">
+
+            <div class="fs-form-wrap" id="fs-form-wrap">
+                <div class="fs-title">
+                    <h1>Update</h1>
+                    <div class="codrops-top">
+                        <button class="go_back" id="goBack" data-count="1">
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                        <!-- <a class="codrops-icon codrops-icon-prev" href="#"><span>Go Back</span></a> -->
+                    </div>
+                </div>
+                <form action="/users/me/update" method="POST" id="myform" class="fs-form fs-form-quick-review fs-form-overview fs-show" autocomplete="off">
+                    <ol class="fs-fields">
+                        <li class="">
+                            <label class="fs-field-label fs-anim-upper" for="username">Change your username?</label>
+                            <input class="fs-anim-lower" id="username" name="username" type="text" value="<%= currentUser.username %>" required="">
+                        </li>
+                        <li class="">
+                            <label class="fs-field-label fs-anim-upper" for="email" data-info="This won't effect your questions">Change your current email address?</label>
+                            <input class="fs-anim-lower" id="email" name="email" type="email" value="<%= currentUser.email %>" required="">
+                        </li>
+                        <li class="">
+                            <label class="fs-field-label fs-anim-upper" for="unformattedAddress" data-info="Did you move?">Where do you live now?</label>
+                            <input class="fs-anim-lower" id="unformattedAddress" name="unformattedAddress" type="text" value="<%= currentUser.location.formattedAddress %>" required="">
+                            <div class="formattedAddress" id="formattedAddress">
+                                
+                            </div>
+                        </li>
+                    </ol><!-- /fs-fields -->
+                    <button class="fs-submit" type="submit">Continue</button>
+                </form><!-- /fs-form -->
+            <div class="fs-controls"><button class="fs-continue">Continue</button><nav class="fs-nav-dots"><button class=""></button><button class=""></button><button class="fs-dot-current"></button></nav><span class="fs-numbers"><span class="fs-number-current">3</span><span class="fs-number-total">3</span></span><div class="fs-progress" style="width: 100%;"></div></div><span class="fs-message-error"></span></div><!-- /fs-form-wrap -->
+
+            
+
+        </div><!-- /container -->
+        <script src="/public/js/form/geocoder.js"></script>
+        <script src="/public/js/form/go_back.js"></script>
+        <script src="/public/js/nav.js"></script>
+
+    </body>
+</html>

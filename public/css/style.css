@@ -108,15 +108,29 @@ section {
       .navbar__links-signup a:hover {
         background-color: #bf4aa8;
         color: #d9d9d9; }
-    .navbar__links-user {
-      display: flex;
-      align-items: center;
-      justify-content: center; }
-      .navbar__links-user img {
-        width: 5rem;
-        height: 5rem;
-        object-fit: cover;
-        border-radius: 50%; }
+    .navbar__links-dropdown {
+      position: relative; }
+      .navbar__links-dropdown .nav-dropdown-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center; }
+        .navbar__links-dropdown .nav-dropdown-wrapper img {
+          width: 4rem;
+          height: 4rem;
+          object-fit: cover;
+          border-radius: 50%; }
+      .navbar__links-dropdown .dropdown {
+        position: absolute;
+        top: 4rem;
+        right: 0;
+        width: max-content;
+        display: none;
+        text-align: right;
+        font-size: 1rem; }
+        .navbar__links-dropdown .dropdown.active {
+          display: block; }
+        .navbar__links-dropdown .dropdown__menu {
+          list-style: none; }
 
 .card a {
   text-decoration: none; }
