@@ -71,7 +71,6 @@
 		ctrlNavPosition : true,
 		// reached the review and submit step
 		onReview : function() { 
-			console.log('fuck a third time');
 			return false; }
 	};
 
@@ -229,16 +228,14 @@
 	 */
 	FForm.prototype._nextField = function( backto ) {
 		if( this.isLastStep || !this._validade() || this.isAnimating ) {
-			console.log('fuck in the middle')
+
 			return false;
 		}
 		this.isAnimating = true;
 
 		// check if on last step
 		this.isLastStep = this.current === this.fieldsCount - 1 && backto === undefined ? true : false;
-		if (this.isLastStep) {
-			console.log('fucking last step yo');
-		}
+		
 		// clear any previous error messages
 		this._clearError();
 
@@ -290,20 +287,23 @@
 				classie.remove( currentFld, 'fs-hide' );
 
 				if( self.isLastStep ) {
-					console.log('fuck again');
 					
-					// show the complete form and hide the controls
-					self._hideCtrl( self.ctrlNav );
-					self._hideCtrl( self.ctrlProgress );
-					self._hideCtrl( self.ctrlContinue );
-					self._hideCtrl( self.ctrlFldStatus );
-					// replace class fs-form-full with fs-form-overview
-					classie.remove( self.formEl, 'fs-form-full' );
-					classie.add( self.formEl, 'fs-form-overview' );
-					classie.add( self.formEl, 'fs-show' );
-					// callback
-					self.options.onReview();
-					
+					if (self.formEl.classList.contains('fs-form-no-review')) {
+						self.formEl.submit();  // add to skip review
+					} else {
+						// show the complete form and hide the controls
+						self._hideCtrl( self.ctrlNav );
+						self._hideCtrl( self.ctrlProgress );
+						self._hideCtrl( self.ctrlContinue );
+						self._hideCtrl( self.ctrlFldStatus );
+						// replace class fs-form-full with fs-form-overview
+						classie.remove( self.formEl, 'fs-form-full' );
+						classie.add( self.formEl, 'fs-form-overview' );
+						classie.add( self.formEl, 'fs-show' );
+
+						// callback
+						self.options.onReview();
+					}
 				}
 				else {
 					classie.remove( nextField, 'fs-show' );
@@ -314,12 +314,12 @@
 						classie.remove( self.ctrlFldStatus, 'fs-show-' + self.navdir );
 					}
 				}
+				
 				self.isAnimating = false;
 			};
 		if( support.animations ) {
 			if( this.navdir === 'next' ) {
 				if( this.isLastStep ) {
-					console.log('fuck')
 					currentFld.querySelector( '.fs-anim-upper' ).addEventListener( animEndEventName, onEndAnimationFn );
 				}
 				else {
