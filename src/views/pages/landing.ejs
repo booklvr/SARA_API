@@ -22,6 +22,34 @@
             Have you ever wanted to ask a stranger a questions? 
         </p>
     </section>
+
+    <section class="profile">
+        <div class="profile__header">
+            <img src="/users/<%= currentUser._id %>/avatar" alt="<%= currentUser.name %>'s profile picture">
+        </div>
+        <div class="profile__info">
+            <div class="profile__info-name">
+                <h3><%= currentUser.username %></h3>
+                <!-- <div class="profile__info-location"><%= currentUser.location.formattedAddress %></div> -->
+                <% if (questions && cards) { %> 
+                    <div class="profile__info-answers"><%= cards.length %> Answers</div>
+                <% } %>
+                
+            </div>       
+        </div>
+    </section>
+
+    <section class="questions"></section>
+
+    
+    <% if (questions) { %> 
+        <h1>Questions</h1>
+        <%- include ('../partials/questions'); %>
+    <% } %>
+    <% if (cards) { %> 
+        <h1>Answers</h1>
+        <%- include ('../partials/card'); %>
+    <% } %>
     
 </main>
 

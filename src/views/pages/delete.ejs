@@ -21,7 +21,7 @@
 
 			<div class="fs-form-wrap" id="fs-form-wrap">
 				<div class="fs-title">
-					<h1>Login</h1>
+					<h1>Delete Account</h1>
 					<div class="codrops-top">
 						<button class="go_back" id="goBack" data-count="1">
 							<i class="fas fa-arrow-left"></i>
@@ -29,17 +29,17 @@
 						<!-- <a class="codrops-icon codrops-icon-prev" href="#"><span>Go Back</span></a> -->
 					</div>
 				</div>
-				<form action="/users/login" method="POST" id="myform" class="fs-form fs-form-full fs-form-no-review" autocomplete="off">
+				<form action="/users/me/delete" method="POST" id="myform" class="fs-form fs-form-full fs-form-no-review" autocomplete="off">
 					<ol class="fs-fields">
-						<li>
+						<!-- <li>
 							<label class="fs-field-label fs-anim-upper" for="password">Please Enter your password</label>
 							<input class="fs-anim-lower" id="password" name="password" type="password" placeholder="password" required/>
-                        </li>
+                        </li> -->
                         <li data-input-trigger>
 							<label class="fs-field-label fs-anim-upper" for="q3" data-info="Don't leave us.">Are you sure you want to delete you account?</label>
 							<div class="fs-radio-group fs-radio-custom clearfix fs-anim-lower">
-								<span><input id="yes" name="yes" type="radio" value="conversion"/><label for="yes" class="radio-conversion">Yes</label></span>
-								<span><input id="no" name="no" type="radio" value="social"/><label for="no" class="radio-social">No</label></span>
+								<span><input id="delete" name="delete" type="radio" value="delete" /><label for="delete">Delete</label></span>
+								<span><input id="cancel" name="delete" type="radio" value="cancel" /><label for="cancel">Cancel</label></span>
 								
 							</div>
 						</li>

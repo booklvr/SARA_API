@@ -7,8 +7,45 @@ const   express =       require('express'),
         
 const router = new express.Router();
 
-router.get('/', (req, res) => {
-    res.render("pages/landing");
+router.get('/', async(req, res) => {
+    try {
+        const sara = await User.find({username:'sara'});
+
+        console.log(sara);
+        // console.log(sara);
+
+        try {
+            const questions = await Question.findOne({owner: sara._id});
+        } catch (err) {
+            console.log(err);
+        }
+
+
+        let answers = undefined;
+        let cards = [];
+
+        if (questions) {
+            await questions.populate({
+                path: 'answers' // populate answers to this question
+            }).execPopulate();
+    
+            answers = questions.answers;
+    
+            cards = await card.buildCards(answers);
+            console.log('sara', sara);
+            console.log('questions', questions);
+            console.log('cards', cards);
+        }
+        else {
+            console.log('no fucking questions');
+        }
+        // res.render('pages/landing', {currentUser: sara, questions, cards})
+        res.send();
+    } catch (e) {
+        console.log(e);
+        res.status(500).send(e);
+    }
+    
 });
 
 router.get('/register', (req, res) => {

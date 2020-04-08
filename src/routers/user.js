@@ -145,17 +145,6 @@ router.post('/me/update', isLoggedIn, async (req, res) => {
         return res.status(400).send({error: 'Invalid updates!' });
     }
 
-    // if (updates.includes('unformattedAddress' && (req.body.unformatteddAddress !== req.user.location.unformattedAddress)) {
-    //     user = User.findById(req.user._id);
-    //     await user.generateLocation()
-    // })
-
-
-
-    // if (updates.includes('unformattedAddress')) {
-    //     const location = await req.user.generateLocation();
-    // }
-
     // use findById for password hashing middleware or mongoose bypasses middleware with findByIdAndUpdate
     try {
         //get user from auth middleware req.user
@@ -171,13 +160,37 @@ router.post('/me/update', isLoggedIn, async (req, res) => {
     }
 });
 
-router.get('/me/delete', async (req, res) => {
-    try {
-        await req.user.remove();
-        res.send(req.user);
-    } catch (e) {
-        res.status(500).send();
+router.post('/me/delete', isLoggedIn, async (req, res) => {
+
+    const deleteAccount = req.body.delete;
+    console.log("deleteAccount", deleteAccount)
+
+    if (deleteAccount === "delete") {
+        try {
+            
+            await req.user.remove();
+            req.logOut();
+            
+            res.clearCookie('sid', {path: '../../'})
+            
+            req.flash('success', 'Sorry to see you go.');
+            res.redirect('../../');
+        } catch (e) {
+            res.status(500).render('pages/landing');
+        }
     }
+    else if (deleteAccount === "cancel") {
+        res.redirect('/users/me')
+    }
+
+
+    
+    // try {
+    //     await req.user.remove();
+    //     res.render('pages/landing');
+    // } catch (e) {
+    //     res.status(500).send();
+    // }
 });
 
 // POST AVATAR
