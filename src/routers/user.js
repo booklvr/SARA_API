@@ -291,11 +291,14 @@ router.get('/locations', async (req, res) => {
         // console.log(users);  
         locations = users.map((user) => {
 
-            await user.populate({
-                path: 'questions' // populate questions
-            }).execPopulate();
+            // await user.populate({
+            //     path: 'questions' // populate questions
+            // }).execPopulate();
 
-            
+            //FETCH PROMISE ALL
+
+            //await Promise.all(questions.map(async (question) => {
+
             // console.log("user", user)
             return {name: user.username, location: user.location, id: user._id, questions: user.questions}
             // return {user.name, user.location};

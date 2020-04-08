@@ -297,8 +297,7 @@
 
 				if( self.isLastStep ) {
 					
-					if (self.formEl.classList.contains('fs-form-no-review')) {
-						self.formEl.submit();  // add to skip review
+					 
 					} else {
 						// show the complete form and hide the controls
 						self._hideCtrl( self.ctrlNav );
