@@ -9,17 +9,9 @@ const router = new express.Router();
 
 router.get('/', async(req, res) => {
     try {
-        const sara = await User.find({username:'sara'});
-
-        console.log(sara);
-        // console.log(sara);
-
-        try {
-            const questions = await Question.findOne({owner: sara._id});
-        } catch (err) {
-            console.log(err);
-        }
-
+        const sara = await User.findOne({username:'sara'});
+        
+        const questions = await Question.findOne({owner: sara._id});
 
         let answers = undefined;
         let cards = [];
@@ -32,14 +24,9 @@ router.get('/', async(req, res) => {
             answers = questions.answers;
     
             cards = await card.buildCards(answers);
-            console.log('sara', sara);
-            console.log('questions', questions);
-            console.log('cards', cards);
         }
-        else {
-            console.log('no fucking questions');
-        }
-        // res.render('pages/landing', {currentUser: sara, questions, cards})
+        
+        res.render('pages/landing', {admin: sara, questions, cards})
         res.send();
     } catch (e) {
         console.log(e);
@@ -183,5 +170,9 @@ router.get('/answerQuestion/:id', async (req, res) => {
 router.get('/map', (req, res) => {
     res.render("pages/map", {currentUser: undefined})
 })
+
+// router.get('/mapboxFeature', async (req, res) => {
+
+// })
 
 module.exports = router;

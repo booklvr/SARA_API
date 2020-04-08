@@ -10,7 +10,7 @@
         </div>
     </div>
     <div class="cta">
-        <a href="" class="cta__button cta__button-answer" id="cta__button-answer">Answer a Stranger</a>
+        <a href="/allQuestions" class="cta__button cta__button-answer" id="cta__button-answer">Answer a Stranger</a>
         <a href="/register" class="cta__button cta__button-question" id="cta__button-question">Ask a Stranger</a>
     </div>
 </header>
@@ -25,12 +25,12 @@
 
     <section class="profile">
         <div class="profile__header">
-            <img src="/users/<%= currentUser._id %>/avatar" alt="<%= currentUser.name %>'s profile picture">
+            <img src="/users/<%= admin._id %>/avatar" alt="<%= admin.name %>'s profile picture">
         </div>
         <div class="profile__info">
             <div class="profile__info-name">
-                <h3><%= currentUser.username %></h3>
-                <!-- <div class="profile__info-location"><%= currentUser.location.formattedAddress %></div> -->
+                <h3><%= admin.username %></h3>
+                <div class="profile__info-location"><%= admin.location.formattedAddress %></div>
                 <% if (questions && cards) { %> 
                     <div class="profile__info-answers"><%= cards.length %> Answers</div>
                 <% } %>
@@ -39,16 +39,16 @@
         </div>
     </section>
 
-    <section class="questions"></section>
-
     
     <% if (questions) { %> 
         <h1>Questions</h1>
         <%- include ('../partials/questions'); %>
     <% } %>
-    <% if (cards) { %> 
-        <h1>Answers</h1>
-        <%- include ('../partials/card'); %>
+    <% if (cards.length) { %> 
+        <section class="answers">
+            <h1>Answers</h1>
+            <%- include ('../partials/card'); %>
+        </section>
     <% } %>
     
 </main>

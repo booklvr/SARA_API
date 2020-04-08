@@ -9,6 +9,7 @@ const map = new mapboxgl.Map({
 // Fetch stores from API
 async function getLocations() {
     const res = await fetch('/users/locations');
+    
     const data = await res.json();
 
     // console.log(data);
@@ -25,7 +26,15 @@ async function getLocations() {
             },
             properties: {
                 name: point.name,
-                icon: point.name
+                icon: point.name,
+                description: `
+                    <div class="mapPopup">
+                        <
+                        <a href="/profile/<%= point._id" title="Checkout their questions">
+                            <h3><strong>${point.name}</strong></h3>
+                        </a>
+                    </div>  
+                `
             }
         };
     });
@@ -39,8 +48,7 @@ async function loadMap(points) {
 
     const res = await fetch('/users/locations');
     const data = await res.json();
-
-    // console.log(data);
+    
 
     data.forEach(img => {
         map.loadImage(`http://localhost:3000/users/${img.id}/avatar`, (error, image) => {
@@ -71,7 +79,7 @@ async function loadMap(points) {
             }
         });
         map.addLayer({
-            'id': 'points',
+            'id': 'places',
             'type': 'symbol',
             'source': 'point',
             'layout': {
@@ -83,6 +91,35 @@ async function loadMap(points) {
                 'text-anchor': 'top'
             }
         });
+    });
+
+    // When a click event occurs on a feature in the places layer, open a popup at the
+    // location of the feature, with description HTML from its properties.
+    map.on('click', 'places', function(e) {
+        var coordinates = e.features[0].geometry.coordinates.slice();
+        var description = e.features[0].properties.description;
+        
+        // Ensure that if the map is zoomed out such that multiple
+        // copies of the feature are visible, the popup appears
+        // over the copy being pointed to.
+        while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+        }
+        
+        new mapboxgl.Popup()
+        .setLngLat(coordinates)
+        .setHTML(description)
+        .addTo(map);
+    });
+        
+    // Change the cursor to a pointer when the mouse is over the places layer.
+    map.on('mouseenter', 'places', function() {
+        map.getCanvas().style.cursor = 'pointer';
+    });
+        
+    // Change it back to a pointer when it leaves.
+    map.on('mouseleave', 'places', function() {
+        map.getCanvas().style.cursor = '';
     });
 };
 
