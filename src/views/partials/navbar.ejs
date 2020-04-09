@@ -10,7 +10,7 @@
                 <% }  else { %>
                     <li class="navbar__links"><a href="/users/logout">Logout</a></li>
                     <li class="navbar__links-dropdown">
-                        <a href="#" class="nav-dropdown-wrapper">
+                        <a href="/users/me" class="nav-dropdown-wrapper">
                             <img src="/users/<%= currentUser._id %>/avatar" alt="">
                             <i class="fas fa-caret-down"></i>
                         </a>
@@ -18,7 +18,7 @@
                             <ul class="dropdown__menu">
                                 <li class="dropdown__menu-item"><a href="/addAvatar">Edit Avatar</a></li>
                                 <li class="dropdown__menu-item"><a href="/update">Edit Account</a></li>
-                                <li class="dropdown__menu-item"><a href="#">Edit Locations</a></li>
+                                <li class="dropdown__menu-item"><a href="/questions/update">Edit Questions</a></li>
                                 <li class="dropdown__menu-item"><a href="/delete">Delete Acount</a></li>
                             </ul>
                         </div>

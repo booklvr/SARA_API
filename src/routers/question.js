@@ -30,12 +30,6 @@ router.post('/', isLoggedIn, async (req, res) => {
     console.log(questionExists);
 
     try {
-        // await req.user.populate({
-        //     path: 'questions' // populate questions
-        // }).execPopulate();
-
-        
-
         const question = new Question({
             ...req.body,
             owner: req.user._id,
@@ -69,10 +63,24 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.get('/update', isLoggedIn, async (req, res) => {
+    try {
+        const question = await Question.findOne({owner: req.user._id});
+        
+        res.render("pages/updateQuestions", { question })
+
+    } catch (err) {
+        req.flash('error', 'Sorry! Questions not found');
+        console.log(err)
+        res.status(404).send(err);
+    }
+    
+})
+
 // Update Questions
-router.patch('/:id', isLoggedIn, async (req, res) => {
+router.post('/update/:id', isLoggedIn, async (req, res) => {
     const updates = Object.keys(req.body); // return lists of keys from req.body
-    const allowedUpdates = ['question1', 'question2', 'question3', 'question4'];
+    const allowedUpdates = ['item1', 'item2', 'item3', 'item4'];
     const isValidOperation = updates.every(update => allowedUpdates.includes(update));
 
     if (!isValidOperation) {
@@ -89,10 +97,11 @@ router.patch('/:id', isLoggedIn, async (req, res) => {
         updates.forEach(update => question[update] = req.body[update]);
         
         await question.save();
-
-        res.send(question);
+        req.flash('success', 'Questions updated successfully');
+        res.redirect('../../users/me');
     } catch (e) {
         console.log("e", e)
+        req.flash('error', 'Questions could not be updated because of a problem.')
         res.status(400).send(e);
     }
 })

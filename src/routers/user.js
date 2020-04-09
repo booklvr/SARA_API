@@ -141,7 +141,7 @@ router.post('/me/update', isLoggedIn, async (req, res) => {
     // what is allowed to update
     const updates = Object.keys(req.body) // returns list of keys from req.body
     console.log(updates);
-    const allowedUpdates = ['username', 'email', 'unformattedAddress'];
+    const allowedUpdates = ['email', 'unformattedAddress'];
     const isValidOperation = updates.every(update => allowedUpdates.includes(update));
 
     if (!isValidOperation) {
@@ -354,13 +354,11 @@ router.get('/formatLocation/:location', async (req, res) => {
     try {
         const loc = await geocoder.geocode(req.params.location);
 
-        // console.log(loc[0].formattedAddress.replace(/^[,][, ]/, ''));
-
         res.send({data:loc[0].formattedAddress.replace(/[,]+/g, '').trim()})
 
     } catch (e) {
         console.log(e);
-        // res.status(500).send(e);
+        res.status(500).send(e);
     }
 })
 

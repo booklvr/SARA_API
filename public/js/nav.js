@@ -1,4 +1,3 @@
-document.querySelector('.nav-dropdown-wrapper').addEventListener('click', () => {
-    console.log('dropdown')
+document.querySelector('.nav-dropdown-wrapper').addEventListener('mouseover', () => {
     document.querySelector('.dropdown').classList.toggle('active');
 })

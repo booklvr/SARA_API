@@ -7,10 +7,15 @@
         <p class="questions-4">4.  <span><%= questions.item4 %></span></p>
     </div>
     
-    
-
-        <div class="questions-answerBtn">
-            <a href="">Answer</a>
-        </div>
-    
+    <% if (currentUser) { %>
+        <% if (String(currentUser._id) === String(questions.owner)) { %>
+            <a href="/update">
+                <i class="fas fa-edit"></i>
+            </a>
+        <% } else { %>
+            <a href="/answerQuestion/<%= questions._id %>">Answer</a>
+        <% } %>
+    <% } else { %>
+        <a href="/answerQuestion/<%= questions._id %>">Answer</a>
+    <% } %>    
 </section>

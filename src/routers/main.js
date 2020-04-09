@@ -116,7 +116,7 @@ router.get('/answerQuestion/:id', async (req, res) => {
     try {
         const questions = await Question.findById(req.params.id);
 
-        console.log(questions);
+        // console.log(questions);
 
         res.render('pages/addAnswers', { questions })
     } catch (err) {
@@ -124,6 +124,8 @@ router.get('/answerQuestion/:id', async (req, res) => {
     }
     // render form
 })
+
+
 
 // router.get('/', async (req, res) => {
 //     try {

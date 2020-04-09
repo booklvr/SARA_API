@@ -18,10 +18,19 @@
                 <p>2.  <span id="item2"><%= card.item2 %></span></p>
                 <p>3.  <span id="item3"><%= card.item3 %></span></p>
                 <p>4.  <span id="item3"><%= card.item4 %></span></p>
-                <% if (card.questionID === '') { %>
-                    <a href="/answerQuestion/<%= card._id %>" class="answer-btn">ANSWER</a>
-                    <p>questionID = <%=card.questionID%></p>
-                <% } %>
+               
+
+                <% if (currentUser) { %>
+                    <% if (String(currentUser._id) === String(card.questionID)) { %>
+                        <a href="/update">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                    <% } else { %>
+                        <a href="/answerQuestion/<%= card.questionID %>">Answer</a>
+                    <% } %>
+                <% } else { %>
+                    <a href="/answerQuestion/<%= card.questoinID %>">Answer</a>
+                <% } %>    
             </div>
         </div>
     <% }) %>
