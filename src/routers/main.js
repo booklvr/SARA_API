@@ -27,7 +27,7 @@ router.get('/', async(req, res) => {
         }
         
         res.render('pages/landing', {admin: sara, questions, cards})
-        res.send();
+        // res.send();
     } catch (e) {
         console.log(e);
         res.status(500).send(e);
@@ -59,7 +59,7 @@ router.get('/delete', isLoggedIn, (req, res) => {
     res.render("pages/delete");
 });
 
-// need 
+// non logged in user profile  
 router.get('/profile/:id', async (req, res) => {
     
     try {
@@ -84,7 +84,7 @@ router.get('/profile/:id', async (req, res) => {
             cards = await card.buildCards(answers);
             
         }
-        res.render('pages/profile', {currentUser: user, questions, cards})
+        res.render('pages/profile', {user, questions, cards})
 
     } catch (e) {
         console.log(e);
@@ -168,7 +168,7 @@ router.get('/answerQuestion/:id', async (req, res) => {
 // })
 
 router.get('/map', (req, res) => {
-    res.render("pages/map", {currentUser: undefined})
+    res.render("pages/map")
 })
 
 // router.get('/mapboxFeature', async (req, res) => {

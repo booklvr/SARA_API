@@ -298,20 +298,20 @@
 				if( self.isLastStep ) {
 					
 					 
-					} else {
-						// show the complete form and hide the controls
-						self._hideCtrl( self.ctrlNav );
-						self._hideCtrl( self.ctrlProgress );
-						self._hideCtrl( self.ctrlContinue );
-						self._hideCtrl( self.ctrlFldStatus );
-						// replace class fs-form-full with fs-form-overview
-						classie.remove( self.formEl, 'fs-form-full' );
-						classie.add( self.formEl, 'fs-form-overview' );
-						classie.add( self.formEl, 'fs-show' );
+					
+					// show the complete form and hide the controls
+					self._hideCtrl( self.ctrlNav );
+					self._hideCtrl( self.ctrlProgress );
+					self._hideCtrl( self.ctrlContinue );
+					self._hideCtrl( self.ctrlFldStatus );
+					// replace class fs-form-full with fs-form-overview
+					classie.remove( self.formEl, 'fs-form-full' );
+					classie.add( self.formEl, 'fs-form-overview' );
+					classie.add( self.formEl, 'fs-show' );
 
-						// callback
-						self.options.onReview();
-					}
+					// callback
+					self.options.onReview();
+				
 				}
 				else {
 					classie.remove( nextField, 'fs-show' );

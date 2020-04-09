@@ -12,6 +12,8 @@ async function getLocations() {
     
     const data = await res.json();
 
+    console.log(data);
+
     // console.log(data);
 
     const locationPoints = data.map(point => {
@@ -25,15 +27,29 @@ async function getLocations() {
                 ]
             },
             properties: {
-                name: point.name,
-                icon: point.name,
+                name: point.username,
+                icon: point.username,
                 description: `
-                    <div class="mapPopup">
-                        <
-                        <a href="/profile/<%= point._id" title="Checkout their questions">
-                            <h3><strong>${point.name}</strong></h3>
+                    <div class="card map-card">
+                        <a href="/profile/${point.username}">
+                            <div class="card__title">
+                                <p class="card__title--location">
+                                    ${point.location.formattedAddress}
+                                </p>
+                                <p class="card__title--name">
+                                    ${point.username}
+                                </p>
+                                <img class="card__title--image" src="/users/${point.id}/avatar" alt="${point.username}">
+                            </div>
                         </a>
-                    </div>  
+                        <div class="card__title-answers">
+                            <p>1.  <span id="item1">${point.questions.item1}</span></p>
+                            <p>2.  <span id="item2">${point.questions.item2}</span></p>
+                            <p>3.  <span id="item3">${point.questions.item3}</span></p>
+                            <p>4.  <span id="item3">${point.questions.item4}</span></p>
+                            <a href="/answerQuestion/${point.questions._id}" class="answer-btn">ANSWER</a>
+                        </div>
+                    </div>
                 `
             }
         };
@@ -53,7 +69,7 @@ async function loadMap(points) {
     data.forEach(img => {
         map.loadImage(`http://localhost:3000/users/${img.id}/avatar`, (error, image) => {
             if(error) throw error;
-            map.addImage(img.name, image)
+            map.addImage(img.username, image)
         } )
     })
     
@@ -85,7 +101,7 @@ async function loadMap(points) {
             'layout': {
                 'icon-image': '{icon}',
                 'icon-size': .1,
-                'text-field': '{name}',
+                'text-field': '{username}',
                 'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
                 'text-offset': [0, 0.9], 
                 'text-anchor': 'top'

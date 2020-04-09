@@ -19,6 +19,9 @@ const router = new express.Router();
 router.get('/me', isLoggedIn, async(req, res) => {
     // get user from auth middleware
     try {
+        const user = await User.findById(req.user._id);
+        // console.log("user", user)
+        
         const questions = await Question.findOne({owner: req.user._id});
 
         let answers = undefined;
@@ -34,7 +37,7 @@ router.get('/me', isLoggedIn, async(req, res) => {
             cards = await card.buildCards(answers);
             
         }
-        res.render('pages/profile', {currentUser: req.user, questions, cards})
+        res.render('pages/profile', {user, questions, cards})
 
     } catch (e) {
         console.log(e);
@@ -289,22 +292,57 @@ router.get('/locations', async (req, res) => {
             throw new Error("No users");
         }
         // console.log(users);  
-        locations = users.map((user) => {
+        const locations = [];
 
-            // await user.populate({
-            //     path: 'questions' // populate questions
-            // }).execPopulate();
+        await Promise.all(users.map(async (user) => {
+            try {
+                await user.populate({
+                    path: 'questions' // populate questions
+                }).execPopulate();
+            } catch (err) {
+                console.log(err);
+            }
+            const result = {};
+            result.username = user.username;
+            result.location = user.location;
+            result.id = user._id;
+            result.questions = user.questions[0];
 
-            //FETCH PROMISE ALL
+            locations.push(result);
 
-            //await Promise.all(questions.map(async (question) => {
+            // return {
+            //     username: user.username,
+            //     location: user.location,
+            //     id: user._id,
+            //     questions: user.questions[0,
+            // }
 
-            // console.log("user", user)
-            return {name: user.username, location: user.location, id: user._id, questions: user.questions}
-            // return {user.name, user.location};
-        })
+            // const result = {};
+            // result.username=user.username;
+            // result.location=user.location;
+            // result.id=user._id;
+            // await 
+        }))
+
+        // console.log(locations[0].questions)
+
+        // locations = users.map((user) => {
         
         
+        //     // await user.populate({
+        //     //     path: 'questions' // populate questions
+        //     // }).execPopulate();
+
+        //     //FETCH PROMISE ALL
+
+        //     //await Promise.all(questions.map(async (question) => {
+
+        //     // console.log("user", user)
+        //     return {name: user.username, location: user.location, id: user._id, questions: user.questions}
+        //     // return {user.name, user.location};
+        // })
+        
+        // console.log(locations)
 
         res.status(200).send(locations); 
     } catch(err) {

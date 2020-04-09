@@ -18,8 +18,9 @@
                 <p>2.  <span id="item2"><%= card.item2 %></span></p>
                 <p>3.  <span id="item3"><%= card.item3 %></span></p>
                 <p>4.  <span id="item3"><%= card.item4 %></span></p>
-                <% if (!card.questionID) { %>
+                <% if (card.questionID === '') { %>
                     <a href="/answerQuestion/<%= card._id %>" class="answer-btn">ANSWER</a>
+                    <p>questionID = <%=card.questionID%></p>
                 <% } %>
             </div>
         </div>
