@@ -22,12 +22,26 @@ router.get('/me', isLoggedIn, async (req, res) => {
     }
 })
 
-// Add a set of Questions
+// GET ADD QUESTION FORM
+router.get('/', isLoggedIn, (req, res) => {
+    data = {
+        title: 'Add Questions',
+        h1: 'Add Your Four Questions',
+        url: '/users/me',
+        item1: 'Question One?',
+        item2: 'Question Two?',
+        item3: 'Question Three',
+        item4: 'Question Four',
+    }
+    res.render("pages/formFull", { data });
+})
+
+// POST QUESTIONS FORM
 router.post('/', isLoggedIn, async (req, res) => {
 
     const questionExists = await Question.findOne({owner: req.user._id});
 
-    console.log(questionExists);
+    // console.log(questionExists);
 
     try {
         const question = new Question({
@@ -47,7 +61,7 @@ router.post('/', isLoggedIn, async (req, res) => {
     }
 });
 
-// read all questions from all users
+// read all questions from all users  !!! remove later not only for development
 router.get('/', async (req, res) => {
     try {
         const questions = await Question.find();
@@ -63,22 +77,59 @@ router.get('/', async (req, res) => {
     }
 });
 
+// GET CONFIRM UPDATE FORM
+router.get('/confirmUpdate', isLoggedIn, async (req, res) => {
+
+    const data = {
+        title: "Confirm Upate",
+        url: "/questions/confirmUpdate",
+        id: "update",
+        message: "Are you sure you want to update your questions.",
+        message2: "If you change an questions, all the answers to that question will be removed and cannot be recovered.  Are you sure you want to proceed.",
+    }
+    res.render('pages/formConfirm', { data });
+})
+
+// POST CONFIRM UPDATE
+router.post('/confirmUpdate', isLoggedIn, async (req, res) => {
+
+    req.body.update === "update" ? res.redirect('./update') : res.redirect('../users/me');
+
+});
+
+// GET UPDATE FORM
 router.get('/update', isLoggedIn, async (req, res) => {
     try {
         const question = await Question.findOne({owner: req.user._id});
         
-        res.render("pages/updateQuestions", { question })
+        data = {
+            review: true,
+            title: 'Update Questions',
+            h1: 'Update Your Questions',
+            url: '/questions/update',
+            item1: 'Question One?',
+            item2: 'Question Two?',
+            item3: 'Question Three',
+            item4: 'Question Four',
+            value1: question.item1,
+            value2: question.item2,
+            value3: question.item3,
+            value4: question.item4
+        }
+        // console.log(data);
+
+        res.render("pages/formFull", { data })
 
     } catch (err) {
         req.flash('error', 'Sorry! Questions not found');
         console.log(err)
         res.status(404).send(err);
-    }
-    
+    }  
 })
 
-// Update Questions
-router.post('/update/:id', isLoggedIn, async (req, res) => {
+
+// POST UPDATE QUESTION FORM
+router.post('/update/', isLoggedIn, async (req, res) => {
     const updates = Object.keys(req.body); // return lists of keys from req.body
     const allowedUpdates = ['item1', 'item2', 'item3', 'item4'];
     const isValidOperation = updates.every(update => allowedUpdates.includes(update));
@@ -88,7 +139,7 @@ router.post('/update/:id', isLoggedIn, async (req, res) => {
     }
 
     try {
-        const question = await Question.findOne({ _id: req.params.id, owner: req.user._id});
+        const question = await Question.findOne({owner: req.user._id});
 
         if(!question) {
             return res.status(404).send({error: 'Answer not found'})
@@ -106,16 +157,44 @@ router.post('/update/:id', isLoggedIn, async (req, res) => {
     }
 })
 
-// Delete Questions 
-router.delete('/:id', isLoggedIn, async (req, res) => {
-    try {
-        const deleteQuestions = await Question.findOneAndDelete({ _id: req.params.id, owner: req.user._id});
+// GET CONFIRM DELETE FORM
+router.get('/confirmDelete', isLoggedIn, async (req, res) => {
 
-        deleteQuestions ? res.send(deleteQuestions) : res.status(404).send();
+    const data = {
+        title: "Confirm Delete",
+        url: "/questions/confirmDelete",
+        input1: "delete",
+        input2: "cancel",
+        name: "delete",
+        message: "Are you sure you want to delete your questions.",
+        message2: "If you delete your questions, all the answers to your questions will be removed and cannot be recovered.?"
+    }
+
+    res.render('pages/formConfirm', { data });
+})
+
+
+// POST CONFIRM UPDATE
+router.post('/confirmDelete', isLoggedIn, async (req, res) => {
+
+    req.body.update === "delete" ? res.redirect('./delete') : res.redirect('../users/me');
+
+});
+
+// Delete Questions 
+router.get('/delete', isLoggedIn, async (req, res) => {
+    try {
+        const deleteQuestions = await Question.findOneAndDelete({owner: req.user._id});
+
+        if (deleteQuestions) {
+            req.flash('success', 'Questions deleted successfully');
+            res.redirect('../../users/me');
+        } else {
+            res.status(404).send();
+        };
     } catch(e) {
         console.log("e", e);
-        res.status(500).send
-        
+        res.status(500).send  
     }
 })
 

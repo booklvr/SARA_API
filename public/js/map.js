@@ -12,10 +12,6 @@ async function getLocations() {
     
     const data = await res.json();
 
-    console.log(data);
-
-    // console.log(data);
-
     const locationPoints = data.map(point => {
         return {
             type: 'Feature',
@@ -31,7 +27,7 @@ async function getLocations() {
                 icon: point.username,
                 description: `
                     <div class="card map-card">
-                        <a href="/profile/${point.username}">
+                        <a href="/profile/${point.id}">
                             <div class="card__title">
                                 <p class="card__title--location">
                                     ${point.location.formattedAddress}
@@ -47,7 +43,7 @@ async function getLocations() {
                             <p>2.  <span id="item2">${point.questions.item2}</span></p>
                             <p>3.  <span id="item3">${point.questions.item3}</span></p>
                             <p>4.  <span id="item3">${point.questions.item4}</span></p>
-                            <a href="/answerQuestion/${point.questions._id}" class="answer-btn">ANSWER</a>
+                            <a href="/answers/${point.questions._id}" class="answer-btn">ANSWER</a>
                         </div>
                     </div>
                 `

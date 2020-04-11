@@ -47,17 +47,13 @@ router.get('/addAvatar', isLoggedIn, (req, res) => {
     res.render("pages/addAvatar");
 })
 
-router.get('/addQuestions', isLoggedIn, (req, res) => {
-    res.render("pages/addQuestions");
-})
-
 router.get('/update', isLoggedIn, (req, res) => {
     res.render("pages/update");
 })
 
-router.get('/delete', isLoggedIn, (req, res) => {
-    res.render("pages/delete");
-});
+router.post('/loginOrRegister', (req, res) => {
+    req.body.loginOrRegister === "login" ? res.redirect('./login') : res.redirect('./register');
+})
 
 // non logged in user profile  
 router.get('/profile/:id', async (req, res) => {
@@ -110,21 +106,6 @@ router.get('/allQuestions', async (req, res) => {
         res.status(404).send(e)
     }
 })
-
-router.get('/answerQuestion/:id', async (req, res) => {
-    // find question
-    try {
-        const questions = await Question.findById(req.params.id);
-
-        // console.log(questions);
-
-        res.render('pages/addAnswers', { questions })
-    } catch (err) {
-        console.log(err);
-    }
-    // render form
-})
-
 
 
 // router.get('/', async (req, res) => {

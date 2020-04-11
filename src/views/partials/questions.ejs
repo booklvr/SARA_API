@@ -9,13 +9,17 @@
     
     <% if (currentUser) { %>
         <% if (String(currentUser._id) === String(questions.owner)) { %>
-            <a href="/update">
+            <a href="/questions/confirmUpdate">
                 <i class="fas fa-edit"></i>
             </a>
+            <a href="/questions/confirmDelete">
+                <i class="fas fa-trash-alt"></i>
+            </a>
         <% } else { %>
-            <a href="/answerQuestion/<%= questions._id %>">Answer</a>
+            <a href="/answers/<%= questions._id %>">Answer</a>
         <% } %>
     <% } else { %>
-        <a href="/answerQuestion/<%= questions._id %>">Answer</a>
+        <p>login please</p>
+        <a href="/answers/<%= questions._id %>">Answer</a>
     <% } %>    
 </section>

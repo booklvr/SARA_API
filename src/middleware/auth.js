@@ -14,7 +14,25 @@ middlewareObj.isLoggedIn = (req, res, next) => {
     }
     console.log('you need to be logged in to do that')
     req.flash("error", "You need to be logged in to do that");
-    res.redirect("/login");
+    res.redirect("/signInOrRegister");
+}
+
+middlewareObj.signInOrRegister = (req, res, next) => {
+    if(req.isAuthenticated()) {
+        return next();
+    }
+    const data = {
+        title: "Login or Register",
+        url: "/loginOrRegister",
+        input1: "login",
+        input2: "register",
+        name: "loginOrRegister",
+        message: "You need to login or register first.",
+    }
+
+    console.log(data);
+
+    res.render('pages/formConfirm', { data });
 }
 
 module.exports = middlewareObj;

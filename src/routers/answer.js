@@ -1,7 +1,7 @@
 const   express =       require('express'),
         Answer  =       require('../models/answer'),
         Question =      require('../models/question'),
-        {isLoggedIn } = require('../middleware/auth');
+        {isLoggedIn, signInOrRegister } = require('../middleware/auth');
 
 const router = new express.Router();
 
@@ -16,7 +16,7 @@ const router = new express.Router();
 // * populate answers from logged in user --> req.user.populate();
 //      --> get from UserSchema.virtual
 // * send populated answer
-router.get('/', isLoggedIn, async (req, res) => {
+router.get('/', signInOrRegister, async (req, res) => {
 
     const match = {};
     const sort = {}; // empty object to parse sort query
@@ -40,9 +40,47 @@ router.get('/', isLoggedIn, async (req, res) => {
     } catch (e) {
         res.status(500).send(e);
     }
-
 });
 
+// Answer Question Form
+router.get('/:id', signInOrRegister, async (req, res) => {
+    // find question
+    try {
+        const question = await Question.findById(req.params.id);
+
+        if (!question) throw "Can't find Question"
+
+        data = {
+            title: 'Update Answer',
+            h1: 'Update Your Answers',
+            url: `/answers/${req.params.id}`,
+            item1: question.item1,
+            item2: question.item2,
+            item3: question.item3,
+            item4: question.item4,
+        }
+
+        const answer = await Answer.findOne({questionID: req.params.id, owner: req.user._id});
+        console.log("answer", answer)
+
+        if (answer) {
+            data.review = true,
+            data.value1 = answer.item1;
+            data.value2 = answer.item2;
+            data.value3 = answer.item3;
+            data.value4 = answer.item4;
+        }
+
+        console.log(data);
+
+        res.render("pages/formFull", { data })
+
+    } catch (err) {
+        console.log(err);
+        req.flash('error', 'Sorry! Something went wrong');
+        res.status(500).redirect(`../../../users/me`);
+    }
+})
 
 
 // ADD ANSWER
@@ -67,56 +105,22 @@ router.post('/:id', isLoggedIn, async (req, res) => {
 
     try {
         const answer = await Answer.findOneAndUpdate(query, update, options)
-    } catch (e) {
-        console.log(e);
-        res.status(500).send(e)
-    }
     
-    
-    // const answer = await Answer.find({owner: req.user._id, questionID: req.params.id});
-    // if (answer) {
-    //     console.log('Answer already exists');
-    //     res.send('you already answered this');
-    // }
+        if (!answer) throw "Can't add answer";
 
-    // answer = new Answer({
-    //     ...req.body, 
-    //     owner: req.user._id,
-    //     questionID: req.params.id
-    // })
+        const question = await Question.findById(answer.questionID);
 
-    // try {
-    //     await answer.save();
-    // } catch(e) {
-    //     console.log(e);
-    //     res.status(500).send(e);
-    // }
+        if (!question) throw "Can't find question";
 
-    try {
-        const question = await Question.findById(req.params.id);
-        res.redirect(`../profile/${question.owner}`);
-    } catch (e) {
-        console.log('cant get question', e);
-        res.status(401).send(e);
+        res.redirect(`../../profile/${question.owner}`);
+    } catch (err) {
+        console.log('cant add answer', err);
+        res.status(401).send(err);
     }
     
 
 
-    // console.log(answer);
-
-    // try {
-    //     await answer.save();
-
-    //     const question = Question.findById(answer.questionID);
-    //     // console.log(question);
-    //     const author = question.owner;
-    //     console.log(author);
-    //     res.redirect(`../profile/${author}`);
-        // res.status(201).send();
-//     } catch (e) {
-//         console.log(e);
-//         res.status(400).send(e);
-//     }
+  
 });
 
 // UPDATE PERSON
@@ -124,9 +128,46 @@ router.post('/:id', isLoggedIn, async (req, res) => {
 // * get user from auth middleware --> req.user
 // * find answer using answer id --> req.params.id
 //                          --> req.user._id
-router.patch('/:id', isLoggedIn, async (req, res) => {
+
+router.get('/update/:id', isLoggedIn, async (req, res) => {
+    
+    try {
+        const answer = await Answer.findById(req.params.id);
+
+        if (!answer) throw "Can't find Answer"
+
+        const question = await Question.findById(answer.questionID);
+
+        if (!question) throw "Can't find Question"
+
+        data = {
+            review: true,
+            title: 'Update Answer',
+            h1: 'Update Your Answers',
+            url: `/answers/update/${req.params.id}`,
+            item1: question.item1,
+            item2: question.item2,
+            item3: question.item3,
+            item4: question.item4,
+            value1: answer.item1,
+            value2: answer.item2,
+            value3: answer.item3,
+            value4: answer.item4
+        }
+
+        res.render("pages/formFull", { data })
+
+    } catch (err) {
+        console.log(err);
+        req.flash('error', 'Sorry! Something went wrong');
+        res.status(500).redirect(`../../../users/me`);
+    }
+    
+})
+
+router.post('/update/:id', isLoggedIn, async (req, res) => {
     const updates = Object.keys(req.body); // returns list of keys form req.body
-    const allowedUpdates = ['name', 'city', 'food', 'job', 'skill', 'dinner', 'extras'];
+    const allowedUpdates = ['item1', 'item2', 'item3', 'item4'];
     const isValidOperation = updates.every(update => allowedUpdates.includes(update));
 
     if(!isValidOperation) {
@@ -134,7 +175,7 @@ router.patch('/:id', isLoggedIn, async (req, res) => {
     }
 
     try {
-        const answer = await Answer.findOne({ _id: req.params.id, owner: req.user._id });
+        const answer = await Answer.findOne({ _id: req.params.id });
 
         if (!answer) {
             return res.status(404).send({error: 'Answer not found'});
@@ -143,7 +184,9 @@ router.patch('/:id', isLoggedIn, async (req, res) => {
         updates.forEach(update => answer[update] = req.body[update]);
 
         await answer.save();
-        res.send(answer);
+
+        const question = await Question.findById(answer.questionID);
+        res.redirect(`../../profile/${question.owner}`);
     } catch (e) {
         console.log(e);
         res.status(400).send(e);
@@ -151,12 +194,12 @@ router.patch('/:id', isLoggedIn, async (req, res) => {
 });
 
 // DELETE Answer
-router.delete('/:id', isLoggedIn, async (req, res) => {
+router.get('/delete/:id', isLoggedIn, async (req, res) => {
 
     try {
         const deleteAnswer = await Answer.findOneAndDelete({ _id: req.params.id, owner: req.user._id });
 
-        deleteAnswer ? res.send(deleteAnswer) : res.status(404).send();
+        deleteAnswer ? res.redirect('../../../users/me') : res.status(404).send();
     } catch (e) {
         console.log(e);
         res.status(500).send(e);

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1"> 
+		<title>Login</title>
+
+		<link rel="stylesheet" type="text/css" href="/public/css/form/normalize.css" />
+		<link rel="stylesheet" type="text/css" href="/public/css/form/demo.css" />
+		<link rel="stylesheet" type="text/css" href="/public/css/form/component.css" />
+		<link rel="stylesheet" type="text/css" href="/public/css/form/cs-select.css" />
+		<link rel="stylesheet" type="text/css" href="/public/css/form/cs-skin-boxes.css" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+		<script src="/public/js/form/modernizr.custom.js"></script>
+	</head>
+	<body>
+		<%- include ('../partials/flash'); %>
+		<div class="container">
+			
+
+			<div class="fs-form-wrap" id="fs-form-wrap">
+				<div class="fs-title">
+					<h1><%= data.title %></h1>
+					<div class="codrops-top">
+						<button class="go_back" id="goBack" data-count="1">
+							<i class="fas fa-arrow-left"></i>
+						</button>
+						<!-- <a class="codrops-icon codrops-icon-prev" href="#"><span>Go Back</span></a> -->
+					</div>
+				</div>
+				<form action="<%= data.url %>" method="POST" id="myform" class="fs-form fs-form-full fs-form-no-review" autocomplete="off">
+					<ol class="fs-fields">
+                        <li data-input-trigger>
+							<label class="fs-field-label fs-anim-upper" for="<%= data.id %>">
+								<%= data.message %><br>
+								<span class="fs-field-label-2"><%= data.message2 %></span>
+							</label>
+							<div id="update-radio" class="fs-radio-group fs-radio-custom clearfix fs-anim-lower">
+								<span><input id="<%= data.input1 %>" name="<%= data.name %>" type="radio" value="<%= data.input1 %>" /><label for="<%= data.input1 %>"><%= data.input1.charAt(0).toUpperCase() + data.input1.slice(1) %></label></span>
+								<span><input id="<%= data.input2 %>" name="<%= data.name %>" type="radio" value="<%= data.input2 %>" /><label for="<%= data.input2 %>"><%= data.input2.charAt(0).toUpperCase() + data.input2.slice(1) %></label></span>
+							</div>
+						</li>
+					</ol><!-- /fs-fields -->
+					<button class="fs-submit" type="submit">Confirm</button>
+				</form><!-- /fs-form -->
+			</div><!-- /fs-form-wrap -->
+
+			
+
+		</div><!-- /container -->
+		<script src="/public/js/form/classie.js"></script>
+		<script src="/public/js/form/selectFx.js"></script>
+		<script src="/public/js/form/fullscreenForm.js"></script>
+		<script src="/public/js/form/go_back.js"></script>
+		<script>
+			(function() {
+				var formWrap = document.getElementById( 'fs-form-wrap' );
+
+				[].slice.call( document.querySelectorAll( 'select.cs-select' ) ).forEach( function(el) {	
+					new SelectFx( el, {
+						stickyPlaceholder: false,
+						onChange: function(val){
+							document.querySelector('span.cs-placeholder').style.backgroundColor = val;
+						}
+					});
+				} );
+
+				new FForm( formWrap, {
+					onReview : function() {
+						// return true;
+						classie.add( document.body, 'overview' ); // for demo purposes only
+					}
+				} );
+
+				
+			})();
+		</script>
+	</body>
+</html>

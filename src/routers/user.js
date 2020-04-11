@@ -10,7 +10,7 @@ const   express     = require('express'),
         card        = require('../utils/cards');
         
         
-const { isLoggedIn } = require('../middleware/auth');
+const { isLoggedIn, signInOrRegister } = require('../middleware/auth');
 
 const router = new express.Router();
 
@@ -88,7 +88,7 @@ router.post('/', async (req, res, next) => {
             } 
             passport.authenticate("local")(req, res, function(){
                 req.flash("success", "successfully signed up! nice to meet you " + req.body.username);
-                res.redirect('../addAvatar');
+                res.redirect('./addAvatar');
             });
             // {
             //     failureRedirect: "/",
@@ -140,7 +140,7 @@ router.post('/logoutAll', async (req, res) => {
 router.post('/me/update', isLoggedIn, async (req, res) => {
     // what is allowed to update
     const updates = Object.keys(req.body) // returns list of keys from req.body
-    console.log(updates);
+    // console.log(updates);
     const allowedUpdates = ['email', 'unformattedAddress'];
     const isValidOperation = updates.every(update => allowedUpdates.includes(update));
 
@@ -161,6 +161,20 @@ router.post('/me/update', isLoggedIn, async (req, res) => {
         console.log(e);
         res.status(400).send(e);
     }
+});
+
+router.get('/confirmDelete', isLoggedIn, (req, res) => {
+    const data = {
+        title: "Delete your Account",
+        url: "/users/me/delete",
+        input1: "delete",
+        input2: "cancel",
+        name: "delete",
+        message: "Are you sure you want to delete you account?",
+        message2: "If you delete your account, your questions and all answers associated with your account will be removed."
+    }
+
+    res.render('pages/formConfirm', { data });
 });
 
 router.post('/me/delete', isLoggedIn, async (req, res) => {
@@ -196,6 +210,10 @@ router.post('/me/delete', isLoggedIn, async (req, res) => {
     // }
 });
 
+router.get('/addAvatar', isLoggedIn, (req, res) => {
+    res.render("pages/addAvatar");
+})
+
 // POST AVATAR
 // * upload.single() is middlware provided by multer
 // -> upload.single() requires an arguemnt we are just calling upload
@@ -213,7 +231,7 @@ router.post('/me/avatar', isLoggedIn, upload.single('avatar'), async (req, res) 
         if (questions) {
             res.redirect('/users/me')
         } else {
-            res.redirect('../../addQuestions');
+            res.redirect('../../questions/');
         }
         
     }, (error, req, res, next) => { // all four arguments needed so express knows to expect an error

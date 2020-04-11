@@ -18,19 +18,42 @@
                 <p>2.  <span id="item2"><%= card.item2 %></span></p>
                 <p>3.  <span id="item3"><%= card.item3 %></span></p>
                 <p>4.  <span id="item3"><%= card.item4 %></span></p>
-               
 
+                <!-- if logged in -->
                 <% if (currentUser) { %>
-                    <% if (String(currentUser._id) === String(card.questionID)) { %>
-                        <a href="/update">
-                            <i class="fas fa-edit"></i>
-                        </a>
+                    <!-- if answer card -->
+                    <% if (card.questionID) { %>
+
+                        <!-- if user owns answer-->
+                        <% if (String(currentUser._id) === String(card.owner)) { %>
+                            <a href="/answers/update/<%= card._id %>">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="/answers/delete/<%= card._id %>">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        <% } %>
+
+                    <!-- if question card  -->
                     <% } else { %>
-                        <a href="/answerQuestion/<%= card.questionID %>">Answer</a>
+                        
+                        <!-- if user owns question-->
+                        <% if (String(currentUser._id) === String(card.owner)) { %>
+                            <a href="/questions/confirmUpdate">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="/update">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+
+                        <!-- answer the question -->
+                        <% } else { %>
+                            <a href="/answers/<%= card._id %>">Answer</a>
+                        <% } %>
                     <% } %>
-                <% } else { %>
-                    <a href="/answerQuestion/<%= card.questoinID %>">Answer</a>
-                <% } %>    
+                <% } else if (!currentUser && !card.questionID) { %>
+                    <a href="/answers/<%= card._id %>">Answer</a>
+                <% } %> 
             </div>
         </div>
     <% }) %>

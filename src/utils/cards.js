@@ -1,24 +1,29 @@
 const User = require ("../models/user");
 
-const buildCards = async (questions) => {
+const buildCards = async (items) => {
     
     const cards = [];
 
-    await Promise.all(questions.map(async (question) => {
+    await Promise.all(items.map(async (item) => {
             
         // console.log(question);
         const card = {};
-        card.item1 = question.item1;
-        card.item2 = question.item2;
-        card.item3 = question.item3;
-        card.item4 = question.item4;
-        card._id = question._id;
-        card.owner= question.owner;
+        card.item1 = item.item1;
+        card.item2 = item.item2;
+        card.item3 = item.item3;
+        card.item4 = item.item4;
+        card._id = item._id;
+        card.owner= item.owner;
+        if (item.questionID) {
+            card.questionID = item.questionID;
+        }
 
-        const user = await User.findById(question.owner);
-        console.log(user);
+        const user = await User.findById(item.owner);
+        // console.log(user);
         card.location = user.location.formattedAddress;
         card.username = user.username;
+
+        // console.log(card)
 
         cards.push(card);
     }));

@@ -1,0 +1,17 @@
+<% if (currentUser) { %>
+    <% if (String(currentUser._id) === String(card.questionID)) { %>
+        <%= card.questionID %>
+        <%= currentUser._id %>
+        <a href="/updateAnswer">
+            <i class="fas fa-edit"></i>
+        </a>
+        <a href="/update">
+            <i class="fas fa-trash-alt"></i>
+        </a>
+    <% } else { %>
+        <a href="/answerQuestion/<%= card._id %>">Answer</a>
+    <% } %>
+<% } else if (card.questionID) { %>
+    <p><%= card.questionID %></p>
+    <a href="/answerQuestion/<%= card._id %>">Answer</a>
+<% } %>

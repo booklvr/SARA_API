@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1"> 
+		<title><%= data.title %></title>
+		
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+		<link rel="stylesheet" type="text/css" href="/public/css/form/normalize.css" />
+		<link rel="stylesheet" type="text/css" href="/public/css/form/demo.css" />
+		<link rel="stylesheet" type="text/css" href="/public/css/form/component.css" />
+		<link rel="stylesheet" type="text/css" href="/public/css/form/cs-select.css" />
+		<link rel="stylesheet" type="text/css" href="/public/css/form/cs-skin-boxes.css" />
+		<script src="/public/js/form/modernizr.custom.js"></script>
+	</head>
+	<body>
+		<div class="container">
+
+			<div class="fs-form-wrap" id="fs-form-wrap">
+				<div class="fs-title">
+					<h1><%= data.h1 %></h1>
+					<div class="codrops-top">
+						<button class="go_back" id="goBack" data-count="1">
+							<i class="fas fa-arrow-left"></i>
+						</button>
+						<!-- <a class="codrops-icon codrops-icon-prev" href="#"><span>Go Back</span></a> -->
+					</div>
+                </div>
+                <% if (data.review) { %>
+                    <form action="<%= data.url %>" method="POST" id="myform" class="fs-form fs-form-quick-review fs-form-overview fs-show" autocomplete="off">
+                        <ol class="fs-fields">
+                            <li>
+                                <label class="fs-field-label fs-anim-upper" for="item1"><%= data.item1 %></label>
+                                <input class="fs-anim-lower" id="item1" name="item1" type="text" value="<%= data.value1 %>" required/>
+                            </li>
+                            <li>
+                                <label class="fs-field-label fs-anim-upper" for="item2" ><%= data.item2 %></label>
+                                <input class="fs-anim-lower" id="item2" name="item2" type="text" value="<%= data.value2 %>" required/>
+                            </li>
+                            <li>
+                                <label class="fs-field-label fs-anim-upper" for="item3" ><%= data.item3 %></label>
+                                <input class="fs-anim-lower" id="item3" name="item3" type="text" value="<%= data.value3 %>" required/>
+                            </li>
+                            <li>
+                                <label class="fs-field-label fs-anim-upper" for="item4" ><%= data.item4 %></label>
+                                <input class="fs-anim-lower" id="item4" name="item4" type="text" value="<%= data.value2 %>" required/>
+                            </li>
+                        </ol><!-- /fs-fields -->
+                        <button class="fs-submit" type="submit">Continue</button>
+                    </form><!-- /fs-form -->
+                <% } else { %>
+                    <form action="<% data.url %>" method="POST" id="myform" class="fs-form fs-form-full" autocomplete="off">
+                        <ol class="fs-fields">
+                            <li>
+                                <label class="fs-field-label fs-anim-upper" for="item1"><%= data.item1 %></label>
+                                <textarea class="fs-anim-lower" id="item1" name="item1" placeholder="<%= data.item1 %>" required></textarea>
+                            </li>
+                            <li>
+                                <label class="fs-field-label fs-anim-upper" for="item2" ><%= data.item2 %></label>
+                                <textarea class="fs-anim-lower" id="item2" name="item2" placeholder="<%= data.item2 %>"  required></textarea>
+                            </li>
+                            <li>
+                                <label class="fs-field-label fs-anim-upper" for="item3" ><%= data.item3 %></label>
+                                <textarea class="fs-anim-lower" id="item3" name="item3"placeholder="<%= data.item3 %>" required></textarea>
+                            </li>
+                            <li>
+                                <label class="fs-field-label fs-anim-upper" for="item4" ><%= data.item4 %></label>
+                                <textarea class="fs-anim-lower" id="item4" name="item4" placeholder="<%= data.item4 %>" required></textarea>
+                            </li>
+                        </ol><!-- /fs-fields -->
+                        <button class="fs-submit" type="submit">Continue</button>
+                    </form><!-- /fs-form -->
+                <% } %>
+			</div><!-- /fs-form-wrap -->
+
+			
+
+		</div><!-- /container -->
+		<script src="/public/js/form/classie.js"></script>
+		<script src="/public/js/form/selectFx.js"></script>
+		<script src="/public/js/form/fullscreenForm.js"></script>
+		<script src="/public/js/form/go_back.js"></script>
+		<script>
+			(function() {
+				var formWrap = document.getElementById( 'fs-form-wrap' );
+
+				[].slice.call( document.querySelectorAll( 'select.cs-select' ) ).forEach( function(el) {	
+					new SelectFx( el, {
+						stickyPlaceholder: false,
+						onChange: function(val){
+							document.querySelector('span.cs-placeholder').style.backgroundColor = val;
+						}
+					});
+				} );
+
+				new FForm( formWrap, {
+					onReview : function() {
+						classie.add( document.body, 'overview' ); // for demo purposes only
+					}
+				} );
+			})();
+		</script>
+	</body>
+</html>

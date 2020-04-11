@@ -108,17 +108,17 @@ userSchema.virtual('questions', {
 
 
 // Hash the plain tet passworld before saving
-userSchema.pre('save', async function (next) { // not arrow function because of this
-    const user = this // easier to see than 'this'
+// userSchema.pre('save', async function (next) { // not arrow function because of this
+//     const user = this // easier to see than 'this'
 
-    // check if password is modified
-    if (user.isModified('password')) {
-        // hash passworld before save
-        user.password = await bcrypt.hash(user.password, 8);
-    }
+//     // check if password is modified
+//     if (user.isModified('password')) {
+//         // hash passworld before save
+//         user.password = await bcrypt.hash(user.password, 8);
+//     }
     
-    next();
-});
+//     next();
+// });
 
 // create userToken
 // userSchema.methods.generateAuthToken = async function () { // not arrow function to use this
