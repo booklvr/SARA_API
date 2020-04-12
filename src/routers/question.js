@@ -1,13 +1,13 @@
 const   express =       require('express'),
         Answer =        require('../models/answer'),
         Question =      require('../models/question'),
-        {isLoggedIn} =  require('../middleware/auth');
+        {signInOrRegister} =  require('../middleware/auth');
 
 const router = new express.Router();
 
 // Get Logged in User's question
 // * get user from auth middlware -> req.user
-router.get('/me', isLoggedIn, async (req, res) => {
+router.get('/me', signInOrRegister, async (req, res) => {
     try {
         // console.log(req.user);
 
@@ -23,7 +23,7 @@ router.get('/me', isLoggedIn, async (req, res) => {
 })
 
 // GET ADD QUESTION FORM
-router.get('/', isLoggedIn, (req, res) => {
+router.get('/', signInOrRegister, (req, res) => {
     data = {
         title: 'Add Questions',
         h1: 'Add Your Four Questions',
@@ -37,7 +37,7 @@ router.get('/', isLoggedIn, (req, res) => {
 })
 
 // POST QUESTIONS FORM
-router.post('/', isLoggedIn, async (req, res) => {
+router.post('/', signInOrRegister, async (req, res) => {
 
     const questionExists = await Question.findOne({owner: req.user._id});
 
@@ -62,7 +62,7 @@ router.post('/', isLoggedIn, async (req, res) => {
 });
 
 // read all questions from all users  !!! remove later not only for development
-router.get('/', async (req, res) => {
+router.get('/allQuestions', async (req, res) => {
     try {
         const questions = await Question.find();
 
@@ -78,12 +78,21 @@ router.get('/', async (req, res) => {
 });
 
 // GET CONFIRM UPDATE FORM
-router.get('/confirmUpdate', isLoggedIn, async (req, res) => {
+router.get('/confirmUpdate', signInOrRegister, async (req, res) => {
+
+    const questions = await Question.findOne({owner: req.user._id});
+
+    if(!questions) {
+        // go to add question form page
+        return res.redirect('../questions');
+    }
 
     const data = {
         title: "Confirm Upate",
         url: "/questions/confirmUpdate",
-        id: "update",
+        input1: "update",
+        input2: "cancel",
+        name: "update",
         message: "Are you sure you want to update your questions.",
         message2: "If you change an questions, all the answers to that question will be removed and cannot be recovered.  Are you sure you want to proceed.",
     }
@@ -91,17 +100,18 @@ router.get('/confirmUpdate', isLoggedIn, async (req, res) => {
 })
 
 // POST CONFIRM UPDATE
-router.post('/confirmUpdate', isLoggedIn, async (req, res) => {
+router.post('/confirmUpdate', signInOrRegister, async (req, res) => {
 
     req.body.update === "update" ? res.redirect('./update') : res.redirect('../users/me');
 
 });
 
 // GET UPDATE FORM
-router.get('/update', isLoggedIn, async (req, res) => {
+router.get('/update', signInOrRegister, async (req, res) => {
+
     try {
-        const question = await Question.findOne({owner: req.user._id});
-        
+        const questions = await Question.findOne({owner: req.user._id});
+
         data = {
             review: true,
             title: 'Update Questions',
@@ -111,13 +121,12 @@ router.get('/update', isLoggedIn, async (req, res) => {
             item2: 'Question Two?',
             item3: 'Question Three',
             item4: 'Question Four',
-            value1: question.item1,
-            value2: question.item2,
-            value3: question.item3,
-            value4: question.item4
+            value1: questions.item1,
+            value2: questions.item2,
+            value3: questions.item3,
+            value4: questions.item4
         }
-        // console.log(data);
-
+        
         res.render("pages/formFull", { data })
 
     } catch (err) {
@@ -129,7 +138,7 @@ router.get('/update', isLoggedIn, async (req, res) => {
 
 
 // POST UPDATE QUESTION FORM
-router.post('/update/', isLoggedIn, async (req, res) => {
+router.post('/update/', signInOrRegister, async (req, res) => {
     const updates = Object.keys(req.body); // return lists of keys from req.body
     const allowedUpdates = ['item1', 'item2', 'item3', 'item4'];
     const isValidOperation = updates.every(update => allowedUpdates.includes(update));
@@ -142,7 +151,13 @@ router.post('/update/', isLoggedIn, async (req, res) => {
         const question = await Question.findOne({owner: req.user._id});
 
         if(!question) {
-            return res.status(404).send({error: 'Answer not found'})
+            console.log('NO FUCKING QUESTION')
+            res.redirect('../');
+    
+            // await question.save();
+    
+            // return res.redirect(`../profile/${req.user._id}`)
+            // // res.status(201).send(question);
         } 
 
         updates.forEach(update => question[update] = req.body[update]);
@@ -158,7 +173,7 @@ router.post('/update/', isLoggedIn, async (req, res) => {
 })
 
 // GET CONFIRM DELETE FORM
-router.get('/confirmDelete', isLoggedIn, async (req, res) => {
+router.get('/confirmDelete', signInOrRegister, async (req, res) => {
 
     const data = {
         title: "Confirm Delete",
@@ -175,14 +190,14 @@ router.get('/confirmDelete', isLoggedIn, async (req, res) => {
 
 
 // POST CONFIRM UPDATE
-router.post('/confirmDelete', isLoggedIn, async (req, res) => {
+router.post('/confirmDelete', signInOrRegister, async (req, res) => {
 
-    req.body.update === "delete" ? res.redirect('./delete') : res.redirect('../users/me');
+    req.body.delete === "delete" ? res.redirect('./delete') : res.redirect('../users/me');
 
 });
 
 // Delete Questions 
-router.get('/delete', isLoggedIn, async (req, res) => {
+router.get('/delete', signInOrRegister, async (req, res) => {
     try {
         const deleteQuestions = await Question.findOneAndDelete({owner: req.user._id});
 

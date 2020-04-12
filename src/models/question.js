@@ -42,6 +42,29 @@ questionSchema.virtual('answers', {
     foreignField: 'questionID',
 });
 
+// DELETE user created answers when user is removed
+// * can't use arrow function because of 'this'
+questionSchema.pre('remove', async function (next) {
+    const question = this; // for simplicity
+
+    // delete all answers show owner is user_.id (logged in user)
+    try {
+        answers = await Answer.find({questionID: question._id})
+        console.log(answers);
+        // await Answer.deleteMany({ owner: user._id });
+
+        next();
+    } catch(e) {
+        res.status(500).send();
+    }
+});
+
+questionSchema.pre('findOneAndUpdate', async function(next) {
+    
+    console.log('findOneAndUpdate Middleware -> this', this);
+    next();
+})
+
 
 
 const Question = mongoose.model('Question', questionSchema);

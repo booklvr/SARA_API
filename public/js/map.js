@@ -13,7 +13,7 @@ async function getLocations() {
     const data = await res.json();
 
     const locationPoints = data.map(point => {
-        return {
+        result = {
             type: 'Feature',
             geometry: {
                 type: 'Point',
@@ -38,17 +38,63 @@ async function getLocations() {
                                 <img class="card__title--image" src="/users/${point.id}/avatar" alt="${point.username}">
                             </div>
                         </a>
-                        <div class="card__title-answers">
-                            <p>1.  <span id="item1">${point.questions.item1}</span></p>
-                            <p>2.  <span id="item2">${point.questions.item2}</span></p>
-                            <p>3.  <span id="item3">${point.questions.item3}</span></p>
-                            <p>4.  <span id="item3">${point.questions.item4}</span></p>
-                            <a href="/answers/${point.questions._id}" class="answer-btn">ANSWER</a>
-                        </div>
-                    </div>
-                `
+                    `
             }
-        };
+        }
+        // console.log(result.properties.description);
+        // console.log(point.questions.item1);
+
+        if (point.questions) {
+            console.log('questions exist');
+            result.properties.description += `
+                <div class="card__title-answers">
+                    <p>1.  <span id="item1">${point.questions.item1}</span></p>
+                    <p>2.  <span id="item2">${point.questions.item2}</span></p>
+                    <p>3.  <span id="item3">${point.questions.item3}</span></p>
+                    <p>4.  <span id="item3">${point.questions.item4}</span></p>
+                    <a href="/answers/${point.questions._id}" class="answer-btn">ANSWER</a>
+                </div>
+            `;
+        }   
+        result.properties.description += '</div>';
+
+        return result;
+        // return {
+        //     type: 'Feature',
+        //     geometry: {
+        //         type: 'Point',
+        //         coordinates: [
+        //             point.location.coordinates[0],
+        //             point.location.coordinates[1]
+        //         ]
+        //     },
+        //     properties: {
+        //         name: point.username,
+        //         icon: point.username,
+        //         description: `
+        //             <div class="card map-card">
+        //                 <a href="/profile/${point.id}">
+        //                     <div class="card__title">
+        //                         <p class="card__title--location">
+        //                             ${point.location.formattedAddress}
+        //                         </p>
+        //                         <p class="card__title--name">
+        //                             ${point.username}
+        //                         </p>
+        //                         <img class="card__title--image" src="/users/${point.id}/avatar" alt="${point.username}">
+        //                     </div>
+        //                 </a>
+        //                 <div class="card__title-answers">
+        //                     <p>1.  <span id="item1">${point.questions.item1}</span></p>
+        //                     <p>2.  <span id="item2">${point.questions.item2}</span></p>
+        //                     <p>3.  <span id="item3">${point.questions.item3}</span></p>
+        //                     <p>4.  <span id="item3">${point.questions.item4}</span></p>
+        //                     <a href="/answers/${point.questions._id}" class="answer-btn">ANSWER</a>
+        //                 </div>
+        //             </div>
+        //         `
+        //     }
+        // };
     });
 
     // console.log(locationPoints);

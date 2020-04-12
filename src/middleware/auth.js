@@ -27,7 +27,7 @@ middlewareObj.signInOrRegister = (req, res, next) => {
         input1: "login",
         input2: "register",
         name: "loginOrRegister",
-        message: "You need to login or register first.",
+        message: "You need to login or register first."
     }
 
     console.log(data);

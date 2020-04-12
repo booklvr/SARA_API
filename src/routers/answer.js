@@ -84,7 +84,7 @@ router.get('/:id', signInOrRegister, async (req, res) => {
 
 
 // ADD ANSWER
-router.post('/:id', isLoggedIn, async (req, res) => {
+router.post('/:id', signInOrRegister, async (req, res) => {
 
     const query = {
         owner: req.user._id, 
@@ -129,7 +129,7 @@ router.post('/:id', isLoggedIn, async (req, res) => {
 // * find answer using answer id --> req.params.id
 //                          --> req.user._id
 
-router.get('/update/:id', isLoggedIn, async (req, res) => {
+router.get('/update/:id', signInOrRegister, async (req, res) => {
     
     try {
         const answer = await Answer.findById(req.params.id);
@@ -165,7 +165,7 @@ router.get('/update/:id', isLoggedIn, async (req, res) => {
     
 })
 
-router.post('/update/:id', isLoggedIn, async (req, res) => {
+router.post('/update/:id', signInOrRegister, async (req, res) => {
     const updates = Object.keys(req.body); // returns list of keys form req.body
     const allowedUpdates = ['item1', 'item2', 'item3', 'item4'];
     const isValidOperation = updates.every(update => allowedUpdates.includes(update));

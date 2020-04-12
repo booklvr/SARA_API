@@ -171,32 +171,52 @@ userSchema.statics.findByCredentials = async (email, password) => {
 
 // DELETE user created answers when user is removed
 // * can't use arrow function because of 'this'
-userSchema.pre('remove', async function (next) {
-    const user = this; // for simplicity
+// userSchema.post('deleteOne', {document: true, query: false}, async function (next) {
+//     console.log('removing questions and answers associated with user');
+    
 
-    // delete all answers show owner is user_.id (logged in user)
-    try {
-        await Answer.deleteMany({ owner: user._id });
+//     console.log(id);
 
-        next();
-    } catch(e) {
-        res.status(500).send();
-    }
-});
+//     // delete all answers show owner is user_.id (logged in user)
+//     try {
+//         // delete all the users questions
+//         console.log('deleting answers...')
+//         const answers = await Answer.find({owner: this._id})
+//         console.log(answers);
+//         // await Answer.deleteMany({ owner: user._id });
 
-userSchema.pre('remove', async function (next) {
-    const user = this;
+//         // must individually delete questions in order to start cascade
+//         console.log('deleting questions');
+//         const question = await Question.findOne({owner: this._id});
+//         console.log(question);
+//         // await Question.findById({ owner: user._id });
+//         next();
+//     } catch(e) {
+//         res.status(500).send();
+//     }
+// });
 
-    // delete the question set associated with user._id (logged in user);
-    try {
-        await Question.deleteOne({ owner: user._id });
+userSchema.post('deleteOne', { document: true, query: false }, function() {
+    console.log("removing example...")
+    console.log(this);
+  
+    
+  });
 
-        next();
-    } catch (e) {
-        console.log("e", e)
-        res.status(500).send();
-    }
-})
+
+// userSchema.pre('remove', async function (next) {
+//     const user = this;
+
+//     // delete the question set associated with user._id (logged in user);
+//     try {
+//         await Question.deleteOne({ owner: user._id });
+
+//         next();
+//     } catch (e) {
+//         console.log("e", e)
+//         res.status(500).send();
+//     }
+// })
 
 
 const User = mongoose.model('User', userSchema);

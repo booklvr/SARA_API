@@ -16,7 +16,7 @@ const router = new express.Router();
 
 
 
-router.get('/me', isLoggedIn, async(req, res) => {
+router.get('/me', signInOrRegister, async(req, res) => {
     // get user from auth middleware
     try {
         const user = await User.findById(req.user._id);
@@ -137,7 +137,7 @@ router.post('/logoutAll', async (req, res) => {
 });
 
 // UPDATE USER
-router.post('/me/update', isLoggedIn, async (req, res) => {
+router.post('/me/update', signInOrRegister, async (req, res) => {
     // what is allowed to update
     const updates = Object.keys(req.body) // returns list of keys from req.body
     // console.log(updates);
@@ -163,10 +163,10 @@ router.post('/me/update', isLoggedIn, async (req, res) => {
     }
 });
 
-router.get('/confirmDelete', isLoggedIn, (req, res) => {
+router.get('/confirmDelete', signInOrRegister, (req, res) => {
     const data = {
         title: "Delete your Account",
-        url: "/users/me/delete",
+        url: "/users/confirmDelete",
         input1: "delete",
         input2: "cancel",
         name: "delete",
@@ -177,40 +177,35 @@ router.get('/confirmDelete', isLoggedIn, (req, res) => {
     res.render('pages/formConfirm', { data });
 });
 
-router.post('/me/delete', isLoggedIn, async (req, res) => {
-
-    const deleteAccount = req.body.delete;
-    console.log("deleteAccount", deleteAccount)
-
-    if (deleteAccount === "delete") {
-        try {
-            
-            await req.user.remove();
-            req.logOut();
-            
-            res.clearCookie('sid', {path: '../../'})
-            
-            req.flash('success', 'Sorry to see you go.');
-            res.redirect('../../');
-        } catch (e) {
-            res.status(500).render('pages/landing');
-        }
-    }
-    else if (deleteAccount === "cancel") {
-        res.redirect('/users/me')
-    }
-
-
+// POST CONFIRM DELETE
+router.post('/confirmDelete', signInOrRegister, async (req, res) => {
     
-    // try {
-    //     await req.user.remove();
-    //     res.render('pages/landing');
-    // } catch (e) {
-    //     res.status(500).send();
-    // }
+    req.body.delete === "delete" ? res.redirect('./me/delete') : res.redirect('./me');
+
 });
 
-router.get('/addAvatar', isLoggedIn, (req, res) => {
+router.get('/me/delete', signInOrRegister, async (req, res) => {
+    console.log('deleting user');
+    
+    try {
+        const user = User.findById(req.user._id);
+        const deletedUser = user.deleteOne();
+        // const deletedUser = await User.deleteOne({ _id: req.user._id});
+        console.log("deletedUser", deletedUser)
+        
+        req.logOut();
+        
+        res.clearCookie('sid', {path: '../../'})
+        
+        req.flash('success', 'Sorry to see you go.');
+        res.redirect('../../');
+    } catch (e) {
+        res.status(500).redirect('/');
+    }
+
+});
+
+router.get('/addAvatar', signInOrRegister, (req, res) => {
     res.render("pages/addAvatar");
 })
 
@@ -218,7 +213,7 @@ router.get('/addAvatar', isLoggedIn, (req, res) => {
 // * upload.single() is middlware provided by multer
 // -> upload.single() requires an arguemnt we are just calling upload
 // -> 'upload' must match key value in req.body (key value pair in postman)
-router.post('/me/avatar', isLoggedIn, upload.single('avatar'), async (req, res) => {  // async for req.user.save()
+router.post('/me/avatar', signInOrRegister, upload.single('avatar'), async (req, res) => {  // async for req.user.save()
     
   // * use sharp to resize photo and convert to png format
   //  -> req.file.buffer is from multer and contains binary info form the image uploaded
@@ -237,17 +232,6 @@ router.post('/me/avatar', isLoggedIn, upload.single('avatar'), async (req, res) 
     }, (error, req, res, next) => { // all four arguments needed so express knows to expect an error
     res.status(400).send({error: error.message }); // error from upload.single multer middleware
 })
-
-
-
-//     const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer();
-
-//     req.user.avatar = buffer;
-//     await req.user.save(); // save file to user profile
-//     res.send();
-// }, (error, req, res, next) => {
-//     res.status(400).send({ error: error.message });
-// })
 
 
 // GET AVATAR
@@ -324,43 +308,14 @@ router.get('/locations', async (req, res) => {
             result.username = user.username;
             result.location = user.location;
             result.id = user._id;
-            result.questions = user.questions[0];
+            if(user.questions[0]) {
+                result.questions = user.questions[0];
+            }
+            // result.questions = user.questions[0];
 
             locations.push(result);
 
-            // return {
-            //     username: user.username,
-            //     location: user.location,
-            //     id: user._id,
-            //     questions: user.questions[0,
-            // }
-
-            // const result = {};
-            // result.username=user.username;
-            // result.location=user.location;
-            // result.id=user._id;
-            // await 
         }))
-
-        // console.log(locations[0].questions)
-
-        // locations = users.map((user) => {
-        
-        
-        //     // await user.populate({
-        //     //     path: 'questions' // populate questions
-        //     // }).execPopulate();
-
-        //     //FETCH PROMISE ALL
-
-        //     //await Promise.all(questions.map(async (question) => {
-
-        //     // console.log("user", user)
-        //     return {name: user.username, location: user.location, id: user._id, questions: user.questions}
-        //     // return {user.name, user.location};
-        // })
-        
-        // console.log(locations)
 
         res.status(200).send(locations); 
     } catch(err) {

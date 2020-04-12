@@ -2,7 +2,7 @@ const   express =       require('express'),
         User =          require('../models/user'),
         Question =      require('../models/question'),
         Answer =        require('../models/answer'),
-        { isLoggedIn }= require('../middleware/auth'),
+        { isLoggedIn, signInOrRegister }= require('../middleware/auth'),
         card =          require('../utils/cards');
         
 const router = new express.Router();
@@ -43,11 +43,11 @@ router.get('/login', (req, res) => {
     res.render("pages/login");
 })
 
-router.get('/addAvatar', isLoggedIn, (req, res) => {
+router.get('/addAvatar', signInOrRegister, (req, res) => {
     res.render("pages/addAvatar");
 })
 
-router.get('/update', isLoggedIn, (req, res) => {
+router.get('/update', signInOrRegister, (req, res) => {
     res.render("pages/update");
 })
 
@@ -94,7 +94,10 @@ router.get('/allQuestions', async (req, res) => {
         const questions = await Question.find();
 
         if (questions === undefined || questions == 0) {
-            return res.status(404).send({error: 'No questions found'});
+            // ADD ERROR PAGE HERE
+            req.flash('error', 'No questions found.');
+            return res.status(404).render('pages/error', {message: 'Sorry no questions have been added yet.'})
+            // return res.status(404).send({error: 'No questions found'});
         }
 
         // build the cards 
