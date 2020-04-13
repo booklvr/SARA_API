@@ -196,12 +196,41 @@ userSchema.statics.findByCredentials = async (email, password) => {
 //     }
 // });
 
-userSchema.post('deleteOne', { document: true, query: false }, function() {
-    console.log("removing example...")
-    console.log(this);
-  
+userSchema.pre('deleteOne', {document: false, query: true}, async function(next) {
+    console.log('initiating cascade');
+    const user = this;
+    // console.log("user", user)
+    const userId = user.getFilter()["_id"];
+
+    if (typeof(userId) === undefined) {
+        console.log("Error deleting user's questions and answers");
+    }
+
+    console.log('Removing All Answer by the user')
+    try {
+        const deletedAnswers = await Answer.deleteMany({owner: userId})
+        console.log(deletedAnswers);
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
+    }
+
+    console.log('Removing Questions by the user')
+    try {
+
+        const deleteQuestions = await Question.deleteOne({owner: userId})
+        console.log("deleteQuestions", deleteQuestions)
+        
+        console.log('initiate cascade delete of answers associated with question');
+    } catch (err) {
+        console.log('error', err);
+        res.status(500).send(err);
+    }
+
     
-  });
+
+    next();
+});
 
 
 // userSchema.pre('remove', async function (next) {

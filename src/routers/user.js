@@ -188,10 +188,13 @@ router.get('/me/delete', signInOrRegister, async (req, res) => {
     console.log('deleting user');
     
     try {
-        const user = User.findById(req.user._id);
-        const deletedUser = user.deleteOne();
-        // const deletedUser = await User.deleteOne({ _id: req.user._id});
-        console.log("deletedUser", deletedUser)
+        // const user = await User.findOne({ _id: req.user._id} );
+        // user.deleteOne();
+        await User.deleteOne({_id: req.user._id})
+        // const user = User.findById(req.user._id);
+        // const deletedUser = user.deleteOne();
+        // // const deletedUser = await User.deleteOne({ _id: req.user._id});
+        // console.log("deletedUser", deletedUser)
         
         req.logOut();
         
@@ -202,7 +205,6 @@ router.get('/me/delete', signInOrRegister, async (req, res) => {
     } catch (e) {
         res.status(500).redirect('/');
     }
-
 });
 
 router.get('/addAvatar', signInOrRegister, (req, res) => {
