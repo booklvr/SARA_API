@@ -199,10 +199,13 @@ userSchema.statics.findByCredentials = async (email, password) => {
 userSchema.pre('deleteOne', {document: false, query: true}, async function(next) {
     console.log('initiating cascade');
     const user = this;
+
+    console.log("FROM User.deleteOne({_id: req.user._id})")
+    // console.log("user", user);
     // console.log("user", user)
     const userId = user.getFilter()["_id"];
 
-    if (typeof(userId) === undefined) {
+    if (typeof userId === "undefined") {
         console.log("Error deleting user's questions and answers");
     }
 

@@ -59,17 +59,21 @@ questionSchema.virtual('answers', {
 //     }
 // });
 
-questionSchema.pre('deleteOne', {document: false, query: true}, async function(next) {
+questionSchema.pre('deleteOne', {document: false, query: true}, async function(req, res, next) {
     console.log('initiating cascade delete answers');
     const question = this;
+    // console.log("question", question)
+    // const questionId = question.getFilter()["_id"];
 
-    const item1 = question.getFilter()["item1"];
-    console.log("item1", item1)
-    const questionID = question.getFilter()["_id"];
-    console.log("questionID", questionID)
+    const questionId = question.mongooseCollection.schema;
+    // const questionId = question.mongooseCollection.schema.paths._id;
 
-    if (typeof questionID === undefined) {
+    console.log(questionId);
+
+    if (typeof questionId === "undefined") {
         console.log("Error deleting user's answers.  Can't find question ID");
+        console.log("question FUUUCCCCKKKK", question)
+        throw new Error("Can't find Question ID from Question.deleteOne('owner: req.user._id'");
     }
 
     console.log('Removing All Answer by the user')
