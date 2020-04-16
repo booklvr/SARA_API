@@ -1,0 +1,108 @@
+.navbar {
+    // position: relative;
+    font-family: $font-secondary;
+    font-size: 1.7rem;
+    height: 10vh;
+
+    &__container {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__brand {
+        text-decoration: none;
+        color: $color-white;
+    } 
+
+    &__links {
+        list-style: none;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        
+        & > *:not(:last-child) {
+            padding: 0 1rem;
+        }
+
+        & > * a {
+            display: inline-block;
+            text-decoration: none;
+            list-style: none;
+            transition: all .2s;
+            color: $color-white;
+        }
+
+        & > * a:hover {
+            color: $color-primary;
+            transform: scale(1.07);
+        }
+
+        & > * a:active {
+            color: $color-primary;
+            transform: scale(1);
+        }
+        
+        &-signup a {
+            background-color: $color-primary;
+            border: none;
+            text-align: center;
+            cursor: pointer;
+            color: $color-white;
+            padding: 1rem 0.5rem;
+            // border-radius: 1rem;
+            // padding-left: .5rem;
+
+            &:hover {
+                background-color: $color-primary;
+                color: $color-white;
+            }
+        }
+
+        &-dropdown {
+            position: relative;
+            
+            .nav-dropdown-wrapper {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                
+                img {
+                    width: 4rem;
+                    height: 4rem;
+                    object-fit: cover;
+                    border-radius: 50%;
+                }
+                i {
+
+                }
+            }
+            .dropdown {
+                // background-color: pink;
+                position: absolute; 
+                top: 4rem;
+                right: 0;
+                width: max-content;
+                display: none;
+                text-align: right;
+                font-size: 1rem;
+
+                &.active {
+                    display: block;
+                }
+
+                &__menu {
+                    list-style: none;
+
+                    &-item {
+
+
+                    }
+                }
+            }
+            
+            
+        }
+    }
+}

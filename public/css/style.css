@@ -1,6 +1,3 @@
-@import url("https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,700&display=swap");
-@import url("https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap");
-@import url("https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap");
 * {
   margin: 0;
   padding: 0; }
@@ -26,31 +23,13 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  background-color: #51d0de; }
+  background-color: #d9d9d9;
+  width: 100%; }
 
 nav {
   width: 100%;
   display: flex;
   flex-direction: row;
-  align-items: center; }
-
-.landing-header {
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat; }
-
-main {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center; }
-
-section {
-  margin-top: 1rem;
-  padding: 0 12.5vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center; }
 
 .map__container {
@@ -63,9 +42,38 @@ section {
   padding: 3rem;
   justify-content: center; }
 
-.form__container {
+.section-about {
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: baseline; }
+  .section-about .heading-secondary {
+    font-size: 3rem;
+    margin-right: 5rem; }
+  .section-about .paragraph-large {
+    font-size: 2rem; }
+
+.profile {
+  background-color: pink;
   display: flex;
-  flex-direction: row; }
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: space-between;
+  width: 100%; }
+  .profile__image {
+    display: inline-block;
+    border-radius: 50%;
+    width: 10rem; }
+  .profile__info {
+    background-color: yellow;
+    display: flex;
+    flex-direction: column; }
+
+.card a {
+  text-decoration: none; }
+
+.card__title--image {
+  width: 4rem;
+  border-radius: 2rem; }
 
 .navbar {
   font-family: "Montserrat", sans-serif;
@@ -78,7 +86,7 @@ section {
     align-items: center; }
   .navbar__brand {
     text-decoration: none;
-    color: #d9d9d9; }
+    color: #2c2f32; }
   .navbar__links {
     list-style: none;
     display: flex;
@@ -91,7 +99,7 @@ section {
       text-decoration: none;
       list-style: none;
       transition: all .2s;
-      color: #d9d9d9; }
+      color: #2c2f32; }
     .navbar__links > * a:hover {
       color: #bf4aa8;
       transform: scale(1.07); }
@@ -103,11 +111,11 @@ section {
       border: none;
       text-align: center;
       cursor: pointer;
-      color: #d9d9d9;
+      color: #2c2f32;
       padding: 1rem 0.5rem; }
       .navbar__links-signup a:hover {
         background-color: #bf4aa8;
-        color: #d9d9d9; }
+        color: #2c2f32; }
     .navbar__links-dropdown {
       position: relative; }
       .navbar__links-dropdown .nav-dropdown-wrapper {
@@ -131,30 +139,3 @@ section {
           display: block; }
         .navbar__links-dropdown .dropdown__menu {
           list-style: none; }
-
-.card a {
-  text-decoration: none; }
-
-.card__title--image {
-  width: 4rem;
-  border-radius: 2rem; }
-
-.form__container .form__group button {
-  background-color: #bf4aa8;
-  color: white;
-  border: none;
-  font-size: 2rem;
-  width: 75%;
-  border-radius: 2.5rem;
-  height: 5rem;
-  align-self: center; }
-
-.section-about {
-  display: inline-flex;
-  flex-direction: row;
-  justify-content: baseline; }
-  .section-about .heading-secondary {
-    font-size: 3rem;
-    margin-right: 5rem; }
-  .section-about .paragraph-large {
-    font-size: 2rem; }

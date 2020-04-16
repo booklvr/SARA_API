@@ -1,0 +1,22 @@
+.card {
+    a {
+        text-decoration: none;
+    }
+
+    &__title {
+
+
+        &--location {
+
+        }
+
+        &--name {
+
+        }
+
+        &--image {
+            width: 4rem;
+            border-radius: 2rem;
+        }
+    }
+}

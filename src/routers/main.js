@@ -26,7 +26,7 @@ router.get('/', async(req, res) => {
             cards = await card.buildCards(answers);
         }
         
-        res.render('pages/landing', {admin: sara, questions, cards})
+        res.render('pages/landing', {user: sara, questions, cards})
         // res.send();
     } catch (e) {
         console.log(e);

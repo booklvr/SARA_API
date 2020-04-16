@@ -23,21 +23,8 @@
         </p>
     </section>
 
-    <section class="profile">
-        <div class="profile__header">
-            <img src="/users/<%= admin._id %>/avatar" alt="<%= admin.name %>'s profile picture">
-        </div>
-        <div class="profile__info">
-            <div class="profile__info-name">
-                <h3><%= admin.username %></h3>
-                <div class="profile__info-location"><%= admin.location.formattedAddress %></div>
-                <% if (questions && cards) { %> 
-                    <div class="profile__info-answers"><%= cards.length %> Answers</div>
-                <% } %>
-                
-            </div>       
-        </div>
-    </section>
+    <%- include ('../partials/profile'); %>
+
 
     
     <% if (questions) { %> 

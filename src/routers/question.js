@@ -139,7 +139,10 @@ router.get('/update', signInOrRegister, async (req, res) => {
 
 // POST UPDATE QUESTION FORM
 router.post('/update/', signInOrRegister, async (req, res) => {
+    // get Keys and validate allowed updates
     const updates = Object.keys(req.body); // return lists of keys from req.body
+    console.log("updates", updates)
+    
     const allowedUpdates = ['item1', 'item2', 'item3', 'item4'];
     const isValidOperation = updates.every(update => allowedUpdates.includes(update));
 
@@ -147,18 +150,45 @@ router.post('/update/', signInOrRegister, async (req, res) => {
         return res.status(400).send({error: 'Invalid updates'});
     }
 
-    try {
-        const question = await Question.findOne({owner: req.user._id});
+   
+        
+    
+    
+    
 
+    try {
+        // find question
+        const question = await Question.findOne({owner: req.user._id});
+        console.log("question", question)
+        
+
+        // if not question question found redirect to landing page
         if(!question) {
-            console.log('NO FUCKING QUESTION')
-            res.redirect('../');
-    
-            // await question.save();
-    
-            // return res.redirect(`../profile/${req.user._id}`)
-            // // res.status(201).send(question);
+            console.log('NO QUESTION FOUND')
+            return res.status(404).redirect('../');
         } 
+
+        // check if values are changed 
+        const valuesToChange = updates.filter(update => question[update] !== req.body[update]);
+        console.log("valuesToChange", valuesToChange)
+
+        // find all answers to the question
+        const answers = await Answer.find({questionID: question._id});
+
+        if (answers.length <= 0) {
+            console.log('No Answers Found')
+            return res.status(404).redirect('../');
+        }
+
+        console.log(answers);
+        
+        // remove answers to updated questions
+        answers.forEach( async (answer) => {
+            valuesToChange.forEach(update => {
+                answer[update] = 'removed';
+            })
+            await answer.save();
+        })
 
         updates.forEach(update => question[update] = req.body[update]);
         

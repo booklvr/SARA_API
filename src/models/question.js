@@ -59,45 +59,37 @@ questionSchema.virtual('answers', {
 //     }
 // });
 
-questionSchema.pre('deleteOne', {document: false, query: true}, async function(req, res, next) {
-    console.log('initiating cascade delete answers');
+questionSchema.pre('deleteOne', {document: true, query: false}, async function(req, res, next) {
+    console.log('initiating cascade delete answers to users questions');
     const question = this;
+    console.log("find answers to question:", question)
+
+    
     // console.log("question", question)
-    // const questionId = question.getFilter()["_id"];
+    // const questionID = await question.getFilter()["_id"];
+    // console.log("questionId", questionID)
 
-    const questionId = question.mongooseCollection.schema;
-    // const questionId = question.mongooseCollection.schema.paths._id;
-
-    console.log(questionId);
-
-    if (typeof questionId === "undefined") {
-        console.log("Error deleting user's answers.  Can't find question ID");
-        console.log("question FUUUCCCCKKKK", question)
-        throw new Error("Can't find Question ID from Question.deleteOne('owner: req.user._id'");
-    }
-
-    console.log('Removing All Answer by the user')
     try {
-        const deletedAnswers = await Answer.deleteMany({ questionID: questionID })
+        if (typeof question === 'undefined') {
+            console.log("Can't find question, in question.pre('deleteOne') middleware.  Throw Error");
+            throw new Error("Can't find question in questionSchema.pre('deleteOne') middleware");
+        }
+
+        const deletedAnswers = await Answer.deleteMany({questionID: question._id})
+
+        
         console.log(deletedAnswers);
+
+        // throw new Error('from questionSchema.pre(delete One) throw error');
     } catch (err) {
         console.log(err);
         res.status(500).send(err);
     }
 
-    // console.log('Removing Questions by the user')
-    // try {
-    //     const deleteQuestions = await Question.deleteOne({owner: userId})
-    //     console.log("deleteQuestions", deleteQuestions)
-        
-    //     console.log('initiate cascade delete of answers associated with question');
-    // } catch (err) {
-    //     console.log('error', err);
-    //     res.status(500).send(err);
-    // }
-
     next();
 });
+
+
 
 questionSchema.pre('findOneAndUpdate', async function(next) {
     

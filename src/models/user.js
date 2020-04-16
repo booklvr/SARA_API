@@ -147,84 +147,37 @@ userSchema.methods.generateLocation = async function () {
 
     user.unformattedAddress = undefined;
 
-    // await user.save();
     return user.location;
 }
 
-// LOGIN
-// validate user by email and password for login
-userSchema.statics.findByCredentials = async (email, password) => {
-    const user = await User.findOne({ email })
-
-    if(!user) {
-        throw new Error('Unable to login');
-    }
-
-    const isMatch = await bcrypt.compare(password, user.password);
-
-    if(!isMatch) {
-        throw new Error('Unable to login');
-    }
-
-    return user;
-}
-
-// DELETE user created answers when user is removed
-// * can't use arrow function because of 'this'
-// userSchema.post('deleteOne', {document: true, query: false}, async function (next) {
-//     console.log('removing questions and answers associated with user');
-    
-
-//     console.log(id);
-
-//     // delete all answers show owner is user_.id (logged in user)
-//     try {
-//         // delete all the users questions
-//         console.log('deleting answers...')
-//         const answers = await Answer.find({owner: this._id})
-//         console.log(answers);
-//         // await Answer.deleteMany({ owner: user._id });
-
-//         // must individually delete questions in order to start cascade
-//         console.log('deleting questions');
-//         const question = await Question.findOne({owner: this._id});
-//         console.log(question);
-//         // await Question.findById({ owner: user._id });
-//         next();
-//     } catch(e) {
-//         res.status(500).send();
-//     }
-// });
-
-userSchema.pre('deleteOne', {document: false, query: true}, async function(next) {
-    console.log('initiating cascade');
+userSchema.pre('deleteOne', {document: true, query: false}, async function(next) {   
     const user = this;
+    console.log("user", user)
+    console.log('find users questions and answers');
+    
+    // const userId = user.getFilter()["_id"];
 
-    console.log("FROM User.deleteOne({_id: req.user._id})")
-    // console.log("user", user);
-    // console.log("user", user)
-    const userId = user.getFilter()["_id"];
-
-    if (typeof userId === "undefined") {
-        console.log("Error deleting user's questions and answers");
+    if (typeof user === "undefined") {
+        console.log("Error deleting user's questions and answers.  Can't find user.");
     }
 
-    console.log('Removing All Answer by the user')
+    console.log('Removing all answers made by the user...')
     try {
-        const deletedAnswers = await Answer.deleteMany({owner: userId})
+        const deletedAnswers = await Answer.deleteMany({owner: user._id})
         console.log(deletedAnswers);
     } catch (err) {
         console.log(err);
         res.status(500).send(err);
     }
 
-    console.log('Removing Questions by the user')
     try {
+        const goingToDelete = await Question.findOne({owner: user._id});
 
-        const deleteQuestions = await Question.deleteOne({owner: userId})
-        console.log("deleteQuestions", deleteQuestions)
+        console.log('initiate cascade delete of answers associated with question from pre-delete-Question');
+    
+        const deletedQuestion = goingToDelete.deleteOne();
+        console.log("deletedQuestion", deletedQuestion)
         
-        console.log('initiate cascade delete of answers associated with question');
     } catch (err) {
         console.log('error', err);
         res.status(500).send(err);

@@ -190,7 +190,10 @@ router.get('/me/delete', signInOrRegister, async (req, res) => {
     try {
         // const user = await User.findOne({ _id: req.user._id} );
         // user.deleteOne();
-        await User.deleteOne({_id: req.user._id})
+        const userToDelete = await User.findById(req.user._id);
+        console.log('iniate full deletion cascade with deleteOne hooks');
+        const deletedUser = await userToDelete.deleteOne();
+        console.log(deletedUser);
         // const user = User.findById(req.user._id);
         // const deletedUser = user.deleteOne();
         // // const deletedUser = await User.deleteOne({ _id: req.user._id});

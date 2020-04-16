@@ -3,7 +3,8 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    background-color: $color-secondary;
+    background-color: #d9d9d9;
+    width: 100%;
 }
 
 nav {
@@ -14,28 +15,23 @@ nav {
     // background-color: pink;
 }
 
-.landing-header {
-    // background-image: url(https://images.unsplash.com/photo-1513622790541-eaa84d356909?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
+// .landing-header {
+//     // background-image: url(https://images.unsplash.com/photo-1513622790541-eaa84d356909?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80);
+//     background-size: cover;
+//     background-position: center;
+//     background-repeat: no-repeat;
+// }
 
-main {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
 
-section {
-    margin-top: 1rem;
-    padding: 0 12.5vw;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
+
+// section {
+//     margin-top: 1rem;
+//     padding: 0 12.5vw;
+//     display: flex;
+//     flex-direction: column;
+//     justify-content: center;
+//     align-items: center;
+// }
 
 
 .map__container {
@@ -51,7 +47,3 @@ section {
 
 
 
-.form__container {
-    display: flex;
-    flex-direction: row;
-}
