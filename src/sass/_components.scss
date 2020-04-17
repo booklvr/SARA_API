@@ -1,9 +1,54 @@
+/////////////////////////
+// CALL TO ACTION
+.cta {
+    width: 35rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    
+}
+
+.cta__button {
+    background-color: $color-primary;
+    color: white;
+    font-size: 1.5rem;  
+    padding: .5rem;       
+    text-decoration: none;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all .2s;
 
 
-// ////////////////////////////
-// // USER NAV
+
+    &:hover {
+        
+        transform: scale(1.07);
+    }
+
+    &:active {
+        
+        transform: scale(1);
+    }
+
+    &-answer {
+        
+    }
+
+    &-question {
+        
+        
+    }
+}
+
+.heading-secondary {
+    font-size: 3rem;
+}
 
 
+.paragraph-large {
+    font-size: 1.75rem;
+}
 
-
-
+.paragraph-medium {
+    font-size: 1.25rem;
+}

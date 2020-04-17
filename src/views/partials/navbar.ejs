@@ -2,13 +2,13 @@
         <div class="navbar__container">
             <a href="/" class="navbar__brand" id="navbar__brand">logo</a>
             <ul class="navbar__links">
-                <li class="navbar__links"><a href="/allQuestions">Questions</a></li>
-                <li class="navbar__links"><a href="/map">Map</a></li>
+                <li><a class="navbar__link" href="/allQuestions">Questions</a></li>
+                <li><a class="navbar__link" href="/map">Map</a></li>
                 <% if(!currentUser){ %>
-                    <li class="navbar__links"><a href="/login">Login</a></li>
-                    <li class="navbar__links cta__button"><a href="/register">SignUp</a></li>
+                    <li><a class="navbar__link" href="/login">Login</a></li>
+                    <li><a class="cta__button" href="/register">SignUp</a></li>
                 <% }  else { %>
-                    <li class="navbar__links"><a href="/users/logout">Logout</a></li>
+                    <li><a class="navbar__link" href="/users/logout">Logout</a></li>
                     <li class="navbar__links-dropdown">
                         <a href="/users/me" class="nav-dropdown-wrapper">
                             <img src="/users/<%= currentUser._id %>/avatar" alt="">

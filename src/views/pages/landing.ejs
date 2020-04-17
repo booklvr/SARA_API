@@ -3,24 +3,29 @@
 <header>
     <%- include ('../partials/navbar'); %>
     <%- include ('../partials/flash'); %>
-
-    <div class="landing-header">
-        <div class="title">
-            <h1>Chance<br>Encounters</h1>
+    <div class="header">
+        <div class="header__content">
+            <div class="title">
+                <h1>Questions for a Stranger</h1>
+            </div>
+            <div class="cta">
+                <a href="/allQuestions" class="cta__button" id="cta__button-answer">Answer a Stranger</a>
+                <a href="/users/me" class="cta__button cta__button-2" id="cta__button-question">Ask a Stranger</a>
+            </div>
         </div>
     </div>
-    <div class="cta">
-        <a href="/allQuestions" class="cta__button cta__button-answer" id="cta__button-answer">Answer a Stranger</a>
-        <a href="/register" class="cta__button cta__button-question" id="cta__button-question">Ask a Stranger</a>
-    </div>
+    
 </header>
 
 <main>
     <section class="section-about">
-        <h2 class="heading-secondary">Questions<br>for<br>500<br>Strangers</h2>
-        <p class="paragraph-large">
-            Have you ever wanted to ask a stranger a questions? 
-        </p>
+        <h2 class="heading-secondary">Ask<br>Four<br>Questions</h2>
+        <div class="paragraph-container">
+            <p class="paragraph-large">
+                Have you ever wanted to ask a stranger a questions? 
+            </p>
+            <p class="paragraph-medium">While travelling I began asking the strangers I met four questions.  I wanted to create a space where other's could do the same, as sort of a collective art project.</p>
+        </div>
     </section>
 
     <%- include ('../partials/profile'); %>
@@ -28,7 +33,6 @@
 
     
     <% if (questions) { %> 
-        <h1>Questions</h1>
         <%- include ('../partials/questions'); %>
     <% } %>
     <% if (cards.length) { %> 

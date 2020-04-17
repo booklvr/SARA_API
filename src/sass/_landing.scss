@@ -1,50 +1,80 @@
 /////////////////////////////
 // HEADERS
-.landing-header {
-    
-    .title {
+.header {
+    // background-image: url('https://images.unsplash.com/photo-1553686308-633f8656b49a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+    // // background-color: $color-primary;
+    // background-size: cover;
+    // background-color: $color-primary;
+    // background-blend-mode: overlay;
+    background: 
+        linear-gradient(
+            rgba($color-white, 0.7),
+            rgba($color-white, 0.7),
+        ),
+        url(https://images.unsplash.com/photo-1553686308-633f8656b49a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80);
+
+    &__content {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
         
-    }
-
-    .cta {
-        
-        &__button {
-            
-
-
-            &:hover {
-                
+        .title {
+            // background-color: white;
+            max-width: 40rem;
+            text-align: justify;
+            h1 {
+                font-size: 3rem;
+                height: 1rem;
+                text-align: justify;
+                // background-color: yellow;
             }
-
-            &:active {
-                
-            }
-
-            &-answer {
-                
-            }
-
-            &-question {
-                
-                
+            h1:after{
+                content: '';
+                width: 100%;
+                display: inline-block;
+                height: 0;
+                // background-color: blue;
             }
         }
+    
+        .cta {
+            width: 35rem;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            // background-color: white;
+            
+            
+        }
     }
+    
+    
 }
 
 //////////////////////////
 // SECTION ABOUT
 .section-about {
-    display: inline-flex;
-    flex-direction: row;
-    justify-content: baseline;
 
     .heading-secondary {
         font-size: 3rem;
         margin-right: 5rem;
     }
 
-    .paragraph-large {
-        font-size: 2rem;
+    .paragraph-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-end;
+        max-width: 50vw;
+        text-align: right;
+
+        .paragraph-large {
+            margin-bottom: 2rem;
+        }
+
+        .paragraph-medium {
+            max-width: 33vw;
+        }
     }
 }

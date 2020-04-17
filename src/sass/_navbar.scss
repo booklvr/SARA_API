@@ -1,19 +1,29 @@
 .navbar {
-    // position: relative;
     font-family: $font-secondary;
     font-size: 1.7rem;
-    height: 10vh;
+
 
     &__container {
-        width: 100%;
+        min-width: 75vw;
         display: flex;
+        flex-direction: row;
         justify-content: space-between;
         align-items: center;
+
     }
 
     &__brand {
         text-decoration: none;
-        color: $color-white;
+        color: $color-grey;
+
+        &:hover {
+            color: $color-primary;
+            transform: scale(1.2);
+        }
+        &:active {
+            color: $color-primary;
+            transform: scale(1.2);
+        }
     } 
 
     &__links {
@@ -21,58 +31,79 @@
         display: flex;
         flex-direction: row;
         align-items: center;
+        transition: all .2s;
         
         & > *:not(:last-child) {
             padding: 0 1rem;
         }
 
-        & > * a {
+        .navbar__link {
             display: inline-block;
             text-decoration: none;
             list-style: none;
             transition: all .2s;
-            color: $color-white;
-        }
-
-        & > * a:hover {
-            color: $color-primary;
-            transform: scale(1.07);
-        }
-
-        & > * a:active {
-            color: $color-primary;
-            transform: scale(1);
-        }
-        
-        &-signup a {
-            background-color: $color-primary;
-            border: none;
-            text-align: center;
-            cursor: pointer;
-            color: $color-white;
-            padding: 1rem 0.5rem;
-            // border-radius: 1rem;
-            // padding-left: .5rem;
+            color: $color-grey;
 
             &:hover {
-                background-color: $color-primary;
-                color: $color-white;
+                color: $color-primary;
+                transform: scale(1.2);
+            }
+
+            &:active {
+                color: $color-primary;
+                transform: scale(1.05);
+            }
+        }
+
+
+        .cta__button {
+            background-color:$color-primary;
+            text-decoration: none;
+            color: black;
+            transition: all .2s;
+            
+
+            &:hover{
+                display: block;
+                color: white; 
+                transform: scale(1.1);
+            }
+
+            &:active{
+                display: block;
+                color: white;
+                transform: scale(1.05);
             }
         }
 
         &-dropdown {
             position: relative;
+            padding-left: 1rem;
             
             .nav-dropdown-wrapper {
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                text-decoration: none;
+                color: $color-grey;
+                
+                // &:hover {
+                //     transform: scale(1.2);
+
+                //     .dropdown {
+                //         display: show;
+                //     }
+                // }
                 
                 img {
                     width: 4rem;
                     height: 4rem;
                     object-fit: cover;
                     border-radius: 50%;
+
+                    // &:hover {
+                    //     transform: scale(1.1);
+                    // }
                 }
                 i {
 
@@ -96,8 +127,20 @@
                     list-style: none;
 
                     &-item {
+                        color: $color-grey;
 
+                        a {
+                            text-decoration: none;
+                            color: $color-grey;
+                            
+                            &:hover {
+                                color: $color-primary;
+                                display: block;
+                                transform: scale(1.1);
+                            }
+                            
 
+                        }
                     }
                 }
             }

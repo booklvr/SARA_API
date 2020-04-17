@@ -1,20 +1,39 @@
-.profile {
-    background-color: pink;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: space-between;
-    width: 100%;
+.profile-container {
+    
 
-    &__image {
-        display: inline-block;
-        border-radius: 50%;
-        width: 10rem;
-    }
-
-    &__info {
-        background-color:yellow;
+    .profile {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+
+        padding: 2rem;;
+        
+        background-color: $color-primary;
+
+        &__image {
+            // display: inline-block;
+            border-radius: 50%;
+            width: 10rem;
+        }
+    
+        &__info {
+            
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            margin-right: 3rem;
+
+            &-name {
+                font-size: 2rem;
+            }
+
+            &-location {
+
+            }
+
+            &-answers {
+
+            }
+        }
     }
 }

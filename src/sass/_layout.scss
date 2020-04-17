@@ -3,18 +3,58 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    background-color: #d9d9d9;
+    // background-color: white;
     width: 100%;
 }
 
-nav {
-    width: 100%;
+.navbar {
+    width: 100vw;
+    height: 5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.header {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 55vh;
+    // background-color: skyblue;
+}
+
+.section-about {
+    margin-top: 5rem;
+    min-width: 75vw;
     display: flex;
     flex-direction: row;
-    align-items: center;
-    // background-color: pink;
+    justify-content: space-between;
 }
 
+.profile-container {
+    margin-top: 5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.question {
+    margin-top: 5rem;
+    display: flex;
+    ;
+}
+
+.answers {
+    margin-top: 5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
 // .landing-header {
 //     // background-image: url(https://images.unsplash.com/photo-1513622790541-eaa84d356909?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80);
 //     background-size: cover;
