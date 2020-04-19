@@ -4,16 +4,21 @@
         <div class="card">
             <a href="/profile/<%= card.owner %>">
                 <div class="card__title">
-                    <p class="card__title--location">
-                        <%= card.location %>
-                    </p>
-                    <p class="card__title--name">
-                        <%= card.username %>
-                    </p>
-                    <img class="card__title--image" src="/users/<%= card.owner %>/avatar" alt="#">
+                    <div class="img-box">
+                        <img class="card__title--image" src="/users/<%= card.owner %>/avatar" alt="#">
+                    </div>
+                    <div class="card__title__info">
+                        <p class="card__title__info--name">
+                            <%= card.username %>
+                        </p>
+                        <p class="card__title__info--location">
+                            <%= card.location %>
+                        </p>
+                    </div>
+                    
                 </div>
             </a>
-            <div class="card__title-answers">
+            <div class="card__items">
                 <p>1.  <span id="item1"><%= card.item1 %></span></p>
                 <p>2.  <span id="item2"><%= card.item2 %></span></p>
                 <p>3.  <span id="item3"><%= card.item3 %></span></p>
@@ -48,11 +53,11 @@
 
                         <!-- answer the question -->
                         <% } else { %>
-                            <a href="/answers/<%= card._id %>">Answer</a>
+                            <a class="cta__button" href="/answers/<%= card._id %>">Answer</a>
                         <% } %>
                     <% } %>
                 <% } else if (!currentUser && !card.questionID) { %>
-                    <a href="/answers/<%= card._id %>">Answer</a>
+                    <a class="cta__button" href="/answers/<%= card._id %>">Answer</a>
                 <% } %> 
             </div>
         </div>

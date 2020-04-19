@@ -1,16 +1,15 @@
-<section class="profile-container">
-
-    <div class="profile">
-        <img class="profile__image" src="/users/<%= user._id %>/avatar" alt="<%= user.name %>'s profile picture">
+<section class="profile">
+        <div class="img-box">
+            <img class="profile__image" src="/users/<%= user._id %>/avatar" alt="<%= user.name %>'s profile picture">
+        </div>
     
         <div class="profile__info"> 
             <p class="profile__info-name"><%= user.username %></h3>
             <div class="profile__info-location"><%= user.location.formattedAddress %></div>
-            <% if (questions && cards) { %> 
+            <% if (questions && cards.length === 1) { %> 
+                <div class="profile__info-answers"><%= cards.length %> Answer</div>
+            <% } else if (questions && cards) { %>
                 <div class="profile__info-answers"><%= cards.length %> Answers</div>
             <% } %>
         </div>
-    </div>    
-    
-    <h2 class="heading-secondary">My Questions</h2>
 </section>  

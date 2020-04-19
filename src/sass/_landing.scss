@@ -1,16 +1,12 @@
 /////////////////////////////
 // HEADERS
 .header {
-    // background-image: url('https://images.unsplash.com/photo-1553686308-633f8656b49a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
-    // // background-color: $color-primary;
-    // background-size: cover;
-    // background-color: $color-primary;
-    // background-blend-mode: overlay;
     background: 
-        linear-gradient(
-            rgba($color-white, 0.7),
-            rgba($color-white, 0.7),
-        ),
+        // linear-gradient(
+        //     rgba($color-primary, 0.2),
+        //     rgba($color-grey, 0.2),
+        // ),
+        ,
         url(https://images.unsplash.com/photo-1553686308-633f8656b49a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80);
 
     &__content {
@@ -18,63 +14,40 @@
         display: flex;
         flex-direction: column;
         justify-content: space-around;
+        align-items: center;
         
         .title {
-            // background-color: white;
-            max-width: 40rem;
-            text-align: justify;
-            h1 {
-                font-size: 3rem;
-                height: 1rem;
-                text-align: justify;
-                // background-color: yellow;
-            }
-            h1:after{
-                content: '';
-                width: 100%;
-                display: inline-block;
-                height: 0;
-                // background-color: blue;
-            }
+           text-align: center; 
+           margin: 0 10rem;
+        }
+
+        .paragraph-medium {
+            width: 50vw;
+            text-align: center;
+            
+            background: $color-background;
+            box-shadow: 9px 9px 16px  rgba(163, 177, 198, .6),
+            -9px -9px 16px rgba(255, 255, 255, .5);
+
+            padding: 5rem;
+            border-radius: 1px;
+             
         }
     
         .cta {
-            width: 35rem;
+            width: 70rem;
             display: flex;
             flex-direction: row;
             justify-content: space-around;
             // background-color: white;
+
             
-            
-        }
-    }
-    
-    
-}
-
-//////////////////////////
-// SECTION ABOUT
-.section-about {
-
-    .heading-secondary {
-        font-size: 3rem;
-        margin-right: 5rem;
-    }
-
-    .paragraph-container {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: flex-end;
-        max-width: 50vw;
-        text-align: right;
-
-        .paragraph-large {
-            margin-bottom: 2rem;
-        }
-
-        .paragraph-medium {
-            max-width: 33vw;
+            &__button {
+                height: 6rem;
+                width: 30rem;
+                font-size: 2.5rem;
+                display: block;
+            }
         }
     }
 }

@@ -2,9 +2,12 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    // background-color: white;
     width: 100%;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
 }
 
 .navbar {
@@ -18,60 +21,28 @@ body {
 
 .header {
     width: 100vw;
+    flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 55vh;
+    height: 75vh;
     // background-color: skyblue;
 }
 
-.section-about {
-    margin-top: 5rem;
-    min-width: 75vw;
+.landing-page {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.profile-container {
-    margin-top: 5rem;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
 }
 
-.question {
-    margin-top: 5rem;
+.profile-page {
     display: flex;
-    ;
-}
-
-.answers {
-    margin-top: 5rem;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
 }
-// .landing-header {
-//     // background-image: url(https://images.unsplash.com/photo-1513622790541-eaa84d356909?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80);
-//     background-size: cover;
-//     background-position: center;
-//     background-repeat: no-repeat;
-// }
-
-
-
-// section {
-//     margin-top: 1rem;
-//     padding: 0 12.5vw;
-//     display: flex;
-//     flex-direction: column;
-//     justify-content: center;
-//     align-items: center;
-// }
 
 
 .map__container {
@@ -87,3 +58,7 @@ body {
 
 
 
+.footer {
+    align-self: center;
+    justify-self: flex-end;
+}

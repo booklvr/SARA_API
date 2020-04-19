@@ -1,4 +1,6 @@
-<section class="question">
+<section class="questions-container">
+
+    <h1 class="heading-secondary">Questions</h1>
     
     <div class="questions">
         <p class="questions-1">1.  <span><%= questions.item1 %></span></p>
@@ -9,16 +11,18 @@
     
     <% if (currentUser) { %>
         <% if (String(currentUser._id) === String(questions.owner)) { %>
-            <a href="/questions/confirmUpdate">
-                <i class="fas fa-edit"></i>
-            </a>
-            <a href="/questions/confirmDelete">
-                <i class="fas fa-trash-alt"></i>
-            </a>
+            <div class="icon-container">
+                <a class="icon icon" href="/questions/confirmUpdate">
+                    <i class="fas fa-edit"></i>
+                </a>
+                <a class="icon" href="/questions/confirmDelete">
+                    <i class="fas fa-trash-alt"></i>
+                </a>
+            </div>
         <% } else { %>
-            <a href="/answers/<%= questions._id %>">Answer</a>
+            <a class="cta__button" href="/answers/<%= questions._id %>">Answer</a>
         <% } %>
     <% } else { %>
-        <a href="/answers/<%= questions._id %>">Answer</a>
+        <a class="cta__button" href="/answers/<%= questions._id %>">Answer</a>
     <% } %>    
 </section>

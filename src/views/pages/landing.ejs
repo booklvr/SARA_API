@@ -6,8 +6,11 @@
     <div class="header">
         <div class="header__content">
             <div class="title">
-                <h1>Questions for a Stranger</h1>
+                <h1 class="heading-primary">Have you ever wanted to ask a stranger a question?</h1>
             </div>
+            
+            <p class="paragraph-medium">While travelling I began asking the strangers I met four questions.  I wanted to create a space where other's could do the same, as sort of a collective art project.</p>
+
             <div class="cta">
                 <a href="/allQuestions" class="cta__button" id="cta__button-answer">Answer a Stranger</a>
                 <a href="/users/me" class="cta__button cta__button-2" id="cta__button-question">Ask a Stranger</a>
@@ -17,30 +20,22 @@
     
 </header>
 
-<main>
-    <section class="section-about">
-        <h2 class="heading-secondary">Ask<br>Four<br>Questions</h2>
-        <div class="paragraph-container">
-            <p class="paragraph-large">
-                Have you ever wanted to ask a stranger a questions? 
-            </p>
-            <p class="paragraph-medium">While travelling I began asking the strangers I met four questions.  I wanted to create a space where other's could do the same, as sort of a collective art project.</p>
-        </div>
-    </section>
+<main class="landing-page">
 
-    <%- include ('../partials/profile'); %>
+        <%- include ('../partials/profile'); %>
 
-
+        <% if (questions) { %> 
+            <%- include ('../partials/questions'); %>
+        <% } %>
+   
     
-    <% if (questions) { %> 
-        <%- include ('../partials/questions'); %>
-    <% } %>
-    <% if (cards.length) { %> 
-        <section class="answers">
+    <% if (cards) { %> 
+        <section class="card-container">
             <h1>Answers</h1>
             <%- include ('../partials/card'); %>
         </section>
     <% } %>
+
     
 </main>
 

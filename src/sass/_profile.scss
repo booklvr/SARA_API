@@ -1,39 +1,55 @@
-.profile-container {
+// .profile-page {
     
-
-    .profile {
-        display: flex;
-        flex-direction: row;
-
-        padding: 2rem;;
+//     .profile-questions-container {
+    
+//         .profile-container {
+           
+//             .profile {
+//                 display: flex;
+//                 flex-direction: row;
         
-        background-color: $color-primary;
-
-        &__image {
-            // display: inline-block;
-            border-radius: 50%;
-            width: 10rem;
-        }
-    
-        &__info {
+//                 padding: 2rem;;
+                
+//                 background-color: $color-primary;
+        
+//                 &__image {
+//                     // display: inline-block;
+//                     border-radius: 50%;
+//                     width: 10rem;
+//                 }
             
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+//                 &__info {
+                    
+//                     display: flex;
+//                     flex-direction: column;
+//                     justify-content: space-between;
+        
+//                     margin-right: 3rem;
+        
+//                     &-name {
+//                         font-size: 2rem;
+//                     }
+        
+//                     &-location {
+        
+//                     }
+        
+//                     &-answers {
+        
+//                     }
+//                 }
+//             }
+//         }
+    
+//         .question {
+    
+//             .questions {
+    
+//             }
+//         }
+//     }
 
-            margin-right: 3rem;
+// }
 
-            &-name {
-                font-size: 2rem;
-            }
 
-            &-location {
 
-            }
-
-            &-answers {
-
-            }
-        }
-    }
-}
