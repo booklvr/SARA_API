@@ -107,14 +107,7 @@ router.post('/', async (req, res, next) => {
     }
 });
 
-router.post('/login', passport.authenticate("local", 
-    {
-        failureRedirect: "/login",
-        failureFlash: true,
-        successFlash: "Try answering some questions."
-    }), function(req, res){
-        res.redirect('/users/me')
-})
+
 
 
 // LOGOUT USER
